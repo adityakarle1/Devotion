@@ -3826,10 +3826,17 @@ const PROSE_TITLE = "font-family:'JioType',sans-serif;font-size:16px;font-weight
 const PROSE       = "font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3";
 
 function buildFestShoppingHTML(data) {
-  const items = data.shopping.map(s =>
-    `<p style="${PROSE};margin-bottom:14px">• ${s.item} — ${s.note}</p>`
-  ).join('');
-  return `<p style="${PROSE_TITLE};margin-bottom:16px">🛒 Puja ke liye kya khareedein</p>${items}`;
+  const IC = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/icons/svg/ic_success_colored.svg';
+  const items = data.shopping.map(s => `
+    <div style="display:flex;gap:4px;align-items:flex-start">
+      <img src="${IC}" width="20" height="20" style="flex-shrink:0;margin-top:2px">
+      <p style="${PROSE};margin:0;flex:1">${s.item} — ${s.note}</p>
+    </div>`).join('');
+  return `
+    <div style="display:flex;flex-direction:column;gap:16px;padding:8px 0">
+      <p style="${PROSE_TITLE};line-height:1.3;margin:0">🛒 Puja ke liye kya khareedein</p>
+      <div style="display:flex;flex-direction:column;gap:8px">${items}</div>
+    </div>`;
 }
 
 function buildFestRitualsHTML(data) {
@@ -3848,28 +3855,59 @@ function buildFestRitualsHTML(data) {
 }
 
 function buildFestPoojaHTML(data) {
-  const items = data.pooja.map(p =>
-    `<p style="${PROSE};margin-bottom:14px">• ${p.time} ${p.ampm} — ${p.name}<br><span style="color:var(--text-low)">${p.desc}</span></p>`
-  ).join('');
-  return `<p style="${PROSE_TITLE};margin-bottom:16px">🕐 Pooja aur Aarti Vidhi</p>${items}`;
+  const IC = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/icons/svg/ic_success_colored.svg';
+  const items = data.pooja.map(p => `
+    <div style="display:flex;gap:4px;align-items:flex-start">
+      <img src="${IC}" width="20" height="20" style="flex-shrink:0;margin-top:2px">
+      <p style="${PROSE};margin:0;flex:1">${p.time} ${p.ampm} — ${p.name}<br><span style="color:var(--text-low);font-size:14px">${p.desc}</span></p>
+    </div>`).join('');
+  return `
+    <div style="display:flex;flex-direction:column;gap:16px;padding:8px 0">
+      <p style="${PROSE_TITLE};line-height:1.3;margin:0">🕐 Pooja aur Aarti Vidhi</p>
+      <div style="display:flex;flex-direction:column;gap:8px">${items}</div>
+    </div>`;
 }
 
 function buildFestDoDontHTML(data) {
-  const dosHTML   = data.dos.map(d   => `<p style="${PROSE};margin-bottom:14px">• ${d}</p>`).join('');
-  const dontsHTML = data.donts.map(d => `<p style="${PROSE};margin-bottom:14px">• ${d}</p>`).join('');
+  const IC = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/icons/svg/ic_success_colored.svg';
+  const dosHTML   = data.dos.map(d => `
+    <div style="display:flex;gap:4px;align-items:flex-start">
+      <img src="${IC}" width="20" height="20" style="flex-shrink:0;margin-top:2px">
+      <p style="${PROSE};margin:0;flex:1">${d}</p>
+    </div>`).join('');
+  const dontsHTML = data.donts.map(d => `
+    <div style="display:flex;gap:4px;align-items:flex-start">
+      <img src="${IC}" width="20" height="20" style="flex-shrink:0;margin-top:2px">
+      <p style="${PROSE};margin:0;flex:1">${d}</p>
+    </div>`).join('');
   return `
-    <p style="${PROSE_TITLE};margin-bottom:16px">📋 Kya karein · Kya na karein</p>
-    <p style="${PROSE_TITLE};margin-bottom:10px">✅ Karein</p>
-    <div style="margin-bottom:20px">${dosHTML}</div>
-    <p style="${PROSE_TITLE};margin-bottom:10px">❌ Na Karein</p>
-    <div>${dontsHTML}</div>`;
+    <div style="display:flex;flex-direction:column;gap:16px;padding:8px 0">
+      <p style="${PROSE_TITLE};line-height:1.3;margin:0">📋 Kya karein · Kya na karein</p>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div>
+          <p style="${PROSE_TITLE};line-height:1.3;margin:0 0 8px">✅ Karein</p>
+          <div style="display:flex;flex-direction:column;gap:8px">${dosHTML}</div>
+        </div>
+        <div>
+          <p style="${PROSE_TITLE};line-height:1.3;margin:0 0 8px">❌ Na Karein</p>
+          <div style="display:flex;flex-direction:column;gap:8px">${dontsHTML}</div>
+        </div>
+      </div>
+    </div>`;
 }
 
 function buildFestUpayHTML(data) {
-  const items = data.upay.map(u =>
-    `<p style="${PROSE};margin-bottom:14px">• ${u.text}</p>`
-  ).join('');
-  return `<p style="${PROSE_TITLE};margin-bottom:16px">🌟 Shubh Upay — Kark Rashi ke liye</p>${items}`;
+  const IC = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/icons/svg/ic_success_colored.svg';
+  const items = data.upay.map(u => `
+    <div style="display:flex;gap:4px;align-items:flex-start">
+      <img src="${IC}" width="20" height="20" style="flex-shrink:0;margin-top:2px">
+      <p style="${PROSE};margin:0;flex:1">${u.text}</p>
+    </div>`).join('');
+  return `
+    <div style="display:flex;flex-direction:column;gap:16px;padding:8px 0">
+      <p style="${PROSE_TITLE};line-height:1.3;margin:0">🌟 Shubh Upay — Kark Rashi ke liye</p>
+      <div style="display:flex;flex-direction:column;gap:8px">${items}</div>
+    </div>`;
 }
 
 function renderZodiacChips(activeIdx) {
