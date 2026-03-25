@@ -2122,6 +2122,24 @@ function sendMessage() {
   const text  = input.value.trim();
   if (!text) return;
 
+  // If ritual screen is active and reminder time picker is open, treat input as time selection
+  if (document.getElementById('s7').classList.contains('active') && document.getElementById('ritualTimePicker')) {
+    input.value = '';
+    input.style.height = 'auto';
+    input.style.display = 'none';
+    document.getElementById('chatPlaceholder').style.display = 'block';
+    document.getElementById('speakBtnContent').style.display = '';
+    document.getElementById('sendBtnContent').style.display  = 'none';
+    const msgs = document.getElementById('ritualMessages');
+    const userRow = document.createElement('div');
+    userRow.className = 'pcal-user-row';
+    userRow.innerHTML = `<div class="pcal-user-msg">${escapeHtml(text)}</div>`;
+    msgs.appendChild(userRow);
+    msgs.scrollTop = msgs.scrollHeight;
+    ritualConfirmTime(text, null);
+    return;
+  }
+
   // If darshan screen is active, route to darshan chat
   if (document.getElementById('s4').classList.contains('active')) {
     input.value = '';
@@ -4964,13 +4982,7 @@ function ritualSetTime(btn) {
         `<button class="chip" onclick="ritualConfirmTime('${t}',this)" style="background:#ffffff;border:1px solid rgba(49,0,100,0.12);color:#13002d;font-weight:500">${t}</button>`
       ).join('')}
     </div>
-    <div style="display:flex;gap:8px;align-items:center;margin-top:10px">
-      <input id="ritualCustomTimeInput" type="text" placeholder="Type a time, e.g. 11:30 am"
-        style="flex:1;height:44px;border-radius:23px;border:none;background:#eeeeef;padding:0 16px;font-family:'JioType',sans-serif;font-size:14px;color:#0c0d10;outline:none"
-        onkeydown="if(event.key==='Enter')ritualConfirmCustomTime()">
-      <button onclick="ritualConfirmCustomTime()"
-        style="height:44px;padding:0 18px;border-radius:999px;background:var(--surface-bold);border:none;cursor:pointer;font-family:'JioType',sans-serif;font-size:14px;font-weight:500;color:#fff;flex-shrink:0">Set</button>
-    </div>`;
+    <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:#535862;line-height:1.3;margin:8px 0 0">Or type your preferred time in the chat below.</p>`;
   chipsRow.parentNode.insertBefore(picker, chipsRow.nextSibling);
   const msgs = document.getElementById('ritualMessages');
   if (msgs) setTimeout(() => { msgs.scrollTop = msgs.scrollHeight; }, 50);
@@ -4978,27 +4990,16 @@ function ritualSetTime(btn) {
 
 function ritualConfirmTime(timeStr, chipEl) {
   const picker = document.getElementById('ritualTimePicker');
-  if (chipEl) {
-    chipEl.parentNode.querySelectorAll('.chip').forEach(c => {
+  if (picker) {
+    picker.querySelectorAll('.chip').forEach(c => {
       c.disabled = true;
       c.style.opacity = '0.38';
       c.style.pointerEvents = 'none';
     });
   }
-  if (picker) {
-    const input = picker.querySelector('input');
-    const btn   = picker.querySelector('button[onclick="ritualConfirmCustomTime()"]');
-    if (input) { input.disabled = true; input.style.opacity = '0.38'; }
-    if (btn)   { btn.disabled   = true; btn.style.opacity   = '0.38'; }
-  }
   showToast(`Reminder set for ${timeStr} every morning 🙏`);
 }
 
-function ritualConfirmCustomTime() {
-  const input = document.getElementById('ritualCustomTimeInput');
-  if (!input || !input.value.trim()) return;
-  ritualConfirmTime(input.value.trim(), null);
-}
 
 function ritualCustomise(btn) {
   btn.disabled = true;
