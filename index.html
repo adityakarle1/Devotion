@@ -4478,38 +4478,29 @@ function buildImportantDates() {
 function buildUpcomingFestivals() {
   const now = new Date();
   const todayMs = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const DAY = ['Ravivar','Somvar','Mangalvar','Budhvar','Guruvar','Shukravar','Shanivar'];
-  // JDS surface tints — cycle: primary-20, secondary-20, sparkle-20
-  const ICON_BG = ['#e8e8fc','#fef7e9','#e8faf7'];
+  const MO_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const upcoming = Object.entries(FESTIVALS)
-    .map(([key, f]) => { const [y,m,d] = key.split('-').map(Number); return { date: new Date(y, m-1, d), ...f }; })
+    .map(([key, f]) => { const [y,m,d] = key.split('-').map(Number); return { key, date: new Date(y, m-1, d), ...f }; })
     .filter(f => f.date.getTime() >= todayMs)
     .sort((a,b) => a.date - b.date)
     .slice(0, 8);
   if (!upcoming.length) return `<div class="pcal-intro-text">Koi aane wala tyohar nahi mila.</div>`;
   const cards = upcoming.map((f, i) => {
-    const diff   = Math.round((f.date.getTime() - todayMs) / 86400000);
-    const badgeClass = diff === 0 ? 'aaj' : diff <= 7 ? 'soon' : 'later';
-    const badgeText  = diff === 0 ? 'Aaj' : diff === 1 ? 'Kal' : `${diff} din mein`;
-    const dateStr    = `${DAY[f.date.getDay()]}, ${f.date.getDate()} ${MON[f.date.getMonth()]} ${f.date.getFullYear()}`;
-    const iconBg     = ICON_BG[i % ICON_BG.length];
-    const desc       = f.desc.length > 80 ? f.desc.substring(0, 80) + '…' : f.desc;
+    const dateStr = `${f.date.getDate()} ${MO_NAMES[f.date.getMonth()]} ${f.date.getFullYear()}`;
+    const parts = f.desc.split(/(?:\.\s+)|(?:!\s+)/).filter(s => s.trim().length > 6);
+    const b1 = (parts[0] || f.desc).trim().replace(/[.!]+$/, '');
     return `
-      <div class="pcal-fest-card" style="animation-delay:${i * 0.07}s;flex-shrink:0;width:260px">
-        <div class="pcal-fest-head" style="align-items:flex-start">
-          <div class="pcal-fest-icon" style="background:${iconBg}">${f.emoji}</div>
-          <div class="pcal-fest-head-text">
-            <div class="pcal-fest-name">${f.name}</div>
-            <div class="pcal-fest-date">${dateStr}</div>
-            <div class="pcal-fest-badge ${badgeClass}" style="display:inline-flex;margin-top:6px">${badgeText}</div>
-          </div>
+      <div class="widget-status-card" style="animation-delay:${i * 0.07}s" onclick="openFestivalDetail('${f.key}')">
+        <div class="widget-status-top">
+          <div class="widget-status-title">${f.name}</div>
+          <div class="widget-status-date-badge"><span>${dateStr}</span></div>
         </div>
-        <div class="pcal-fest-divider"></div>
-        <div class="pcal-fest-desc">${desc}</div>
+        <div class="widget-status-bullets">
+          <span class="widget-status-bullet-text">${b1}</span>
+        </div>
       </div>`;
   }).join('');
-  return `<div class="pcal-intro-text">Aane wale tyohar aur parv 🎊</div><div style="display:flex;flex-direction:row;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch">${cards}</div>`;
+  return `<div class="pcal-intro-text">Aane wale tyohar aur parv 🎊</div><div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-overflow-scrolling:touch">${cards}</div>`;
 }
 
 function getDayPanchang(y, mo, d) {
