@@ -173,6 +173,77 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 
 /* Zodiac row */
 
+/* ── WhatsApp Forwards Entry Card ── */
+.wa-entry-card {
+  background: var(--secondary-20);
+  border-radius: 16px;
+  border: 1px solid rgba(36,38,43,0.10);
+  padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: box-shadow 0.18s;
+  animation: fadeDown 0.25s ease both;
+}
+.wa-entry-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+.wa-entry-icon {
+  width: 48px; height: 48px; border-radius: 14px;
+  background: var(--surface-ghost-icon);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.wa-entry-body { flex: 1; min-width: 0; }
+.wa-entry-badge {
+  display: inline-flex; align-items: center;
+  background: var(--secondary-50); border-radius: 4px;
+  padding: 2px 8px; margin-bottom: 6px;
+}
+.wa-entry-badge span {
+  font-family: 'JioType', sans-serif; font-size: 11px; font-weight: 700;
+  color: #fff; line-height: 1; white-space: nowrap;
+}
+.wa-entry-title {
+  font-family: 'JioType', sans-serif; font-size: 15px; font-weight: 700;
+  color: var(--text-high); line-height: 1.2; margin-bottom: 3px;
+}
+.wa-entry-sub {
+  font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 400;
+  color: var(--text-low); line-height: 1.3;
+}
+.wa-entry-arrow { flex-shrink: 0; color: var(--text-low); }
+
+/* WhatsApp Forward bot cards */
+.wa-fwd-wrap { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.wa-fwd-card {
+  background: #fff; border-radius: 16px; padding: 14px 16px;
+  border: 1px solid rgba(36,38,43,0.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  animation: msgSlideIn 0.3s ease;
+}
+.wa-fwd-tag {
+  font-family: 'JioType', sans-serif; font-size: 11px; font-weight: 700;
+  color: var(--secondary-50); text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+.wa-fwd-text {
+  font-family: 'JioType', sans-serif; font-size: 15px; font-weight: 400;
+  color: var(--text-high); line-height: 1.5; white-space: pre-line; margin-bottom: 12px;
+}
+.wa-fwd-actions { display: flex; gap: 8px; }
+.wa-fwd-btn-copy {
+  flex: 1; height: 36px; border-radius: 999px;
+  border: 1.5px solid var(--primary-50); background: transparent;
+  font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--primary-50); cursor: pointer; transition: background 0.15s;
+}
+.wa-fwd-btn-copy:hover { background: var(--primary-20); }
+.wa-fwd-btn-share {
+  flex: 1; height: 36px; border-radius: 999px;
+  border: none; background: #25ab21;
+  font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 700;
+  color: #fff; cursor: pointer; transition: opacity 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.wa-fwd-btn-share:hover { opacity: 0.88; }
+
 /* ── ASK screen ── */
 .ask-screen { display: flex; flex-direction: column; height: 100%; background: var(--white); }
 .ask-messages { flex: 1; min-height: 0; padding: 16px 14px 24px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; scrollbar-width: none; }
@@ -1773,6 +1844,28 @@ html.capture-mode .capture-switcher { display: flex; }
           </div>
 
 
+          <!-- WhatsApp Forwards -->
+          <div class="section" style="padding-bottom:16px">
+            <div class="section-title">WhatsApp Share</div>
+            <div class="wa-entry-card" onclick="goToWhatsAppForwards()">
+              <div class="wa-entry-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M18.7 15.5L13.7 12.5C13.1823 12.1889 12.7539 11.7491 12.4565 11.2234C12.1591 10.6977 12.0028 10.104 12.0028 9.5C12.0028 8.896 12.1591 8.30229 12.4565 7.77659C12.7539 7.25089 13.1823 6.81111 13.7 6.5L16.2 5H4C3.46957 5 2.96086 5.21071 2.58579 5.58579C2.21071 5.96086 2 6.46957 2 7V16C2 16.5304 2.21071 17.0391 2.58579 17.4142C2.96086 17.7893 3.46957 18 4 18H20C20.5304 18 21.0391 17.7893 21.4142 17.4142C21.7893 17.0391 22 16.5304 22 16H20.5C19.8656 16.001 19.243 15.8281 18.7 15.5ZM15 19H9C8.73478 19 8.48043 19.1054 8.29289 19.2929C8.10536 19.4804 8 19.7348 8 20C8 20.2652 8.10536 20.5196 8.29289 20.7071C8.48043 20.8946 8.73478 21 9 21H15C15.2652 21 15.5196 20.8946 15.7071 20.7071C15.8946 20.5196 16 20.2652 16 20C16 19.7348 15.8946 19.4804 15.7071 19.2929C15.5196 19.1054 15.2652 19 15 19ZM20.5 11C20.3508 11.003 20.2027 11.0265 20.06 11.07L17.44 9.5L20.06 7.93C20.2027 7.97349 20.3508 7.99704 20.5 8C20.7835 7.99501 21.0598 7.90976 21.2968 7.75413C21.5339 7.59851 21.7219 7.37889 21.8392 7.12073C21.9565 6.86257 21.9983 6.57645 21.9596 6.29555C21.9209 6.01465 21.8033 5.75046 21.6206 5.53363C21.4379 5.3168 21.1975 5.1562 20.9272 5.07046C20.6569 4.98471 20.3678 4.97733 20.0935 5.04918C19.8192 5.12102 19.5709 5.26914 19.3774 5.47637C19.1838 5.68359 19.053 5.94144 19 6.22L15.94 8.07C15.7973 8.02651 15.6492 8.00296 15.5 8C15.1022 8 14.7206 8.15804 14.4393 8.43934C14.158 8.72064 14 9.10218 14 9.5C14 9.89782 14.158 10.2794 14.4393 10.5607C14.7206 10.842 15.1022 11 15.5 11C15.6492 10.997 15.7973 10.9735 15.94 10.93L19 12.78C19.053 13.0586 19.1838 13.3164 19.3774 13.5236C19.5709 13.7309 19.8192 13.879 20.0935 13.9508C20.3678 14.0227 20.6569 14.0153 20.9272 13.9295C21.1975 13.8438 21.4379 13.6832 21.6206 13.4664C21.8033 13.2495 21.9209 12.9854 21.9596 12.7044C21.9983 12.4235 21.9565 12.1374 21.8392 11.8793C21.7219 11.6211 21.5339 11.4015 21.2968 11.2459C21.0598 11.0902 20.7835 11.005 20.5 11Z" fill="#170054"/>
+                </svg>
+              </div>
+              <div class="wa-entry-body">
+                <div class="wa-entry-badge"><span>Navratri Saptami · Aaj</span></div>
+                <div class="wa-entry-title">Apnon ko bhejein shubhkamnayein</div>
+                <div class="wa-entry-sub">3 special forwards ready for today</div>
+              </div>
+              <div class="wa-entry-arrow">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 18l6-6-6-6" stroke="#191b1eA6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <!-- SCREEN 1: ASK JBIQ -->
@@ -1780,10 +1873,6 @@ html.capture-mode .capture-switcher { display: flex; }
           <div class="ask-screen">
 
             <div class="ask-messages">
-              <div class="msg-date">Aaj · 9:41 AM</div>
-              <div class="msg-bot-row">
-                <div class="msg-bot"><p>🙏🏼 Namaste. How may I help you today?</p></div>
-              </div>
             </div>
             <!-- chips-row: injected after AI conclusion, not static -->
           </div>
@@ -2915,6 +3004,366 @@ function simulateBotReply(messages, userText) {
   dispatchBotReply(messages, userText);
 }
 
+// ─── WHATSAPP FORWARDS ───────────────────────────────────────
+
+function goToWhatsAppForwards() {
+  const screens     = document.querySelectorAll('.screen');
+  const sidebarItems = document.querySelectorAll('.nav-item');
+  screens.forEach(s => s.classList.remove('active'));
+  sidebarItems.forEach(s => s.classList.remove('active'));
+  document.getElementById('s1').classList.add('active');
+  sidebarItems[1] && sidebarItems[1].classList.add('active');
+  document.getElementById('chatPlaceholder').textContent = 'Ask JBIQ anything...';
+
+  const messages = document.querySelector('#s1 .ask-messages');
+  appendWhatsAppForwardsResponse(messages);
+}
+
+function isWhatsAppRequest(text) {
+  return /whatsapp|forward|share.*loved|shubhkamna|aaj ke.*share|bhejein|apnon ko/i.test(text);
+}
+
+const WA_FORWARDS = [
+  {
+    tag: 'Navratri Saptami Wishes',
+    text: '🙏 Maa Kalaratri ki Jai! 🙏\n\nChaitra Navratri ke Saptami ke shubh avsar par aapko aur aapke poore parivar ko haardik shubhkamnayein. 🌺\n\nMaa Kalaratri sab ke jeevan ka andhera door karein aur sukh-samridhi ka ujiyaala bharen.\n\nJai Mata Di! 🔱'
+  },
+  {
+    tag: 'Devotional Blessing',
+    text: '🌺 Navratri Saptami Mubarak! 🌺\n\nMaa Durga ke Saptam swaroop — Kalaratri — ka ashirvaad aap par sada bana rahe. Har mushkil ka samna karne ki shakti milti rahe.\n\nJo darr gaya woh haar gaya — Maa ki shakti se daro ko jeeto. 💪\n\nJai Mata Di! 🙏'
+  },
+  {
+    tag: 'Short & Warm',
+    text: 'Jai Maa Kalaratri! 🔱\n\nAaj Navratri ka saatwan din hai — Maa sab ki raksha karein, sab ke dukh harein. 🙏\n\nAapko aur aapke ghar ko Navratri Saptami ki dher saari shubhkamnayein aur pyaar! 💛'
+  }
+];
+
+function appendWhatsAppForwardsResponse(messages) {
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.innerHTML = `<div class="msg-bot"><p class="thinking-dots"><span>.</span><span>.</span><span>.</span></p></div>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+
+    // Forward cards — Figma 3560:10162 exact
+    // Rendered inside a bot card so overflow-x scroll works within the flex column parent
+    const cardBotRow = document.createElement('div');
+    cardBotRow.className = 'msg-bot-row';
+    cardBotRow.style.animation = 'msgSlideIn 0.25s ease';
+    cardBotRow.innerHTML = `<div class="msg-bot" style="overflow:hidden;width:100%">
+      <p style="margin-bottom:10px">Aaj ke liye 3 special forwards 🙏🏼</p>
+      <div id="waFwdScroll" style="display:flex;gap:12px;overflow-x:auto;overflow-y:visible;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:4px;width:100%">
+        <div style="flex-shrink:0;width:215px;border-radius:16px;background:#fff;display:flex;flex-direction:column">
+          <div style="height:286px;border-radius:16px;overflow:hidden;flex-shrink:0;position:relative;width:100%">
+            <img src="https://www.figma.com/api/mcp/asset/d19041b1-918b-4f93-a584-eeea693202c6" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="padding-top:8px;width:100%">
+            <button onclick="waFwdShare(0)" style="width:100%;height:32px;border-radius:999px;background:#6d17ce;border:none;cursor:pointer;font-family:'JioType',sans-serif;font-size:14px;font-weight:500;color:#fff;line-height:1">Share on WhatsApp</button>
+          </div>
+        </div>
+        <div style="flex-shrink:0;width:215px;border-radius:16px;background:#fff;display:flex;flex-direction:column">
+          <div style="height:286px;border-radius:16px;overflow:hidden;flex-shrink:0;position:relative;width:100%">
+            <img src="https://www.figma.com/api/mcp/asset/631e4bea-7957-4453-8130-5b5b4dab8091" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="padding-top:8px;width:100%">
+            <button onclick="waFwdShare(1)" style="width:100%;height:32px;border-radius:999px;background:#6d17ce;border:none;cursor:pointer;font-family:'JioType',sans-serif;font-size:14px;font-weight:500;color:#fff;line-height:1">Share on WhatsApp</button>
+          </div>
+        </div>
+        <div style="flex-shrink:0;width:215px;border-radius:16px;background:#fff;display:flex;flex-direction:column">
+          <div style="height:286px;border-radius:16px;overflow:hidden;flex-shrink:0;position:relative;width:100%">
+            <img src="https://www.figma.com/api/mcp/asset/d41a152c-7878-4d28-9590-2f12eb5af0fb" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="padding-top:8px;width:100%">
+            <button onclick="waFwdShare(2)" style="width:100%;height:32px;border-radius:999px;background:#6d17ce;border:none;cursor:pointer;font-family:'JioType',sans-serif;font-size:14px;font-weight:500;color:#fff;line-height:1">Share on WhatsApp</button>
+          </div>
+        </div>
+      </div>
+      <div style="height:1px;background:rgba(36,38,43,0.12);margin:12px 0 10px"></div>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0;padding:4px 0 8px">Aur chahiye?</p>
+    </div>`;
+    messages.appendChild(cardBotRow);
+
+    const chipRow = document.createElement('div');
+    chipRow.className = 'chips-row';
+    chipRow.style.animation = 'msgSlideIn 0.32s ease';
+    ['Morning greetings', 'Ram Navami forwards', 'Aur dikhao'].forEach(c => {
+      const ch = document.createElement('div');
+      ch.className = 'chip';
+      ch.textContent = c;
+      ch.onclick = () => tapChip(c);
+      chipRow.appendChild(ch);
+    });
+    messages.appendChild(chipRow);
+
+    setTimeout(() => scrollToBottom(messages), 60);
+  }, 1000);
+}
+
+function waFwdCopy(btn, index) {
+  const text = WA_FORWARDS[index].text;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.style.background = 'var(--primary-20)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1800);
+  }).catch(() => {
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy'; }, 1800);
+  });
+}
+
+function waFwdShare(index) {
+  const text = encodeURIComponent(WA_FORWARDS[index] ? WA_FORWARDS[index].text : 'Navratri ki haardik shubhkamnayein! 🙏 Jai Mata Di!');
+  window.open(`https://wa.me/?text=${text}`, '_blank');
+}
+
+const WA_CHIP_SETS = {
+  'Morning greetings': {
+    label: 'Aaj ke Morning Greetings 🌅',
+    images: [
+      'https://www.figma.com/api/mcp/asset/631e4bea-7957-4453-8130-5b5b4dab8091',
+      'https://www.figma.com/api/mcp/asset/d41a152c-7878-4d28-9590-2f12eb5af0fb',
+      'https://www.figma.com/api/mcp/asset/d19041b1-918b-4f93-a584-eeea693202c6'
+    ],
+    texts: [
+      '🌅 Subah ki pehli roshni ke saath,\nMata Rani ka ashirvaad ho aapke saath.\nShubh Prabhat! 🙏',
+      '🌸 Har subah ek naya avsar hai —\nBhagwan ke naam se karo shuruaat,\nDin hoga sunehara! Shubh Prabhat! 🌞',
+      '🙏 Uthein, namo karein, aur muskuraaein —\nYahi hai subah ki asli pooja.\nGood Morning! Jai Shri Ram! 🚩'
+    ],
+    nextChips: ['Ram Navami forwards', 'Navratri wishes', 'Aur dikhao']
+  },
+  'Ram Navami forwards': {
+    label: 'Ram Navami ke forwards 🏹',
+    images: [
+      'https://www.figma.com/api/mcp/asset/d41a152c-7878-4d28-9590-2f12eb5af0fb',
+      'https://www.figma.com/api/mcp/asset/d19041b1-918b-4f93-a584-eeea693202c6',
+      'https://www.figma.com/api/mcp/asset/631e4bea-7957-4453-8130-5b5b4dab8091'
+    ],
+    texts: [
+      '🏹 Shri Ram ka janm utsav mubarak!\nPrabhu Ram ki kripa se aapka jeevan\nkhushiyon se bhar jaaye.\nJai Shri Ram! 🙏',
+      '🌺 Ram Navami ki haardik shubhkamnayein!\nMaryada Purushottam Shri Ram ke\nashirvaad se aapka har din shubh ho.\nJai Siya Ram! 🚩',
+      '🙏 Chaitra Shukla Navami par\nPrabhu Shri Ram ka janm hua —\nUnke charanon mein vandana.\nRam Navami Mubarak! 🏹'
+    ],
+    nextChips: ['Morning greetings', 'Navratri wishes', 'Aur dikhao']
+  },
+  'Aur dikhao': {
+    label: 'Aur kuch special forwards 🌺',
+    images: [
+      'https://www.figma.com/api/mcp/asset/d19041b1-918b-4f93-a584-eeea693202c6',
+      'https://www.figma.com/api/mcp/asset/631e4bea-7957-4453-8130-5b5b4dab8091',
+      'https://www.figma.com/api/mcp/asset/d41a152c-7878-4d28-9590-2f12eb5af0fb'
+    ],
+    texts: [
+      '🌺 Navratri ke in 9 dinon mein\nMata ki bhakti karo, mann ko\nshudh karo — Jai Mata Di! 🙏',
+      '🔱 Mata Rani ki jai!\nAapke ghar mein sukh-shanti aur\nsamridhi bani rahe — Navratri Mubarak!',
+      '🙏 Nav Samvatsar aur Navratri ki\nshuruaat mein Mata ka ashirvaad\naap par sada bana rahe!\nJai Mata Di! 🌸'
+    ],
+    nextChips: ['Morning greetings', 'Ram Navami forwards']
+  },
+  'Navratri wishes': {
+    label: 'Navratri Wishes 🌸',
+    images: [
+      'https://www.figma.com/api/mcp/asset/d41a152c-7878-4d28-9590-2f12eb5af0fb',
+      'https://www.figma.com/api/mcp/asset/631e4bea-7957-4453-8130-5b5b4dab8091',
+      'https://www.figma.com/api/mcp/asset/d19041b1-918b-4f93-a584-eeea693202c6'
+    ],
+    texts: [
+      '🌺 Navratri ki haardik shubhkamnayein!\nMaa Durga aapke jeevan mein\nnau rang bharen. Jai Mata Di! 🙏',
+      '🔱 Sherawali Mata ki jai!\nYe 9 din aapke liye subh,\nmangalmay aur aanandmay hon.\nNavratri Mubarak! 🌸',
+      '🙏 Maa ki shakti, Maa ka pyaar —\nNavratri mein milta hai sab kuch.\nJai Mata Di! Navratri Mubarak! 🌺'
+    ],
+    nextChips: ['Morning greetings', 'Ram Navami forwards', 'Aur dikhao']
+  }
+};
+
+function isWhatsAppChip(text) {
+  return Object.keys(WA_CHIP_SETS).includes(text);
+}
+
+function appendWhatsAppChipResponse(messages, chipText) {
+  const set = WA_CHIP_SETS[chipText];
+  if (!set) return;
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.innerHTML = `<div class="msg-bot"><p class="thinking-dots"><span>.</span><span>.</span><span>.</span></p></div>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+
+    const cardBotRow = document.createElement('div');
+    cardBotRow.className = 'msg-bot-row';
+    cardBotRow.style.animation = 'msgSlideIn 0.25s ease';
+    cardBotRow.innerHTML = `<div class="msg-bot" style="overflow:hidden;width:100%">
+      <p style="margin-bottom:10px">${escapeHtml(set.label)}</p>
+      <div style="display:flex;gap:12px;overflow-x:auto;overflow-y:visible;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:4px;width:100%">
+        ${set.images.map((img, i) => `
+        <div style="flex-shrink:0;width:215px;border-radius:16px;background:#fff;display:flex;flex-direction:column">
+          <div style="height:286px;border-radius:16px;overflow:hidden;flex-shrink:0;position:relative;width:100%">
+            <img src="${img}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="padding-top:8px;width:100%">
+            <button onclick="waFwdShareText(${JSON.stringify(set.texts[i])})" style="width:100%;height:32px;border-radius:999px;background:#6d17ce;border:none;cursor:pointer;font-family:'JioType',sans-serif;font-size:14px;font-weight:500;color:#fff;line-height:1">Share on WhatsApp</button>
+          </div>
+        </div>`).join('')}
+      </div>
+      <div style="height:1px;background:rgba(36,38,43,0.12);margin:12px 0 10px"></div>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0;padding:4px 0 8px">Aur chahiye?</p>
+    </div>`;
+    messages.appendChild(cardBotRow);
+
+    const chipRow = document.createElement('div');
+    chipRow.className = 'chips-row';
+    chipRow.style.animation = 'msgSlideIn 0.32s ease';
+    set.nextChips.forEach(c => {
+      const ch = document.createElement('div');
+      ch.className = 'chip';
+      ch.textContent = c;
+      ch.onclick = () => tapChip(c);
+      chipRow.appendChild(ch);
+    });
+    messages.appendChild(chipRow);
+
+    setTimeout(() => scrollToBottom(messages), 60);
+  }, 900);
+}
+
+function waFwdShareText(text) {
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+// ─── CUSTOM CARD CREATOR ─────────────────────────────────────
+
+function isCustomCardRequest(text) {
+  return /make.*(?:post|card|forward|quote)|create.*(?:post|card|forward|quote)|whatsapp.*(?:post|card|quote)|(?:post|card|quote).*(?:banao|bana|for|ke liye)|bana.*(?:card|post|quote)|is.*(?:quote|text).*(?:card|post)|generate.*(?:card|post|quote)|ek.*(?:card|quote)|mera.*(?:post|quote)|quote.*(?:for|banao|chahiye)|image.*(?:for|banao)|design.*(?:for|me)/i.test(text);
+}
+
+function extractQuote(text) {
+  // Quoted text between " " or ' '
+  const quoted = text.match(/["""'''](.+?)["""''']/s);
+  if (quoted) return quoted[1].trim();
+  // Text after "for", "this:", ":" or "with"
+  const afterKeyword = text.match(/(?:\bfor\b|\bwith\b|this[:\s]|likhein|likho)[:\s]+(.{4,})/i);
+  if (afterKeyword) return afterKeyword[1].trim();
+  // Strip common action words and return the meaningful remainder
+  const stripped = text
+    .replace(/\b(make\s*(me\s*)?a?|create\s*a?|whatsapp|post|card|forward|quote|banao|bana\s*do|generate|ek|mera|is\s*(quote|text|text)?\s*(ke\s*liye)?|image|design)\b/gi, '')
+    .replace(/\s{2,}/g, ' ').trim();
+  return stripped.length > 4 ? stripped : text;
+}
+
+const THEME_IMAGES = {
+  patriotic: [
+    'https://images.unsplash.com/photo-1532375810709-75b1da00537c?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1576487236230-eaa4afe68192?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1597484661643-2f5fef640dd1?w=480&h=600&fit=crop&q=85'
+  ],
+  devotional: [
+    'https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?w=480&h=600&fit=crop&q=85'
+  ],
+  morning: [
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=480&h=600&fit=crop&q=85'
+  ],
+  festival: [
+    'https://images.unsplash.com/photo-1577082839501-44b5823dfba5?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1609710228159-0fa9bd7c0827?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1574634535399-6f8e24a6f3c5?w=480&h=600&fit=crop&q=85'
+  ],
+  nature: [
+    'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1518173946726-cb39d8e14347?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=480&h=600&fit=crop&q=85'
+  ],
+  default: [
+    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=480&h=600&fit=crop&q=85',
+    'https://images.unsplash.com/photo-1518199452-f0a4fb6a56e5?w=480&h=600&fit=crop&q=85'
+  ]
+};
+
+function detectTheme(quote) {
+  const q = quote.toLowerCase();
+  if (/vande|bharat|independence|tiranga|azaadi|desh|india|patriot|15 august|26 january|rashtra/i.test(q)) return 'patriotic';
+  if (/morning|subah|prabhat|good morning|naya din|sunrise|din ki shuruaat/i.test(q)) return 'morning';
+  if (/navratri|durga|mata|devi|ram|krishna|shiv|hanuman|ganesh|bhakti|mandir|puja|ishwar|bhagwan|jai|aarti/i.test(q)) return 'devotional';
+  if (/diwali|holi|eid|christmas|festival|tyohar|celebration|mubarak/i.test(q)) return 'festival';
+  if (/nature|tree|forest|mountain|river|peace|sukoon|shanti|prakriti/i.test(q)) return 'nature';
+  return 'default';
+}
+
+let _cardBgIndex = 0;
+let _lastQuote = '';
+let _lastTheme = 'default';
+
+function appendCustomCardResponse(messages, userText) {
+  const quote = extractQuote(userText);
+  const theme = detectTheme(quote);
+  const images = THEME_IMAGES[theme];
+  // "Different background" cycles within same theme
+  if (quote === _lastQuote) _cardBgIndex++;
+  else { _cardBgIndex = 0; _lastQuote = quote; _lastTheme = theme; }
+  const bgImg = images[_cardBgIndex % images.length];
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.innerHTML = `<div class="msg-bot"><p class="thinking-dots"><span>.</span><span>.</span><span>.</span></p></div>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+
+    const row = document.createElement('div');
+    row.className = 'msg-bot-row';
+    row.style.animation = 'msgSlideIn 0.25s ease';
+    row.innerHTML = `<div class="msg-bot" style="width:100%">
+      <p style="margin-bottom:10px">Yahan hai aapka WhatsApp card 🌟</p>
+      <div style="border-radius:16px;overflow:hidden;position:relative;width:100%;height:320px">
+        <img src="${bgImg}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+        <div style="position:absolute;inset:0;background:rgba(0,0,0,0.48)"></div>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px">
+          <p style="font-family:'JioType',sans-serif;font-size:17px;font-weight:700;color:#ffffff;text-align:center;line-height:1.55;margin:0;text-shadow:0 2px 8px rgba(0,0,0,0.4)">${escapeHtml(quote)}</p>
+        </div>
+      </div>
+      <div style="padding-top:8px">
+        <button onclick="waFwdShareText(${JSON.stringify(quote)})" style="width:100%;height:32px;border-radius:999px;background:#6d17ce;border:none;cursor:pointer;font-family:'JioType',sans-serif;font-size:14px;font-weight:500;color:#fff;line-height:1">Share on WhatsApp</button>
+      </div>
+      <div style="height:1px;background:rgba(36,38,43,0.12);margin:12px 0 10px"></div>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0;padding:4px 0 8px">Aur kuch karna hai?</p>
+    </div>`;
+    messages.appendChild(row);
+
+    const chipRow = document.createElement('div');
+    chipRow.className = 'chips-row';
+    chipRow.style.animation = 'msgSlideIn 0.32s ease';
+    ['Different background', 'Morning greetings', 'Ram Navami forwards'].forEach(c => {
+      const ch = document.createElement('div');
+      ch.className = 'chip';
+      ch.textContent = c;
+      ch.onclick = () => {
+        if (c === 'Different background') {
+          appendCustomCardResponse(messages, 'Make me a WhatsApp post for "' + _lastQuote + '"');
+        } else {
+          tapChip(c);
+        }
+      };
+      chipRow.appendChild(ch);
+    });
+    messages.appendChild(chipRow);
+
+    setTimeout(() => scrollToBottom(messages), 60);
+  }, 1100);
+}
+
 function isDarshanRequest(text) {
   return /\bdarshan\b|live.*temple|temple.*live|mandir.*dekh|live.*mandir|live.*aarti|aarti.*live/i.test(text);
 }
@@ -3023,6 +3472,24 @@ function dispatchBotReply(messages, text) {
     appendBotMsg(messages,
       'Zaroor! Aapki Vedic Kundli banane ke liye mujhe 3 cheezein chahiye.\n\nPehle — aapki **janam tithi** batayein.\n(Jaise: 15 November 1990)',
       ['15 Nov 1990', '2 Jan 1985', '28 Mar 2000', '10 Aug 1995'], false);
+    return;
+  }
+
+  // Custom WhatsApp card creation
+  if (isCustomCardRequest(text)) {
+    appendCustomCardResponse(messages, text);
+    return;
+  }
+
+  // WhatsApp chip selections
+  if (isWhatsAppChip(text)) {
+    appendWhatsAppChipResponse(messages, text);
+    return;
+  }
+
+  // WhatsApp forwards intent
+  if (isWhatsAppRequest(text)) {
+    appendWhatsAppForwardsResponse(messages);
     return;
   }
 
@@ -5444,16 +5911,6 @@ function initAskScreen() {
   const msgs = document.querySelector('#s1 .ask-messages');
   if (!msgs || msgs.dataset.init === '1') return;
   msgs.dataset.init = '1';
-  appendChipBlock(msgs, 'Kahan se shuru karein?', row => {
-    row.className = 'chips-row';
-    ['Meri Kundli banao', 'Yearly Horoscope 2026', 'Career aur Naukri', 'Vivah & Prem', 'Dhan & Sampatti'].forEach(c => {
-      const ch = document.createElement('div');
-      ch.className = 'chip';
-      ch.textContent = c;
-      ch.onclick = () => tapChip(c);
-      row.appendChild(ch);
-    });
-  }, 0.35);
 }
 
 // Initialise
