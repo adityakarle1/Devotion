@@ -164,7 +164,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 }
 .theme-avatar-ring {
   width: 120px; height: 120px; border-radius: 50%;
-  border: 3px solid #f3e8ff;
+  border: 3px solid var(--primary-20);
   overflow: hidden; background: #fff;
 }
 .theme-avatar-ring img { width: 100%; height: 100%; object-fit: cover; }
@@ -234,7 +234,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   background: var(--sparkle-50);
   display: flex; align-items: center; justify-content: center;
 }
-.upay-label { font-family: 'JioType', sans-serif; font-size: 11px; font-weight: 700; color: #0d8f80; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
+.upay-label { font-family: 'JioType', sans-serif; font-size: 11px; font-weight: 700; color: var(--sparkle-50); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
 .upay-body { font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 400; color: var(--text-high); line-height: 1.4; }
 
 /* ── Rashifal card (same style as pcal-today-card) ── */
@@ -336,33 +336,34 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 }
 .widget-status-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 .widget-status-top { display: flex; flex-direction: column; gap: 8px; }
-.widget-status-title { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 900; line-height: 1; color: #0c0d10; }
-.widget-status-date-badge { display: inline-flex; align-items: center; background: #0078ad; border-radius: 4px; padding: 4px 8px; align-self: flex-start; border: 1px solid transparent; }
-.widget-status-date-badge span { font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 700; color: #fff; line-height: 1; white-space: nowrap; }
+.widget-status-title { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; line-height: 1; color: var(--text-high); }
+.widget-status-date-badge { display: inline-flex; align-items: center; background: var(--surface-bold); border-radius: 4px; padding: 4px 8px; align-self: flex-start; border: 1px solid transparent; }
+.widget-status-date-badge span { font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 700; color: var(--text-on-bold); line-height: 1; white-space: nowrap; }
 .widget-status-bullets { display: flex; flex-direction: column; gap: 4px; }
-.widget-status-bullet-text { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: #0c0d10; line-height: 1.3; }
+.widget-status-bullet-text { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-high); line-height: 1.3; }
 
 /* ── Ask screen ── */
 .ask-screen { display: flex; flex-direction: column; height: 100%; background: var(--white); }
 .ask-messages { flex: 1; min-height: 0; padding: var(--gap-block) var(--pad-screen) var(--space-lg); display: flex; flex-direction: column; gap: var(--gap-card); overflow-y: auto; scrollbar-width: none; }
 .ask-messages::-webkit-scrollbar { display: none; }
-.msg-bot-row { display: flex; gap: 10px; align-items: flex-start; }
+.msg-bot-row { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; }
 .msg-bot { flex: 1; }
 .msg-bot p { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; margin: 0; }
-.msg-user-row { display: flex; justify-content: flex-end; }
-.msg-user { background: #f5f5f6; border-radius: 24px 24px 0 24px; padding: 12px 16px; max-width: 240px; }
-.msg-user p { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: #0c0d10; line-height: 1.3; margin: 0; }
+.msg-user-row { display: flex; justify-content: flex-end; padding: 8px 0; }
+.msg-user { background: var(--grey-20); border-radius: 24px 24px 0 24px; padding: 12px 16px; max-width: 240px; }
+.msg-user p { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; margin: 0; }
 .feedback-row { display: flex; gap: 6px; margin-top: 4px; margin-left: 36px; }
 .fb-btn { width: 26px; height: 26px; border-radius: 50%; background: var(--surface-ghost); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
 /* ── Chips ── */
-.chips-row { display: flex; flex-wrap: wrap; row-gap: 10px; column-gap: 8px; padding: 4px 0 0; }
+.chips-row { display: flex; flex-wrap: wrap; row-gap: 10px; column-gap: 8px; padding: 8px 0; }
 .chip {
-  flex-shrink: 0; height: 32px; padding: 0 12px;
-  border-radius: 999px; border: 1px solid var(--stroke-subtle);
-  background: #ffffff; font-family: 'JioType', sans-serif;
-  font-size: 14px; font-weight: 500; color: var(--text-high);
-  cursor: pointer; white-space: nowrap; display: flex; align-items: center;
+  flex-shrink: 0; height: 32px; padding: 8px 12px;
+  border-radius: 999px; border: 1px solid rgba(49,0,100,0.12);
+  background: rgba(255,255,255,0.01); font-family: 'JioType', sans-serif;
+  font-size: 14px; font-weight: 500; line-height: 1; letter-spacing: 0;
+  color: var(--surface-bold); cursor: pointer; white-space: nowrap;
+  display: flex; align-items: center; box-sizing: border-box;
 }
 .chip:hover { background: var(--primary-20); border-color: var(--primary-50); color: var(--primary-50); }
 
@@ -383,12 +384,8 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .pcal-bot-row { display: flex; }
 .pcal-bot-content { background: #fff; padding: 0; flex: 1; }
 .pcal-user-row { display: flex; justify-content: flex-end; padding: 4px 0; }
-.pcal-user-msg { background: #f5f5f6; border-radius: 24px 24px 0 24px; padding: 10px 14px; max-width: 220px; font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: #0c0d10; line-height: 1.3; }
+.pcal-user-msg { background: var(--grey-20); border-radius: 24px 24px 0 24px; padding: 10px 14px; max-width: 220px; font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-high); line-height: 1.3; }
 
-/* ── Thinking dots ── */
-.thinking-dots span { animation: blink 1.2s infinite; font-size: 20px; color: var(--text-low); }
-.thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
-.thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
 
 /* ── Voice screen ── */
 .voice-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: var(--white); padding: 32px 20px; gap: 24px; }
@@ -474,26 +471,72 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .rashi-note-text { font-family: 'JioType', sans-serif; font-size: 15px; font-weight: 400; color: var(--text-high); line-height: 1.4; }
 
 /* ── Prediction response (Marriage / Career / Wealth) ── */
-.pred-body { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; }
-.pred-body + .pred-body { margin-top: var(--gap-card); }
-.astro-rationale { background: #f8f8f9; border-radius: 16px; padding: 12px; margin-top: var(--space-lg); display: flex; flex-direction: column; gap: 8px; }
-.astro-rationale-hd { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: #0c0d10; line-height: 1.3; letter-spacing: 0; }
+.pred-body { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; letter-spacing: 0; padding: 8px 0; }
+.pred-body + .pred-body { padding-top: 0; }
+.astro-rationale { background: var(--grey-20); border-radius: 16px; padding: 12px; margin-top: var(--space-lg); display: flex; flex-direction: column; gap: 8px; }
+.astro-rationale-hd { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-high); line-height: 1.3; letter-spacing: 0; }
 .astro-factors { display: flex; flex-wrap: wrap; gap: 8px; }
-.astro-factor { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 500; color: #fff; background: #0078ad; border-radius: 4px; padding: 4px 6px; line-height: 1; white-space: nowrap; }
-.astro-reviewer { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 400; color: #191b1e; line-height: 1.3; opacity: 0.8; display: flex; align-items: center; gap: 4px; }
+.astro-factor { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 500; color: var(--text-on-bold); background: var(--primary-50); border-radius: 4px; padding: 4px 6px; line-height: 1; white-space: nowrap; }
+.astro-reviewer { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 400; color: var(--text-high); line-height: 1.3; opacity: 0.8; display: flex; align-items: center; gap: 4px; }
+
+/* Muharat Result */
+.muharat-section-title,
+.msg-bot .muharat-section-title { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.3; letter-spacing: 0; margin: 0; padding: 8px 0 0; }
+.muharat-list { display: flex; flex-direction: column; gap: 16px; padding: 8px 0; }
+.muharat-row { display: flex; gap: 18px; align-items: center; }
+.muharat-date { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 32px; gap: 2px; flex-shrink: 0; }
+.muharat-month { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 400; color: var(--text-high); opacity: 0.65; line-height: 1.3; letter-spacing: 0; }
+.muharat-day { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-high); line-height: 1.3; letter-spacing: 0; }
+.muharat-details { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.muharat-time { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-high); line-height: 1.3; letter-spacing: 0; }
+.muharat-quality { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-high); opacity: 0.65; line-height: 1.3; letter-spacing: 0; }
+.muharat-details--why { gap: 8px; }
+.muharat-timequality { display: flex; flex-direction: column; gap: 2px; }
+.muharat-badges-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.muharat-badge { font-family: 'JioType', sans-serif; font-size: 10px; font-weight: 500; color: var(--text-high); background: var(--primary-20); border-radius: 4px; padding: 2px 6px; line-height: 1; letter-spacing: 0; white-space: nowrap; }
+
+
+/* Kundali Progress Indicator */
+.kundali-progress-row { display: flex; gap: 10px; align-items: center; padding: 8px 0; }
+.kundali-progress-track { flex: 1; height: 3px; background: #eeeeef; border-radius: 999px; overflow: hidden; }
+.kundali-progress-fill { height: 100%; width: 0%; background: #00ad8b; border-radius: 999px; transition: width 3.2s cubic-bezier(0.4,0,0.2,1); }
+.kundali-progress-x { width: 16px; height: 16px; flex-shrink: 0; background: none; border: none; padding: 0; cursor: pointer; opacity: 0.45; display: flex; align-items: center; justify-content: center; }
 
 /* Kundali Upsell Prompt */
 .kundali-prompt { padding: 0; }
 .kundali-prompt-text { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; margin-bottom: var(--space-xs); }
-.kundali-btn-row { display: flex; gap: var(--space-xs); }
+.kundali-btn-row { display: flex; gap: 8px; padding: 0 0 8px; }
 .kundali-btn-yes { flex: 1; height: 44px; background: #3535f3; color: #fff; border: none; border-radius: 999px; font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 500; line-height: 1; letter-spacing: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
 .kundali-btn-later { flex: 1; height: 44px; background: #e7e9ff; color: #3535f3; border: none; border-radius: 999px; font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 500; line-height: 1; letter-spacing: 0; cursor: pointer; }
 .kundali-btn-never { display: block; width: 100%; margin-top: 4px; height: 32px; background: transparent; color: var(--text-low); border: none; font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 400; cursor: pointer; opacity: 0.55; }
 
+/* Kundali Ready Card */
+.kundali-status-card { background: var(--grey-20); border-radius: 16px; padding: 12px; display: flex; flex-direction: column; }
+.kundali-status-header { display: flex; flex-direction: column; gap: 4px; }
+.kundali-status-name { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.3; letter-spacing: 0; }
+.kundali-status-meta { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 400; color: var(--text-high); line-height: 1.3; letter-spacing: 0; opacity: 0.8; }
+.kundali-status-verified { display: flex; align-items: center; gap: 4px; }
+.kundali-status-verified-text { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 400; color: var(--text-high); line-height: 1.3; letter-spacing: 0; opacity: 0.8; }
+.kundali-status-divider { height: 0.5px; background: var(--stroke-subtle); margin: 12px 0; }
+.kundali-status-table { display: flex; flex-direction: column; gap: 8px; }
+.kundali-status-row { display: flex; justify-content: space-between; align-items: center; }
+.kundali-status-label { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; letter-spacing: 0; }
+.kundali-status-value { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-high); line-height: 1.3; letter-spacing: 0; }
+
+/* Kundali Special Heading */
+.kundali-special-hd { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.3; letter-spacing: 0; padding: 8px 0 0; }
+
+/* BulletList */
+.bullet-list { display: flex; flex-direction: column; gap: 8px; padding: 8px 0; }
+.bullet-item { display: flex; flex-direction: column; gap: 4px; }
+.bullet-item-row { display: flex; align-items: flex-start; gap: 8px; }
+.bullet-item-title { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-high); line-height: 1.3; letter-spacing: 0; }
+.bullet-item-body { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; letter-spacing: 0; padding-left: 28px; }
+
 /* Toast */
 .toast {
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-  background: #0c0d10; color: #fff; font-family: 'JioType', sans-serif;
+  background: var(--grey-100); color: var(--text-on-bold); font-family: 'JioType', sans-serif;
   font-size: 13px; font-weight: 500; padding: 10px 18px; border-radius: 12px;
   white-space: nowrap; z-index: 9999; opacity: 0; pointer-events: none;
   transition: opacity 0.2s;
@@ -597,7 +640,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
             </div>
             <div class="theme-avatar-section">
               <div class="theme-avatar-ring">
-                <img src="https://www.figma.com/api/mcp/asset/a2eae70d-3b8c-4bbd-9547-f78fa191ec34" alt="Jyotish Saathi">
+                <img src="https://www.figma.com/api/mcp/asset/78894e11-8c6e-4c6d-92fb-9cd3e65142cb" alt="Jyotish Saathi">
               </div>
             </div>
           </div>
@@ -721,9 +764,9 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
             </div>
           </div>
 
-          <!-- Your Life Insights -->
-          <div class="section" style="padding-bottom:24px">
-            <div class="section-title">Your Life Insights</div>
+          <!-- Your Life Ahead -->
+          <div class="section" style="padding-bottom:0">
+            <div class="section-title">Your Life Ahead</div>
             <div class="insight-card">
 
               <!-- Marriage -->
@@ -777,6 +820,50 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15.6001 3.99991C14.2643 4.04142 12.9875 4.55927 12.0001 5.45991C11.0128 4.55927 9.73588 4.04142 8.40011 3.99991C7.68608 3.9945 6.97817 4.13181 6.31795 4.40379C5.65773 4.67576 5.0585 5.07691 4.55546 5.58367C4.05242 6.09044 3.6557 6.69261 3.38861 7.35483C3.12152 8.01704 2.98943 8.72594 3.00011 9.43991C3.00198 9.96618 3.06916 10.4902 3.20011 10.9999H5.46011L7.17011 8.44991C7.26611 8.30358 7.39883 8.18501 7.55501 8.10604C7.71119 8.02708 7.88536 7.99048 8.06011 7.99991C8.23445 8.0111 8.40281 8.06777 8.54843 8.16426C8.69405 8.26076 8.81186 8.39372 8.89011 8.54991L11.1201 12.9999L12.1701 11.4399C12.2618 11.3042 12.3855 11.1931 12.5302 11.0164C12.675 11.0397 12.8363 10.9997 13.0001 10.9999H15.0001C15.2653 10.9999 15.5197 11.1053 15.7072 11.2928C15.8948 11.4803 16.0001 11.7347 16.0001 11.9999C16.0001 12.2651 15.8948 12.5195 15.7072 12.707C15.5197 12.8946 15.2653 12.9999 15.0001 12.9999H13.5401L11.8301 15.5499C11.7395 15.6875 11.6164 15.8005 11.4716 15.879C11.3268 15.9575 11.1648 15.9991 11.0001 15.9999H10.9401C10.7658 15.9887 10.5974 15.9321 10.4518 15.8356C10.3062 15.7391 10.1884 15.6061 10.1101 15.4499L7.88011 10.9999L6.88011 12.5599C6.7838 12.7029 6.65215 12.8185 6.49797 12.8956C6.34378 12.9727 6.17228 13.0086 6.00011 12.9999H4.00011C5.15011 15.1399 7.27011 17.3499 10.1801 19.9999L10.6701 20.4499C11.0388 20.7872 11.5204 20.9743 12.0201 20.9743C12.5198 20.9743 13.0014 20.7872 13.3701 20.4499L13.8601 20.0099C18.3701 15.8599 21.0001 12.7999 21.0001 9.43991C21.0108 8.72594 20.8787 8.01704 20.6116 7.35483C20.3445 6.69261 19.9478 6.09044 19.4448 5.58367C18.9417 5.07691 18.3425 4.67576 17.6823 4.40379C17.022 4.13181 16.3141 3.9945 15.6001 3.99991Z" fill="var(--icon-medium)"/></svg>
                 </div>
                 <div class="insight-row-label">How will my love life be?</div>
+                <svg class="insight-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Jyotish Services -->
+          <div class="section" style="padding-bottom:24px">
+            <div class="section-title">Jyotish Services</div>
+            <div class="insight-card">
+
+              <!-- Talk to Jyotish -->
+              <div class="insight-row" onclick="goToTalkJyotish()">
+                <div class="insight-row-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2.1 20.1a1 1 0 001.213 1.347l3.355-1.11A9.96 9.96 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2zm0 2a8 8 0 110 16 7.96 7.96 0 01-4.003-1.074l-.35-.207-2.533.838.697-2.461-.223-.363A7.963 7.963 0 014 12a8 8 0 018-8zm-1 4v6h2V8h-2zm0 7v2h2v-2h-2z" fill="var(--icon-medium)"/></svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div class="insight-row-label">Talk to Jyotish</div>
+                  <div style="font-size:12px;font-weight:400;color:var(--text-low);line-height:1.3;margin-top:2px">For specific details about you</div>
+                </div>
+                <svg class="insight-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+
+              <!-- Match Kundali -->
+              <div class="insight-row" onclick="goToMatchKundali()">
+                <div class="insight-row-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402C1 3.335 4.247 1 7.5 1c1.997 0 4.126 1.05 5.5 2.964C14.374 2.05 16.503 1 18.5 1 21.753 1 25 3.335 25 7.191c0 4.105-5.37 8.863-11 14.402L12 21.593z" fill="var(--icon-medium)"/></svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div class="insight-row-label">Match Kundali</div>
+                  <div style="font-size:12px;font-weight:400;color:var(--text-low);line-height:1.3;margin-top:2px">Check compatibility with your partner</div>
+                </div>
+                <svg class="insight-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+
+              <!-- Muharat Finder -->
+              <div class="insight-row" onclick="goToMuharatFinder()">
+                <div class="insight-row-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M19 4h-1V2h-2v2H8V2H6v2H5C3.9 4 3 4.9 3 6v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2zm-7 5h5v5h-5v-5z" fill="var(--icon-medium)"/></svg>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div class="insight-row-label">Muharat Finder</div>
+                  <div style="font-size:12px;font-weight:400;color:var(--text-low);line-height:1.3;margin-top:2px">Find the most auspicious time for events</div>
+                </div>
                 <svg class="insight-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
 
@@ -937,20 +1024,20 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
       <div class="anno-row"><span class="anno-key">Default Sign</span><span class="anno-val">Aries ♈</span></div>
     </div>
     <div class="anno-card">
-      <div class="anno-title">Sections</div>
-      <div class="anno-row"><span class="anno-key">1</span><span class="anno-val">How Is Today Looking?</span></div>
-      <div class="anno-row"><span class="anno-key">2</span><span class="anno-val">Your Life Insights</span></div>
-      <div class="anno-row"><span class="anno-key">4</span><span class="anno-val">Jyotish Saathi Chat</span></div>
+      <div class="anno-title">MCP Servers</div>
+      <div class="anno-row"><span class="anno-key">claude.ai Figma</span><span class="anno-val">Design specs</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Tools</span><span class="anno-val" style="text-align:right">get_design_context<br>get_screenshot<br>get_metadata</span></div>
+      <div class="anno-row" style="margin-top:6px"><span class="anno-key">JioBharatIQ</span><span class="anno-val">JDS v3.6.4</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Tools</span><span class="anno-val" style="text-align:right">get_assets<br>find_icon<br>lookup_component<br>resolve_token<br>validate_prototype</span></div>
     </div>
     <div class="anno-card">
-      <div class="anno-title">Planetary Transits — 25 Mar 2026</div>
-      <div class="anno-row"><span class="anno-key">Sun</span><span class="anno-val">Pisces ♓</span></div>
-      <div class="anno-row"><span class="anno-key">Moon</span><span class="anno-val">Taurus ♉</span></div>
-      <div class="anno-row"><span class="anno-key">Mars</span><span class="anno-val">Gemini ♊</span></div>
-      <div class="anno-row"><span class="anno-key">Mercury</span><span class="anno-val">Pisces ♓ (Retrograde)</span></div>
-      <div class="anno-row"><span class="anno-key">Jupiter</span><span class="anno-val">Taurus ♉</span></div>
-      <div class="anno-row"><span class="anno-key">Venus</span><span class="anno-val">Aries ♈</span></div>
-      <div class="anno-row"><span class="anno-key">Saturn</span><span class="anno-val">Aquarius ♒ (Retrograde)</span></div>
+      <div class="anno-title">Design System Audit</div>
+      <div class="anno-row"><span class="anno-key">Font</span><span class="anno-val">JioType (400, 500, 700)</span></div>
+      <div class="anno-row"><span class="anno-key">Design system</span><span class="anno-val">JDS v3.6.4</span></div>
+      <div class="anno-row"><span class="anno-key">Figma nodes used</span><span class="anno-val">14 nodes</span></div>
+      <div class="anno-row" style="margin-top:6px"><span class="anno-key" style="font-weight:700">JDS match</span><span class="anno-val" style="font-weight:700;color:#25AB21">78%</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Compliant</span><span class="anno-val" style="text-align:right">Buttons · Chips<br>Typography · Colors<br>Spacing tokens<br>JBIQ States · Badges</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px;color:#fa2f40">Gaps</span><span class="anno-val" style="text-align:right;color:#fa2f40">Insight cards<br>Lucky grid<br>Home widgets</span></div>
     </div>
   </div>
 
@@ -960,6 +1047,13 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 <div class="toast" id="toast"></div>
 
 <script>
+// ── Kundali creation step state ──
+let _kundaliStep    = null;  // null | 'dob' | 'place' | 'time'
+let _kundaliTopic   = null;  // topic selected before creating kundali
+let _kundaliPlace   = null;  // place of birth typed by user
+let _kundaliTime    = null;  // time of birth typed by user
+let _kundaliCreated = false; // true once kundali has been generated
+
 // ── Clock ──
 function updateClock() {
   const now = new Date();
@@ -1031,6 +1125,31 @@ function sendMessage() {
   const input = document.getElementById('chatInput');
   const text  = input.value.trim();
   if (!text) return;
+
+  // Route to Kundali flow if a step is active
+  if (_kundaliStep) {
+    const step = _kundaliStep;
+    _kundaliStep = null;
+    input.value = '';
+    input.style.height = 'auto';
+    input.style.display = 'none';
+    document.getElementById('chatPlaceholder').style.display = 'block';
+    document.getElementById('speakBtnContent').style.display = '';
+    document.getElementById('sendBtnContent').style.display  = 'none';
+    document.getElementById('speakBtnLabel').textContent = 'Speak';
+    document.getElementById('chatPlaceholder').textContent = 'Ask me anything...';
+    const messages = document.getElementById('askMessages');
+    const row = document.createElement('div');
+    row.className = 'msg-user-row';
+    row.style.animation = 'msgSlideIn 0.22s ease';
+    row.innerHTML = `<div class="msg-user"><p>${escapeHtml(text)}</p></div>`;
+    messages.appendChild(row);
+    scrollToBottom(messages);
+    if (step === 'dob')   _handleKundaliDob(text, messages);
+    if (step === 'place') _handleKundaliPlace(text, messages);
+    if (step === 'time')  _handleKundaliTime(text, messages);
+    return;
+  }
 
   // Switch to Ask screen
   switchNav(1, document.getElementById('nav1'));
@@ -1122,7 +1241,8 @@ function _showLuckyCard(question, bodyHtml, exclude) {
 
   const thinking = document.createElement('div');
   thinking.className = 'msg-bot-row';
-  thinking.innerHTML = `<div class="msg-bot"><p class="thinking-dots"><span>.</span><span>.</span><span>.</span></p></div>`;
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
   messages.appendChild(thinking);
   scrollToBottom(messages);
 
@@ -1133,7 +1253,8 @@ function _showLuckyCard(question, bodyHtml, exclude) {
     botRow.style.animation = 'msgSlideIn 0.22s ease';
     botRow.innerHTML = `<div class="msg-bot">
       ${bodyHtml}
-      <div style="height:1px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">Curious about your other lucky elements today?</p>
       <div class="chips-row" style="margin:0">${_luckyChips(exclude)}</div>
     </div>`;
     messages.appendChild(botRow);
@@ -1166,15 +1287,83 @@ function goToLuckyTime() {
 }
 
 function goToShubhMuhurat() {
-  _showLuckyCard(
-    "What is today's Shubh Muhurat?",
-    `<p>🪔 Today's <strong>Shubh Muhurat is 12:05–12:53 PM</strong> — the Abhijit Muhurat, considered the most auspicious window of the day ✨. Any important work begun during this time is blessed with success. Ideal for signing agreements, starting travel, or launching new ventures 🚀.</p>`,
-    'Shubh Muhurat'
-  );
+  switchNav(1, document.getElementById('nav1'));
+  const messages = document.getElementById('askMessages');
+
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>What is today's Shubh Muhurat?</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    const topicChips = ['Love & Relationships', 'Career', 'Money', 'Health', 'Home & Family', 'Life & Future']
+      .map(t => `<button class="chip" onclick="goToJyotishTopic('${t}')">${t}</button>`).join('');
+    botRow.innerHTML = `<div class="msg-bot">
+      <p>🪔 Today's <strong>Shubh Muhurat is 12:05–12:53 PM</strong> — the Abhijit Muhurat, considered the most auspicious window of the day ✨. Ideal for signing agreements, starting travel, or launching new ventures 🚀.</p>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">Are you looking for something specific?</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        ${topicChips}
+        <button class="chip" onclick="goToShubhMuharatMoreOptions()">More options</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 1200);
+}
+
+function goToShubhMuharatMoreOptions() {
+  const messages = document.getElementById('askMessages');
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>More options</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">Here are a few more things you can explore today.</div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">What would you like to know?</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToLuckyColour()">Lucky Colour</button>
+        <button class="chip" onclick="goToLuckyTime()">Lucky Time</button>
+        <button class="chip" onclick="goToLuckyNumber()">Lucky Number</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 400);
 }
 
 function goToRashifal() {
   switchNav(1, document.getElementById('nav1'));
+  document.getElementById('appTitle').textContent = "Today's Rashifal";
   const messages = document.getElementById('askMessages');
 
   const userRow = document.createElement('div');
@@ -1186,7 +1375,8 @@ function goToRashifal() {
 
   const thinking = document.createElement('div');
   thinking.className = 'msg-bot-row';
-  thinking.innerHTML = `<div class="msg-bot"><p class="thinking-dots"><span>.</span><span>.</span><span>.</span></p></div>`;
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
   messages.appendChild(thinking);
   scrollToBottom(messages);
 
@@ -1271,7 +1461,8 @@ function goToRashifal() {
         </div>
       </div>
 
-      <div style="height:1px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">Want to go deeper into any area of your life?</p>
       <div class="chips-row" style="margin:0">
         <button class="chip" onclick="goToMarriageTiming()">Marriage Timing</button>
         <button class="chip" onclick="goToCareerGuidance()">Career Guidance</button>
@@ -1352,8 +1543,10 @@ function _predChips(exclude) {
     .map(c => `<button class="chip" onclick="${c.fn}">${c.label}</button>`).join('');
 }
 
-function _showPredCard(question, bodyHtml, exclude) {
+function _showPredCard(question, bodyHtml, exclude, guideText, navTitle) {
+  guideText = guideText || 'Is there anything else you want to know?';
   switchNav(1, document.getElementById('nav1'));
+  if (navTitle) document.getElementById('appTitle').textContent = navTitle;
   const messages = document.getElementById('askMessages');
   const userRow = document.createElement('div');
   userRow.className = 'msg-user-row';
@@ -1363,7 +1556,8 @@ function _showPredCard(question, bodyHtml, exclude) {
   scrollToBottom(messages);
   const thinking = document.createElement('div');
   thinking.className = 'msg-bot-row';
-  thinking.innerHTML = `<div class="msg-bot"><p class="thinking-dots"><span>.</span><span>.</span><span>.</span></p></div>`;
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
   messages.appendChild(thinking);
   scrollToBottom(messages);
   setTimeout(() => {
@@ -1371,7 +1565,7 @@ function _showPredCard(question, bodyHtml, exclude) {
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
-    botRow.innerHTML = `<div class="msg-bot">${bodyHtml}<div style="height:1px;background:var(--stroke-subtle);margin:var(--space-lg) 0 var(--gap-card)"></div><div class="chips-row" style="margin:0">${typeof exclude === 'string' && exclude.startsWith('<') ? exclude : _predChips(exclude)}</div></div>`;
+    botRow.innerHTML = `<div class="msg-bot">${bodyHtml}<div style="height:0.5px;background:var(--stroke-subtle);margin:var(--space-lg) 0 var(--gap-card)"></div><p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">${guideText}</p><div class="chips-row" style="margin:0">${typeof exclude === 'string' && exclude.startsWith('<') ? exclude : _predChips(exclude)}</div></div>`;
     messages.appendChild(botRow);
     scrollToBottom(messages);
     _maybeShowKundaliPrompt(messages);
@@ -1391,7 +1585,7 @@ function goToMarriageTiming() {
         <span class="astro-factor">Guru Drishti</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, 'Marriage Timing');
+    </div>`, 'Marriage Timing', 'Want to explore another area of your chart?', "Today's Rashifal");
 }
 
 function goToCareerGuidance() {
@@ -1407,7 +1601,7 @@ function goToCareerGuidance() {
         <span class="astro-factor">Dasha Period</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, 'Career Guidance');
+    </div>`, 'Career Guidance', 'Want to explore another area of your chart?', "Today's Rashifal");
 }
 
 function goToWealth() {
@@ -1423,7 +1617,7 @@ function goToWealth() {
         <span class="astro-factor">Dhan Yoga</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, 'Wealth');
+    </div>`, 'Wealth', 'Want to explore another area of your chart?', "Today's Rashifal");
 }
 
 function _insightChips(exclude) {
@@ -1452,7 +1646,7 @@ function goToInsightMarriage() {
         <span class="astro-factor">Guru Drishti</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _insightChips('Marriage'));
+    </div>`, _insightChips('Marriage'), 'What else does your birth chart reveal?', 'Your Life Ahead');
 }
 
 function goToInsightCareer() {
@@ -1468,7 +1662,7 @@ function goToInsightCareer() {
         <span class="astro-factor">Dasha Period</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _insightChips('Career'));
+    </div>`, _insightChips('Career'), 'What else does your birth chart reveal?', 'Your Life Ahead');
 }
 
 function goToInsightJob() {
@@ -1484,7 +1678,7 @@ function goToInsightJob() {
         <span class="astro-factor">Jupiter 10th Entry</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _insightChips('Job Change'));
+    </div>`, _insightChips('Job Change'), 'What else does your birth chart reveal?', 'Your Life Ahead');
 }
 
 function goToInsightTravel() {
@@ -1500,7 +1694,7 @@ function goToInsightTravel() {
         <span class="astro-factor">9th House Lord</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _insightChips('Travel Abroad'));
+    </div>`, _insightChips('Travel Abroad'), 'What else does your birth chart reveal?', 'Your Life Ahead');
 }
 
 function goToInsightHome() {
@@ -1516,7 +1710,7 @@ function goToInsightHome() {
         <span class="astro-factor">Dhan Yoga</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _insightChips('Buy a Home'));
+    </div>`, _insightChips('Buy a Home'), 'What else does your birth chart reveal?', 'Your Life Ahead');
 }
 
 function goToInsightLove() {
@@ -1532,7 +1726,756 @@ function goToInsightLove() {
         <span class="astro-factor">Navamsa Chart</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _insightChips('Love Life'));
+    </div>`, _insightChips('Love Life'), 'What else does your birth chart reveal?', 'Your Life Ahead');
+}
+
+function goToTalkJyotish() {
+  switchNav(1, document.getElementById('nav1'));
+  document.getElementById('appTitle').textContent = 'Jyotish Services';
+  const messages = document.getElementById('askMessages');
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>I want to talk to a Jyotish</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">To connect you with the right Jyotish, help me understand what you'd like to discuss.</div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">What do you want to know about?</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToJyotishTopic('Love & Relationships')">Love & Relationships</button>
+        <button class="chip" onclick="goToJyotishTopic('Career')">Career</button>
+        <button class="chip" onclick="goToJyotishTopic('Money')">Money</button>
+        <button class="chip" onclick="goToJyotishTopic('Health')">Health</button>
+        <button class="chip" onclick="goToJyotishTopic('Home & Family')">Home & Family</button>
+        <button class="chip" onclick="goToJyotishTopic('Life & Future')">Life & Future</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 1200);
+}
+
+function goToJyotishTopic(topic) {
+  const messages = document.getElementById('askMessages');
+
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>${topic}</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    const predictions = {
+      'Love & Relationships': `💕 <strong>Shukra is well-placed</strong> this month — a favourable period for emotional connections and matters of the heart. Existing relationships deepen with open communication, while singles may encounter a meaningful new connection. 🌹 Avoid permanent decisions before <strong>mid-April</strong>.`,
+      'Career': `⚡️ <strong>Budh (Mercury) supports you</strong> right now — sharp thinking, clear communication, ideal for pitching ideas or negotiating. However, <strong>Shani asks for patience</strong> — results from efforts made now will show in <strong>6–8 weeks</strong>. 💼 Stay consistent.`,
+      'Money': `💰 The financial picture is <strong>cautiously positive</strong>. Avoid speculative investments near-term — <strong>Guru's aspect on your 2nd house</strong> favours steady savings over quick gains. A pending payment or delayed income is likely to resolve soon. 🪙`,
+      'Health': `🌿 Energy levels are generally good, though the <strong>digestive system needs attention</strong>. Avoid irregular meal timings and excess heat in your diet. This is a good period to start a routine — <strong>consistency will bring visible results within a month</strong>. 💪`,
+      'Home & Family': `🏠 The home environment is <strong>calm and supportive</strong> right now. <strong>Chandra's placement</strong> favours honest, gentle conversations — a good time to resolve any lingering tensions with family. An elder in the family may need your attention soon. 🌙`,
+      'Life & Future': `🔮 You are in a <strong>transition phase</strong> — old patterns are clearing, new directions forming. <strong>Shani is asking you to define what you truly want.</strong> The next 12 months will be more purposeful if you commit to one clear goal now. ✨`,
+    };
+    const pred = predictions[topic] || predictions['Life & Future'];
+    const allTopics = ['Love & Relationships', 'Career', 'Money', 'Health', 'Home & Family', 'Life & Future'];
+    const remainingChips = allTopics.filter(t => t !== topic)
+      .map(t => `<button class="chip" onclick="goToJyotishTopic('${t}')">${t}</button>`).join('');
+    const footer = _kundaliCreated
+      ? `<div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+         <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">What else would you like to know?</p>
+         <div class="chips-row" style="margin:0;padding:8px 0">${remainingChips}</div>`
+      : `<div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+         <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">This is a general reading. A Kundali would make it specific to you.</p>
+         <div class="kundali-btn-row" style="padding-top:8px;padding-bottom:4px">
+           <button class="kundali-btn-yes" onclick="goToCreateKundaliForTopic('${topic}')">Create Kundali <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M9 18l6-6-6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+           <button class="kundali-btn-later" onclick="goToJyotishBook('${topic}')">Maybe later</button>
+         </div>
+         <div style="display:flex;align-items:center;gap:5px;padding:4px 0 8px">
+           <div style="width:20px;height:20px;border-radius:999px;background:#eeeeef;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+             <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/></svg>
+           </div>
+           <span style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-high);line-height:1.3">Already have a Kundali? Tap the <strong style="font-weight:600;opacity:1">+</strong> icon in the chat bar to upload the file.</span>
+         </div>`;
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">${pred}</div>
+      ${footer}
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 1200);
+}
+
+function _kundaliAddUserBubble(text) {
+  const messages = document.getElementById('askMessages');
+  const row = document.createElement('div');
+  row.className = 'msg-user-row';
+  row.style.animation = 'msgSlideIn 0.22s ease';
+  row.innerHTML = `<div class="msg-user"><p>${text}</p></div>`;
+  messages.appendChild(row);
+  scrollToBottom(messages);
+  return messages;
+}
+
+function _kundaliThinkingThen(messages, delay, fn) {
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+  setTimeout(() => { messages.removeChild(thinking); fn(); }, delay);
+}
+
+function goToCreateKundaliForTopic(topic) {
+  _kundaliTopic = topic;
+  goToCreateKundali();
+}
+
+function goToCreateKundali() {
+  const messages = _kundaliAddUserBubble('Create Kundali');
+  _kundaliThinkingThen(messages, 900, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">I have your date of birth as <strong>15 March 1995</strong>. Is this correct?</div>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToKundaliPlaceStep()">Yes, that's correct</button>
+        <button class="chip" onclick="goToKundaliChangeDob()">Change date</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  });
+}
+
+function goToKundaliChangeDob() {
+  const messages = _kundaliAddUserBubble('Change date');
+  _kundaliThinkingThen(messages, 600, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">Sure! Please tell me your date of birth.</div></div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'dob';
+    document.getElementById('chatPlaceholder').textContent = 'e.g. 24 August 1990...';
+  });
+}
+
+function _kundaliError(messages, msg, step, placeholder) {
+  _kundaliThinkingThen(messages, 500, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">${msg}</div></div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = step;
+    document.getElementById('chatPlaceholder').textContent = placeholder;
+  });
+}
+
+function _handleKundaliDob(dob, messages) {
+  const t = dob.trim();
+  if (t.length < 4 || !/\d/.test(t)) {
+    _kundaliError(messages,
+      `Hmm, that doesn't look like a date. Please enter something like <strong>15 August 1990</strong> or <strong>15/8/1990</strong>.`,
+      'dob', 'e.g. 24 August 1990...');
+    return;
+  }
+  if (/^\d{4}$/.test(t)) {
+    _kundaliError(messages,
+      `Looks like just a year — could you include the day and month too? Something like <strong>15 March 1990</strong>.`,
+      'dob', 'e.g. 24 August 1990...');
+    return;
+  }
+  _kundaliThinkingThen(messages, 700, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">Got it — <strong>${dob}</strong>. Is this correct?</div>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToKundaliPlaceStep()">Yes, that's correct</button>
+        <button class="chip" onclick="goToKundaliChangeDob()">Change date</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  });
+}
+
+function goToKundaliPlaceStep() {
+  const messages = _kundaliAddUserBubble('Yes, that\'s correct');
+  _kundaliThinkingThen(messages, 700, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">Where were you born?</div></div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'place';
+    document.getElementById('chatPlaceholder').textContent = 'Type your place of birth...';
+  });
+}
+
+function _handleKundaliPlace(place, messages) {
+  const t = place.trim();
+  if (t.length < 2) {
+    _kundaliError(messages,
+      `Please enter the city or town where you were born — even a short name like <strong>Pune</strong> or <strong>Surat</strong> works.`,
+      'place', 'Type your place of birth...');
+    return;
+  }
+  if (/^\d+$/.test(t)) {
+    _kundaliError(messages,
+      `That looks like a number — please enter a city or town name, like <strong>Mumbai</strong> or <strong>Bengaluru</strong>.`,
+      'place', 'Type your place of birth...');
+    return;
+  }
+  _kundaliPlace = place;
+  _kundaliThinkingThen(messages, 700, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">What time were you born?</div>
+      <div class="pred-body" style="padding-top:0;font-size:13px;color:var(--text-high);opacity:0.55;line-height:1.3">If you're not sure, an approximate time works too.</div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'time';
+    document.getElementById('chatPlaceholder').textContent = 'Type your time of birth...';
+  });
+}
+
+function _handleKundaliTime(time, messages) {
+  // Must contain digits
+  if (!/\d/.test(time)) {
+    _kundaliError(messages,
+      `Please enter a specific time with numbers — like <strong>4:30 PM</strong> or <strong>10:15 AM</strong>. An approximate time works fine too!`,
+      'time', 'e.g. 4:30 PM...');
+    return;
+  }
+  // Must look like a valid time (H:MM or HH:MM)
+  if (!/\d{1,2}[:.]\d{2}|\d{1,2}\s*(am|pm)/i.test(time)) {
+    _kundaliError(messages,
+      `That doesn't look like a time — try something like <strong>4:30 PM</strong> or <strong>10 AM</strong>.`,
+      'time', 'e.g. 4:30 PM...');
+    return;
+  }
+  // Ask for AM/PM if missing
+  if (!/am|pm/i.test(time)) {
+    _kundaliThinkingThen(messages, 600, () => {
+      const botRow = document.createElement('div');
+      botRow.className = 'msg-bot-row';
+      botRow.style.animation = 'msgSlideIn 0.22s ease';
+      botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">Just to confirm — is <strong>${time}</strong> in the morning (AM) or evening (PM)?</div></div>`;
+      messages.appendChild(botRow);
+      scrollToBottom(messages);
+      _kundaliStep = 'time';
+      document.getElementById('chatPlaceholder').textContent = 'Type your time of birth...';
+    });
+    return;
+  }
+  _kundaliTime = time;
+  _kundaliThinkingThen(messages, 1200, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">Your Kundali is being prepared.</div>
+      <div class="kundali-progress-row">
+        <div class="kundali-progress-track"><div class="kundali-progress-fill" id="kundaliProgressFill"></div></div>
+        <button class="kundali-progress-x" onclick="this.closest('.msg-bot-row').remove()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M12 4L4 12M4 4l8 8" stroke="#141414" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    document.getElementById('chatPlaceholder').textContent = 'Ask me anything...';
+
+    // Start fill animation
+    setTimeout(() => {
+      const fill = document.getElementById('kundaliProgressFill');
+      if (fill) fill.style.width = '100%';
+    }, 60);
+
+    // Show Kundali after fill completes
+    setTimeout(() => _showKundaliReady(messages), 3600);
+  });
+}
+
+function _showKundaliReady(messages) {
+  // Remove progress message
+  const prog = document.getElementById('kundaliProgressFill');
+  if (prog) prog.closest('.msg-bot-row')?.remove();
+
+  _kundaliCreated = true;
+  localStorage.setItem('kundali_state', 'done');
+
+  const topic = _kundaliTopic || 'Life & Future';
+  const place = _kundaliPlace || 'Delhi';
+  const timeStr = _kundaliTime || '4:56 PM';
+
+  const topicCtx = {
+    'Love & Relationships': {
+      question: 'You asked me about Love and marriage. What do you want to know?',
+      chips: ['Shaadi Kab?', 'Love or arrange?', 'My ideal life partner?']
+    },
+    'Career': {
+      question: 'You asked me about Career. What do you want to know?',
+      chips: ['Best time for promotion?', 'Career switch timing?', 'Business or job?']
+    },
+    'Money': {
+      question: 'You asked me about Money. What do you want to know?',
+      chips: ['Wealth period?', 'Best investment time?', 'Financial outlook 2026?']
+    },
+    'Health': {
+      question: 'You asked me about Health. What do you want to know?',
+      chips: ['Health challenges?', 'Energy cycles?', 'Best wellness window?']
+    },
+    'Home & Family': {
+      question: 'You asked me about Home and Family. What do you want to know?',
+      chips: ['Family harmony?', 'Moving homes?', 'Auspicious time?']
+    },
+    'Life & Future': {
+      question: 'What would you like to explore from your Kundali?',
+      chips: ['Major events 2026?', 'Life purpose?', "What's coming?"]
+    }
+  };
+  const ctx = topicCtx[topic] || topicCtx['Life & Future'];
+  const chipsHtml = ctx.chips.map(c => `<button class="chip">${c}</button>`).join('') +
+    `<button class="chip" onclick="goToKundaliMoreOptions('${topic}')">More options</button>`;
+  const checkIcon = (sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="10" fill="#25AB21"/><path d="M6 10.3l2.6 2.6 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+  const botRow = document.createElement('div');
+  botRow.className = 'msg-bot-row';
+  botRow.style.animation = 'msgSlideIn 0.22s ease';
+  botRow.innerHTML = `<div class="msg-bot">
+
+    <div class="pred-body">Your Kundali is ready!</div>
+
+    <div style="padding:8px 0">
+      <div class="kundali-status-card">
+        <div class="kundali-status-header">
+          <div class="kundali-status-name">Sneha</div>
+          <div class="kundali-status-meta">15 Mar 1995 · ${timeStr} · ${place}</div>
+          <div class="kundali-status-verified">
+            ${checkIcon(12)}
+            <span class="kundali-status-verified-text">Kundali verified · Lahiri Ayanamsa</span>
+          </div>
+        </div>
+        <div class="kundali-status-divider"></div>
+        <div class="kundali-status-table">
+          <div class="kundali-status-row">
+            <span class="kundali-status-label">Lagna Rashi</span>
+            <span class="kundali-status-value">Kanya</span>
+          </div>
+          <div class="kundali-status-row">
+            <span class="kundali-status-label">Janma Rashi</span>
+            <span class="kundali-status-value">Vrishabh</span>
+          </div>
+          <div class="kundali-status-row">
+            <span class="kundali-status-label">Current Dasha</span>
+            <span class="kundali-status-value">Shukra</span>
+          </div>
+          <div class="kundali-status-row">
+            <span class="kundali-status-label">Life path No.</span>
+            <span class="kundali-status-value">3</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pred-body" style="display:flex;flex-direction:column;gap:8px">
+      <span style="font-weight:700">⭐️ Shukra is in your 9th house today</span>
+      <span>Abhijit Muhurat: 12:04–12:52 PM — auspicious for starting new ventures, rituals, or important meetings.</span>
+    </div>
+
+    <div class="kundali-special-hd">⚡️ What's special in your Kundali</div>
+
+    <div class="bullet-list">
+      <div class="bullet-item">
+        <div class="bullet-item-row">${checkIcon(20)}<span class="bullet-item-title">Shukra Mahadasha</span></div>
+        <div class="bullet-item-body">a 20-year golden era (2023–2043) — rare planetary support for wealth, love and creativity.</div>
+      </div>
+      <div class="bullet-item">
+        <div class="bullet-item-row">${checkIcon(20)}<span class="bullet-item-title">Guru in Kanya</span></div>
+        <div class="bullet-item-body">own sign (natal placement) — A lifelong yogkarak planet.</div>
+      </div>
+      <div class="bullet-item">
+        <div class="bullet-item-row">${checkIcon(20)}<span class="bullet-item-title">Personal Year Number 8 (2026)</span></div>
+        <div class="bullet-item-body">A year of material success, recognition and financial milestones.</div>
+      </div>
+    </div>
+
+    <div style="padding:8px 0">
+      <button class="kundali-btn-yes" style="width:100%;flex:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M12 3v13M7 11l5 5 5-5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 20h16" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
+        Download Detailed Kundali
+      </button>
+    </div>
+
+    <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+    <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">${ctx.question}</p>
+    <div class="chips-row" style="margin:0;padding:8px 0">${chipsHtml}</div>
+
+  </div>`;
+  messages.appendChild(botRow);
+  scrollToBottom(messages);
+}
+
+function goToKundaliMoreOptions(currentTopic) {
+  const messages = document.getElementById('askMessages');
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>More options</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const allTopics = ['Love & Relationships', 'Career', 'Money', 'Health', 'Home & Family', 'Life & Future'];
+    const remaining = allTopics.filter(t => t !== currentTopic);
+    const chipsHtml = remaining.map(t => `<button class="chip" onclick="goToJyotishTopic('${t}')">${t}</button>`).join('');
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">What else would you like to explore?</div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">Choose a topic</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">${chipsHtml}</div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 500);
+}
+
+function goToJyotishBook(topic) {
+  const messages = document.getElementById('askMessages');
+
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>Maybe later</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    const allTopics = ['Love & Relationships', 'Career', 'Money', 'Health', 'Home & Family', 'Life & Future'];
+    const remaining = allTopics.filter(t => t !== topic);
+    const chipsHtml = remaining.map(t => `<button class="chip" onclick="goToJyotishTopic('${t}')">${t}</button>`).join('');
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">What else would you like to know about?</div>
+      <div class="chips-row" style="margin:0;padding:8px 0">${chipsHtml}</div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 400);
+}
+
+function goToMatchKundali() {
+  switchNav(1, document.getElementById('nav1'));
+  document.getElementById('appTitle').textContent = 'Jyotish Services';
+  const messages = document.getElementById('askMessages');
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>Match Kundali</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">Kundali matching checks <strong>36 gunas</strong> across 8 key areas — Varna, Vashya, Tara, Yoni, Maitri, Gana, Bhakoot and Nadi. A score of <strong>18 or above</strong> is considered compatible for marriage.</div>
+      <div class="pred-body">Share the birth details of both partners — date, time, and place of birth — and I'll calculate the Milan score along with a detailed compatibility report.</div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">Ready to check compatibility?</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToChat('Start Kundali matching — enter partner details')">Start Matching</button>
+        <button class="chip" onclick="goToInsightMarriage()">Marriage Timing</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 1200);
+}
+
+function goToMuharatFinder() {
+  switchNav(1, document.getElementById('nav1'));
+  document.getElementById('appTitle').textContent = 'Jyotish Services';
+  const messages = document.getElementById('askMessages');
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>Muharat Finder</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">A Muharat is an auspicious time chosen using planetary positions, Nakshatra, and Tithi. Tell me your event and I'll find the best window for it.</div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">What event are you planning?</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToMuharatResult('Wedding')">Wedding</button>
+        <button class="chip" onclick="goToMuharatResult('Business Launch')">Business Launch</button>
+        <button class="chip" onclick="goToMuharatResult('Property Purchase')">Property Purchase</button>
+        <button class="chip" onclick="goToMuharatResult('Vehicle Purchase')">Vehicle Purchase</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 1200);
+}
+
+const _muharatData = {
+  'Wedding': {
+    intro: 'Here are the best upcoming Muharat windows for your wedding — calculated using Nakshatra, Tithi, and planetary positions.',
+    title: 'Wedding muhurat in next 6 months',
+    slots: [
+      { month: 'May', day: '12', time: '10:20 AM – 11:05 AM', quality: '🌸 Uttam', badges: ['Mrigashira Nakshatra', 'Shukra Hora', 'No Yamaghanta', 'Shukla Paksha'] },
+      { month: 'May', day: '21', time: '2:15 PM – 3:00 PM',   quality: 'Shubh',    badges: ['Rohini Nakshatra', 'Guru Hora', 'No Rahu Kalam', 'Shukla Paksha'] },
+      { month: 'Jun', day: '06', time: '11:40 AM – 12:30 PM', quality: 'Shubh',    badges: ['Punarvasu Nakshatra', 'Budh Hora', 'No Yamaghanta', 'Shukla Paksha'] },
+    ]
+  },
+  'Business Launch': {
+    intro: 'Here are the most auspicious windows for launching your business in the coming months.',
+    title: 'Business launch muhurat in next 6 months',
+    slots: [
+      { month: 'Apr', day: '03', time: '9:15 AM – 10:00 AM',  quality: '🌸 Uttam', badges: ['Rohini Nakshatra', 'Budh Hora', 'No Rahu Kalam', 'Shukla Paksha'] },
+      { month: 'Apr', day: '14', time: '11:30 AM – 12:15 PM', quality: 'Shubh',    badges: ['Hasta Nakshatra', 'Shukra Hora', 'No Yamaghanta', 'Shukla Paksha'] },
+      { month: 'May', day: '08', time: '10:45 AM – 11:30 AM', quality: 'Shubh',    badges: ['Ashwini Nakshatra', 'Guru Hora', 'No Rahu Kalam', 'Shukla Paksha'] },
+    ]
+  },
+  'Property Purchase': {
+    intro: 'These are the best windows to complete a property transaction in the coming months.',
+    title: 'Property purchase muhurat in next 6 months',
+    slots: [
+      { month: 'Apr', day: '09', time: '11:00 AM – 11:45 AM', quality: 'Shubh',    badges: ['Hasta Nakshatra', 'Guru Hora', 'No Yamaghanta', 'Shukla Paksha'] },
+      { month: 'May', day: '02', time: '10:10 AM – 11:00 AM', quality: '🌸 Uttam', badges: ['Pushya Nakshatra', 'Shani Hora', 'No Rahu Kalam', 'Shukla Paksha'] },
+      { month: 'Jun', day: '11', time: '9:30 AM – 10:20 AM',  quality: 'Shubh',    badges: ['Uttara Phalguni', 'Surya Hora', 'No Yamaghanta', 'Shukla Paksha'] },
+    ]
+  },
+  'Vehicle Purchase': {
+    intro: 'These are the most auspicious windows for purchasing a vehicle in the coming months.',
+    title: 'Vehicle purchase muhurat in next 6 months',
+    slots: [
+      { month: 'Mar', day: '31', time: '8:45 AM – 9:30 AM',   quality: 'Shubh',    badges: ['Ashwini Nakshatra', 'Mangal Hora', 'No Yamaghanta', 'Shukla Paksha'] },
+      { month: 'Apr', day: '18', time: '11:15 AM – 12:00 PM', quality: '🌸 Uttam', badges: ['Pushya Nakshatra', 'Guru Hora', 'No Rahu Kalam', 'Shukla Paksha'] },
+      { month: 'May', day: '06', time: '10:30 AM – 11:15 AM', quality: 'Shubh',    badges: ['Hasta Nakshatra', 'Budh Hora', 'No Yamaghanta', 'Shukla Paksha'] },
+    ]
+  },
+};
+
+function _muharatSlots(slots, showBadges) {
+  return slots.map(s => `
+    <div class="muharat-row">
+      <div class="muharat-date">
+        <span class="muharat-month">${s.month}</span>
+        <span class="muharat-day">${s.day}</span>
+      </div>
+      <div class="muharat-details${showBadges ? ' muharat-details--why' : ''}">
+        <div class="muharat-timequality">
+          <span class="muharat-time">${s.time}</span>
+          <span class="muharat-quality">${s.quality}</span>
+        </div>
+        ${showBadges && s.badges ? `
+        <div class="muharat-badges-row">
+          <span class="muharat-badge">${s.badges[0]}</span>
+          <span class="muharat-badge">${s.badges[1]}</span>
+        </div>
+        <div class="muharat-badges-row">
+          <span class="muharat-badge">${s.badges[2]}</span>
+          <span class="muharat-badge">${s.badges[3]}</span>
+        </div>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+function goToMuharatResult(event) {
+  const messages = document.getElementById('askMessages');
+
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>${event}</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const data = _muharatData[event] || _muharatData['Wedding'];
+    const others = Object.keys(_muharatData).filter(e => e !== event);
+    const chipsHtml = `<button class="chip" onclick="goToMuharatWhy('${event}')">Why is this auspicious?</button>` +
+      others.map(e => `<button class="chip" onclick="goToMuharatResult('${e}')">${e}</button>`).join('');
+
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    const muharatKundaliUpsell = _kundaliCreated ? '' : `
+      <div class="muharat-kundali-upsell">
+        <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+        <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">This is a general reading. A Kundali would make it specific to you.</p>
+        <div class="kundali-btn-row" style="padding-top:8px;padding-bottom:4px">
+          <button class="kundali-btn-yes" onclick="_kundaliTopic='${event}';goToCreateKundali()">Create Kundali <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M9 18l6-6-6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="kundali-btn-later" onclick="this.closest('.muharat-kundali-upsell').style.display='none';goToMuharatEventChips('${event}', true)">Maybe later</button>
+        </div>
+        <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-high);line-height:1.3;margin:4px 0 8px">Already have a Kundali? Tap the <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;background:#eeeeef;vertical-align:middle;margin:0 1px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/></svg></span> in the chat bar to upload the file.</p>
+      </div>`;
+    const chipsFooter = _kundaliCreated ? `
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">Looking for a Muhurat for a different event?</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">${chipsHtml}</div>` : '';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">${data.intro}</div>
+      <p class="muharat-section-title">${data.title}</p>
+      <div class="muharat-list">${_muharatSlots(data.slots)}</div>
+      ${muharatKundaliUpsell}
+      ${chipsFooter}
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 1400);
+}
+
+function goToMuharatEventChips(event, includeWhy) {
+  const messages = document.getElementById('askMessages');
+  const others = Object.keys(_muharatData).filter(e => e !== event);
+  const chipsHtml = (includeWhy ? `<button class="chip" onclick="goToMuharatWhy('${event}')">Why is this auspicious?</button>` : '') +
+    others.map(e => `<button class="chip" onclick="goToMuharatResult('${e}')">${e}</button>`).join('');
+  const botRow = document.createElement('div');
+  botRow.className = 'msg-bot-row';
+  botRow.style.animation = 'msgSlideIn 0.22s ease';
+  botRow.innerHTML = `<div class="msg-bot">
+    <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+    <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">Looking for a Muhurat for a different event?</p>
+    <div class="chips-row" style="margin:0;padding:8px 0">${chipsHtml}</div>
+  </div>`;
+  messages.appendChild(botRow);
+  scrollToBottom(messages);
+}
+
+function goToMuharatWhy(event) {
+  const messages = document.getElementById('askMessages');
+
+  const userRow = document.createElement('div');
+  userRow.className = 'msg-user-row';
+  userRow.style.animation = 'msgSlideIn 0.22s ease';
+  userRow.innerHTML = `<div class="msg-user"><p>Why is this auspicious?</p></div>`;
+  messages.appendChild(userRow);
+  scrollToBottom(messages);
+
+  const thinking = document.createElement('div');
+  thinking.className = 'msg-bot-row';
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
+  messages.appendChild(thinking);
+  scrollToBottom(messages);
+
+  setTimeout(() => {
+    messages.removeChild(thinking);
+    const data = _muharatData[event] || _muharatData['Wedding'];
+    const others = Object.keys(_muharatData).filter(e => e !== event);
+    const chipsHtml = others.map(e => `<button class="chip" onclick="goToMuharatResult('${e}')">${e}</button>`).join('');
+
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    const muharatWhyUpsell = _kundaliCreated ? '' : `
+      <div class="muharat-kundali-upsell">
+        <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+        <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">This is a general reading. A Kundali would make it specific to you.</p>
+        <div class="kundali-btn-row" style="padding-top:8px;padding-bottom:4px">
+          <button class="kundali-btn-yes" onclick="_kundaliTopic='${event}';goToCreateKundali()">Create Kundali <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="flex-shrink:0"><path d="M9 18l6-6-6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="kundali-btn-later" onclick="this.closest('.muharat-kundali-upsell').style.display='none';goToMuharatEventChips('${event}', false)">Maybe later</button>
+        </div>
+        <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-high);line-height:1.3;margin:4px 0 8px">Already have a Kundali? Tap the <span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;background:#eeeeef;vertical-align:middle;margin:0 1px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/></svg></span> in the chat bar to upload the file.</p>
+      </div>`;
+    const whyChipsFooter = _kundaliCreated ? `
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;letter-spacing:0;margin:8px 0">Looking for a Muhurat for a different event?</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">${chipsHtml}</div>` : '';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">Let's break it down simply.</div>
+      <p class="muharat-section-title">${data.title}</p>
+      <div class="muharat-list">${_muharatSlots(data.slots, true)}</div>
+      ${muharatWhyUpsell}
+      ${whyChipsFooter}
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  }, 1400);
 }
 
 function _todayChips(exclude) {
@@ -1561,7 +2504,7 @@ function goToTodayCareer() {
         <span class="astro-factor">Daily Nakshatra</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _todayChips('Career'));
+    </div>`, _todayChips('Career'), 'How are other areas of your day looking?', 'How Is Today Looking?');
 }
 
 function goToTodayLove() {
@@ -1577,7 +2520,7 @@ function goToTodayLove() {
         <span class="astro-factor">Nakshatra of the Day</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _todayChips('Love & Relationships'));
+    </div>`, _todayChips('Love & Relationships'), 'How are other areas of your day looking?', 'How Is Today Looking?');
 }
 
 function goToTodayFinance() {
@@ -1593,7 +2536,7 @@ function goToTodayFinance() {
         <span class="astro-factor">Dhan Bhava</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _todayChips('Finance'));
+    </div>`, _todayChips('Finance'), 'How are other areas of your day looking?', 'How Is Today Looking?');
 }
 
 function goToTodayHealth() {
@@ -1609,7 +2552,7 @@ function goToTodayHealth() {
         <span class="astro-factor">Ayurvedic Calendar</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _todayChips('Health'));
+    </div>`, _todayChips('Health'), 'How are other areas of your day looking?', 'How Is Today Looking?');
 }
 
 function goToTodayFamily() {
@@ -1625,13 +2568,14 @@ function goToTodayFamily() {
         <span class="astro-factor">Panchanga Reading</span>
       </div>
       <div class="astro-reviewer"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="flex-shrink:0"><circle cx="6" cy="6" r="6" fill="#25AB21"/><path d="M3.5 6.2l1.6 1.6 3-3" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>Reviewed by - Pt. Anil Sharma, 22 yrs</div>
-    </div>`, _todayChips('Family'));
+    </div>`, _todayChips('Family'), 'How are other areas of your day looking?', 'How Is Today Looking?');
 }
 
 function simulateBotReply(messages, text) {
   const thinking = document.createElement('div');
   thinking.className = 'msg-bot-row';
-  thinking.innerHTML = `<div class="msg-bot"><p class="thinking-dots"><span>.</span><span>.</span><span>.</span></p></div>`;
+  thinking.style.padding = '6px 0';
+  thinking.innerHTML = `<video width="32" height="32" autoplay loop muted playsinline style="border-radius:50%;flex-shrink:0;display:block"><source src="https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/states/Light/Thinking_state.mp4" type="video/mp4"></video>`;
   messages.appendChild(thinking);
   scrollToBottom(messages);
 
