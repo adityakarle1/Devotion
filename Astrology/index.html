@@ -1096,7 +1096,12 @@ let _kundaliChartStyle = null; // 'north' | 'south'
 let _kundaliCreated   = false; // true once kundali has been generated
 
 // ── Match Kundali state ──
-let _mkName  = null;
+let _mkForSelf = true;   // true = user vs someone; false = two other people
+let _mk1Name  = null;    // Person 1 (only used when _mkForSelf=false)
+let _mk1Dob   = null;
+let _mk1Place = null;
+let _mk1Time  = null;
+let _mkName  = null;     // Person 2 (always the "other" person)
 let _mkDob   = null;
 let _mkPlace = null;
 let _mkTime  = null;
@@ -1196,6 +1201,10 @@ function sendMessage() {
     if (step === 'place')        _handleKundaliPlace(text, messages);
     if (step === 'time')         _handleKundaliTime(text, messages);
     if (step === 'rashifalTime') _handleRashifalTime(text, messages);
+    if (step === 'mk1Name')      _handleMk1Name(text, messages);
+    if (step === 'mk1Dob')       _handleMk1Dob(text, messages);
+    if (step === 'mk1Place')     _handleMk1Place(text, messages);
+    if (step === 'mk1Time')      _handleMk1Time(text, messages);
     if (step === 'mkName')       _handleMkName(text, messages);
     if (step === 'mkDob')        _handleMkDob(text, messages);
     if (step === 'mkPlace')      _handleMkPlace(text, messages);
@@ -2755,18 +2764,218 @@ function goToJyotishBook(topic) {
 function goToMatchKundali() {
   switchNav(1, document.getElementById('nav1'));
   document.getElementById('appTitle').textContent = 'Match Kundali';
+  // Reset all mk state
+  _mkForSelf = true;
+  _mk1Name = _mk1Dob = _mk1Place = _mk1Time = null;
+  _mkName  = _mkDob  = _mkPlace  = _mkTime  = null;
   const messages = _kundaliAddUserBubble('Match Kundali');
   _kundaliThinkingThen(messages, 1000, () => {
-    const plusIcon = `<span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;background:#eeeeef;vertical-align:middle;margin:0 1px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/></svg></span>`;
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
     botRow.innerHTML = `<div class="msg-bot">
       <div class="pred-body">Kundali matching checks <strong>36 gunas</strong> across 8 key areas — Varna, Vashya, Tara, Yoni, Maitri, Gana, Bhakoot and Nadi. A score of <strong>18 or above</strong> is considered compatible for marriage.</div>
-      <div class="pred-body">I'll use your birth details for the match. I'll need a few details about the other person, or you can upload their Kundali directly.</div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">Who are you matching?</p>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToMkForMe()">For me</button>
+        <button class="chip" onclick="goToMkForOthers()">For two others</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  });
+}
+
+function _mkPlusIcon() {
+  return `<span style="display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:999px;background:#eeeeef;vertical-align:middle;margin:0 1px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none"><line x1="12" y1="5" x2="12" y2="19" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/><line x1="5" y1="12" x2="19" y2="12" stroke="#170054" stroke-width="2.5" stroke-linecap="round"/></svg></span>`;
+}
+
+function goToMkForMe() {
+  _mkForSelf = true;
+  const messages = _kundaliAddUserBubble('For me');
+  _kundaliThinkingThen(messages, 800, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">I'll use your birth details for the match. I'll need a few details about the other person.</div>
       <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
       <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">What is the person's name?</p>
-      <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${plusIcon} in the chat bar to upload the file.</p>
+      <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'mkName';
+    document.getElementById('chatPlaceholder').textContent = 'Type their name…';
+    focusChatInput();
+  });
+}
+
+function goToMkForOthers() {
+  _mkForSelf = false;
+  const messages = _kundaliAddUserBubble('For two others');
+  _kundaliThinkingThen(messages, 800, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">I'll need details of both people. Let's start with Person 1.</div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">What is Person 1's name?</p>
+      <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'mk1Name';
+    document.getElementById('chatPlaceholder').textContent = 'Type their name…';
+    focusChatInput();
+  });
+}
+
+// ── Person 1 handlers (two-others path) ──
+
+function _handleMk1Name(name, messages) {
+  const t = name.trim();
+  if (t.length < 2 || /^\d+$/.test(t)) {
+    _kundaliError(messages, `Please enter a valid name.`, 'mk1Name', 'Type their name…');
+    return;
+  }
+  _mk1Name = t;
+  _kundaliThinkingThen(messages, 600, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">What is ${escapeHtml(_mk1Name)}'s date of birth?</div></div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'mk1Dob';
+    document.getElementById('chatPlaceholder').textContent = 'e.g. 22 June 1993…';
+    focusChatInput();
+  });
+}
+
+function _handleMk1Dob(dob, messages) {
+  const t = dob.trim();
+  if (t.length < 4 || !/\d/.test(t)) {
+    _kundaliError(messages, `That doesn't look like a date. Try something like <strong>22 June 1993</strong> or <strong>22/6/1993</strong>.`, 'mk1Dob', 'e.g. 22 June 1993…');
+    return;
+  }
+  if (/^\d{4}$/.test(t)) {
+    _kundaliError(messages, `Looks like just a year — please include the day and month too, like <strong>22 June 1993</strong>.`, 'mk1Dob', 'e.g. 22 June 1993…');
+    return;
+  }
+  _mk1Dob = t;
+  _kundaliThinkingThen(messages, 700, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">Got it — <strong>${escapeHtml(_mk1Dob)}</strong>. Is this correct?</div>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToMk1PlaceStep()">Yes, that's correct</button>
+        <button class="chip" onclick="goToMk1ChangeDob()">Change date</button>
+      </div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+  });
+}
+
+function goToMk1ChangeDob() {
+  const messages = _kundaliAddUserBubble('Change date');
+  _kundaliThinkingThen(messages, 600, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">Sure! Please enter ${escapeHtml(_mk1Name || 'their')}'s date of birth.</div></div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'mk1Dob';
+    document.getElementById('chatPlaceholder').textContent = 'e.g. 22 June 1993…';
+    focusChatInput();
+  });
+}
+
+function goToMk1PlaceStep() {
+  const messages = _kundaliAddUserBubble('Yes, that\'s correct');
+  _kundaliThinkingThen(messages, 700, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">Where was ${escapeHtml(_mk1Name || 'they')} born?</div><div class="pred-body" style="padding-top:0;font-size:13px;color:var(--text-high);opacity:0.55;line-height:1.3">Mention City, State.</div></div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'mk1Place';
+    document.getElementById('chatPlaceholder').textContent = 'Type their place of birth…';
+    focusChatInput();
+  });
+}
+
+function _handleMk1Place(place, messages) {
+  const t = place.trim();
+  if (t.length < 2) {
+    _kundaliError(messages, `Please enter the city or town — even a short name like <strong>Pune</strong> or <strong>Surat</strong> works.`, 'mk1Place', 'Type their place of birth…');
+    return;
+  }
+  if (/^\d+$/.test(t)) {
+    _kundaliError(messages, `That looks like a number — please enter a city or town name.`, 'mk1Place', 'Type their place of birth…');
+    return;
+  }
+  _mk1Place = t;
+  _kundaliThinkingThen(messages, 700, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">What time was ${escapeHtml(_mk1Name || 'they')} born?</div>
+      <div class="pred-body" style="padding-top:0;font-size:13px;color:var(--text-high);opacity:0.55;line-height:1.3">An approximate time works too.</div>
+    </div>`;
+    messages.appendChild(botRow);
+    scrollToBottom(messages);
+    _kundaliStep = 'mk1Time';
+    document.getElementById('chatPlaceholder').textContent = 'Type their time of birth…';
+    focusChatInput();
+  });
+}
+
+function _handleMk1Time(time, messages) {
+  if (!/\d/.test(time)) {
+    _kundaliError(messages, `Please enter a time with numbers — like <strong>6:30 AM</strong> or <strong>10:15 PM</strong>.`, 'mk1Time', 'e.g. 6:30 AM…');
+    return;
+  }
+  if (!/\d{1,2}[:.]\d{2}|\d{1,2}\s*(am|pm)/i.test(time)) {
+    _kundaliError(messages, `That doesn't look like a time — try <strong>6:30 AM</strong> or <strong>10 PM</strong>.`, 'mk1Time', 'e.g. 6:30 AM…');
+    return;
+  }
+  if (!/am|pm/i.test(time)) {
+    _kundaliThinkingThen(messages, 600, () => {
+      const botRow = document.createElement('div');
+      botRow.className = 'msg-bot-row';
+      botRow.style.animation = 'msgSlideIn 0.22s ease';
+      botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">Just to confirm — is <strong>${escapeHtml(time)}</strong> in the morning (AM) or evening (PM)?</div></div>`;
+      messages.appendChild(botRow);
+      scrollToBottom(messages);
+      _kundaliStep = 'mk1Time';
+      document.getElementById('chatPlaceholder').textContent = 'e.g. 6:30 AM…';
+    });
+    return;
+  }
+  _mk1Time = time;
+  goToMkPerson2();
+}
+
+function goToMkPerson2() {
+  const messages = document.getElementById('askMessages');
+  _kundaliThinkingThen(messages, 800, () => {
+    const botRow = document.createElement('div');
+    botRow.className = 'msg-bot-row';
+    botRow.style.animation = 'msgSlideIn 0.22s ease';
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">Got it! Now let's get Person 2's details.</div>
+      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">What is Person 2's name?</p>
+      <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
     </div>`;
     messages.appendChild(botRow);
     scrollToBottom(messages);
@@ -2796,33 +3005,41 @@ function goToMkUploadKundali() {
 }
 
 function goToMkSimulateUpload(el) {
-  // Simulate upload success
+  // Determine which person this upload is for
+  const forPerson1 = !_mkForSelf && _mk1Name === null;
   el.style.background = 'var(--sparkle-20)';
   el.style.borderColor = 'var(--sparkle-50)';
   el.innerHTML = `<svg width="28" height="28" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" style="fill:var(--sparkle-50)"/><path d="M6 10.3l2.6 2.6 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span class="mk-upload-label" style="color:var(--sparkle-50)">Kundali uploaded</span>
-    <span class="mk-upload-sub">partner_kundali.pdf · Extracting details…</span>`;
+    <span class="mk-upload-sub">kundali.pdf · Extracting details…</span>`;
   const messages = document.getElementById('askMessages');
   _kundaliThinkingThen(messages, 1800, () => {
-    _mkName  = 'Arjun';
-    _mkDob   = '22 June 1993';
-    _mkPlace = 'Jaipur';
-    _mkTime  = '6:30 AM';
+    // Mock extracted data — person 1 gets one name, person 2 another
+    const mockName  = forPerson1 ? 'Priya'       : 'Arjun';
+    const mockDob   = forPerson1 ? '14 March 1995' : '22 June 1993';
+    const mockPlace = forPerson1 ? 'Pune'         : 'Jaipur';
+    const mockTime  = forPerson1 ? '8:15 AM'      : '6:30 AM';
+    if (forPerson1) {
+      _mk1Name = mockName; _mk1Dob = mockDob; _mk1Place = mockPlace; _mk1Time = mockTime;
+    } else {
+      _mkName = mockName; _mkDob = mockDob; _mkPlace = mockPlace; _mkTime = mockTime;
+    }
+    const label = forPerson1 ? 'Person 1' : ((_mkForSelf) ? 'the other person' : 'Person 2');
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
     botRow.innerHTML = `<div class="msg-bot">
-      <div class="pred-body">I found the following details in the Kundali:</div>
+      <div class="pred-body">I found the following details for ${label}:</div>
       <div class="kundali-status-card" style="margin:4px 0 8px">
         <div class="kundali-status-table">
-          <div class="kundali-status-row"><span class="kundali-status-label">Name</span><span class="kundali-status-value">Arjun</span></div>
-          <div class="kundali-status-row"><span class="kundali-status-label">Date of birth</span><span class="kundali-status-value">22 June 1993</span></div>
-          <div class="kundali-status-row"><span class="kundali-status-label">Time of birth</span><span class="kundali-status-value">6:30 AM</span></div>
-          <div class="kundali-status-row"><span class="kundali-status-label">Place of birth</span><span class="kundali-status-value">Jaipur</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">Name</span><span class="kundali-status-value">${escapeHtml(mockName)}</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">Date of birth</span><span class="kundali-status-value">${escapeHtml(mockDob)}</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">Time of birth</span><span class="kundali-status-value">${escapeHtml(mockTime)}</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">Place of birth</span><span class="kundali-status-value">${escapeHtml(mockPlace)}</span></div>
         </div>
       </div>
       <div class="chips-row" style="margin:0;padding:8px 0">
-        <button class="chip" onclick="goToMkConfirmDetails()">Yes, looks correct</button>
+        <button class="chip" onclick="${forPerson1 ? 'goToMkPerson2()' : 'goToMkConfirmDetails()'}">Yes, looks correct</button>
         <button class="chip" onclick="goToMkEnterDetails()">Enter manually instead</button>
       </div>
     </div>`;
@@ -2981,16 +3198,42 @@ function goToMkConfirmDetails() {
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
-    botRow.innerHTML = `<div class="msg-bot">
-      <div class="pred-body">Here are the details I have for ${escapeHtml(_mkName || 'your partner')}:</div>
-      <div class="kundali-status-card" style="margin:4px 0 8px">
-        <div class="kundali-status-table">
-          <div class="kundali-status-row"><span class="kundali-status-label">Name</span><span class="kundali-status-value">${escapeHtml(_mkName || '—')}</span></div>
-          <div class="kundali-status-row"><span class="kundali-status-label">Date of birth</span><span class="kundali-status-value">${escapeHtml(_mkDob || '—')}</span></div>
-          <div class="kundali-status-row"><span class="kundali-status-label">Time of birth</span><span class="kundali-status-value">${escapeHtml(_mkTime || '—')}</span></div>
-          <div class="kundali-status-row"><span class="kundali-status-label">Place of birth</span><span class="kundali-status-value">${escapeHtml(_mkPlace || '—')}</span></div>
+    const mkStatusRow = (label, val) =>
+      `<div class="kundali-status-row"><span class="kundali-status-label">${label}</span><span class="kundali-status-value">${escapeHtml(val || '—')}</span></div>`;
+    let detailsHtml;
+    if (_mkForSelf) {
+      detailsHtml = `
+        <div class="pred-body">Here are the details I have for ${escapeHtml(_mkName || 'the other person')}:</div>
+        <div class="kundali-status-card" style="margin:4px 0 8px">
+          <div class="kundali-status-table">
+            ${mkStatusRow('Name', _mkName)}
+            ${mkStatusRow('Date of birth', _mkDob)}
+            ${mkStatusRow('Time of birth', _mkTime)}
+            ${mkStatusRow('Place of birth', _mkPlace)}
+          </div>
+        </div>`;
+    } else {
+      detailsHtml = `
+        <div class="pred-body">Here are the details for both people:</div>
+        <div class="pred-body" style="font-family:'JioType',sans-serif;font-size:14px;font-weight:600;color:var(--text-high);margin:8px 0 4px">Person 1 — ${escapeHtml(_mk1Name || '—')}</div>
+        <div class="kundali-status-card" style="margin:0 0 8px">
+          <div class="kundali-status-table">
+            ${mkStatusRow('Date of birth', _mk1Dob)}
+            ${mkStatusRow('Time of birth', _mk1Time)}
+            ${mkStatusRow('Place of birth', _mk1Place)}
+          </div>
         </div>
-      </div>
+        <div class="pred-body" style="font-family:'JioType',sans-serif;font-size:14px;font-weight:600;color:var(--text-high);margin:8px 0 4px">Person 2 — ${escapeHtml(_mkName || '—')}</div>
+        <div class="kundali-status-card" style="margin:0 0 8px">
+          <div class="kundali-status-table">
+            ${mkStatusRow('Date of birth', _mkDob)}
+            ${mkStatusRow('Time of birth', _mkTime)}
+            ${mkStatusRow('Place of birth', _mkPlace)}
+          </div>
+        </div>`;
+    }
+    botRow.innerHTML = `<div class="msg-bot">
+      ${detailsHtml}
       <div class="chips-row" style="margin:0;padding:8px 0">
         <button class="chip" onclick="goToMkCalculate()">Calculate Match</button>
         <button class="chip" onclick="goToMkEnterDetails()">Change details</button>
@@ -3000,6 +3243,46 @@ function goToMkConfirmDetails() {
     scrollToBottom(messages);
     document.getElementById('chatPlaceholder').textContent = 'Ask me anything...';
   });
+}
+
+function goToMkEnterDetails() {
+  // Restart detail collection from the beginning of the relevant path
+  if (_mkForSelf) {
+    _mkName = _mkDob = _mkPlace = _mkTime = null;
+    const messages = _kundaliAddUserBubble('Change details');
+    _kundaliThinkingThen(messages, 600, () => {
+      const botRow = document.createElement('div');
+      botRow.className = 'msg-bot-row';
+      botRow.style.animation = 'msgSlideIn 0.22s ease';
+      botRow.innerHTML = `<div class="msg-bot">
+        <div class="pred-body">Sure — what is the person's name?</div>
+        <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
+      </div>`;
+      messages.appendChild(botRow);
+      scrollToBottom(messages);
+      _kundaliStep = 'mkName';
+      document.getElementById('chatPlaceholder').textContent = 'Type their name…';
+      focusChatInput();
+    });
+  } else {
+    _mk1Name = _mk1Dob = _mk1Place = _mk1Time = null;
+    _mkName  = _mkDob  = _mkPlace  = _mkTime  = null;
+    const messages = _kundaliAddUserBubble('Change details');
+    _kundaliThinkingThen(messages, 600, () => {
+      const botRow = document.createElement('div');
+      botRow.className = 'msg-bot-row';
+      botRow.style.animation = 'msgSlideIn 0.22s ease';
+      botRow.innerHTML = `<div class="msg-bot">
+        <div class="pred-body">Sure — let's start again with Person 1. What is their name?</div>
+        <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
+      </div>`;
+      messages.appendChild(botRow);
+      scrollToBottom(messages);
+      _kundaliStep = 'mk1Name';
+      document.getElementById('chatPlaceholder').textContent = 'Type their name…';
+      focusChatInput();
+    });
+  }
 }
 
 function goToMkCalculate() {
@@ -3028,8 +3311,8 @@ function _showMkResult(messages) {
   const prog = document.getElementById('mkProgressFill');
   if (prog) prog.closest('.msg-bot-row')?.remove();
 
-  const p1 = 'Sneha';
-  const p2 = escapeHtml(_mkName || 'Arjun');
+  const p1 = _mkForSelf ? 'You' : escapeHtml(_mk1Name || 'Person 1');
+  const p2 = escapeHtml(_mkName || (_mkForSelf ? 'them' : 'Person 2'));
 
   const checkIcon = (sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="10" style="fill:var(--success)"/><path d="M6 10.3l2.6 2.6 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const warnIcon = (sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="10" style="fill:var(--warning)"/><path d="M10 6v5M10 13.5v1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>`;
