@@ -1019,7 +1019,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
           </div>
           <div class="chat-input-actions">
             <div class="chat-action-start">
-              <button class="action-icon-btn" title="Attachment">
+              <button class="action-icon-btn" title="Attachment" onclick="handleChatAttachment()">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <line x1="12" y1="5" x2="12" y2="19" stroke="#170054" stroke-width="2" stroke-linecap="round"/>
                   <line x1="5" y1="12" x2="19" y2="12" stroke="#170054" stroke-width="2" stroke-linecap="round"/>
@@ -1142,6 +1142,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Chat input ──
+function handleChatAttachment() {
+  const step = _kundaliStep || '';
+  if (step.startsWith('mk')) {
+    goToMkUploadKundali();
+  }
+  // other contexts: no-op for now
+}
+
 function focusChatInput() {
   const inp = document.getElementById('chatInput');
   if (inp) { inp.style.display = 'block'; inp.focus(); document.getElementById('chatPlaceholder').style.display = 'none'; }
@@ -2797,16 +2805,31 @@ function goToMkForMe() {
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
-    botRow.innerHTML = `<div class="msg-bot">
-      <div class="pred-body">I'll use your birth details for the match. I'll need a few details about the other person.</div>
-      <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
-      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">What is the person's name?</p>
-      <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
-    </div>`;
-    messages.appendChild(botRow);
-    scrollToBottom(messages);
-    _kundaliStep = 'mkName';
-    document.getElementById('chatPlaceholder').textContent = 'Type their name…';
+    if (_kundaliCreated) {
+      // User's kundali already exists — go straight to Person 2
+      botRow.innerHTML = `<div class="msg-bot">
+        <div class="pred-body">I'll use your Kundali for the match. I'll need a few details about the other person.</div>
+        <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+        <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">What is the person's name?</p>
+        <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
+      </div>`;
+      messages.appendChild(botRow);
+      scrollToBottom(messages);
+      _kundaliStep = 'mkName';
+      document.getElementById('chatPlaceholder').textContent = 'Type their name…';
+    } else {
+      // No kundali — collect user's own details first (stored in _mk1*)
+      botRow.innerHTML = `<div class="msg-bot">
+        <div class="pred-body">To match your Kundali, I'll need your birth details first. Then I'll ask for the other person's.</div>
+        <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
+        <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">What is your name?</p>
+        <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have your Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
+      </div>`;
+      messages.appendChild(botRow);
+      scrollToBottom(messages);
+      _kundaliStep = 'mk1Name';
+      document.getElementById('chatPlaceholder').textContent = 'Type your name…';
+    }
     focusChatInput();
   });
 }
@@ -2836,16 +2859,21 @@ function goToMkForOthers() {
 
 function _handleMk1Name(name, messages) {
   const t = name.trim();
+  const placeholder = (_mkForSelf && !_kundaliCreated) ? 'Type your name…' : 'Type their name…';
   if (t.length < 2 || /^\d+$/.test(t)) {
-    _kundaliError(messages, `Please enter a valid name.`, 'mk1Name', 'Type their name…');
+    _kundaliError(messages, `Please enter a valid name.`, 'mk1Name', placeholder);
     return;
   }
   _mk1Name = t;
+  const isSelf = _mkForSelf && !_kundaliCreated;
   _kundaliThinkingThen(messages, 600, () => {
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
-    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">What is ${escapeHtml(_mk1Name)}'s date of birth?</div></div>`;
+    botRow.innerHTML = `<div class="msg-bot">
+      <div class="pred-body">${isSelf ? 'What is your date of birth?' : `What is ${escapeHtml(_mk1Name)}'s date of birth?`}</div>
+      <div class="pred-body" style="padding-top:0;font-size:13px;color:var(--text-high);opacity:0.55;line-height:1.3">e.g. 22 June 1993</div>
+    </div>`;
     messages.appendChild(botRow);
     scrollToBottom(messages);
     _kundaliStep = 'mk1Dob';
@@ -2882,12 +2910,13 @@ function _handleMk1Dob(dob, messages) {
 }
 
 function goToMk1ChangeDob() {
+  const isSelf = _mkForSelf && !_kundaliCreated;
   const messages = _kundaliAddUserBubble('Change date');
   _kundaliThinkingThen(messages, 600, () => {
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
-    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">Sure! Please enter ${escapeHtml(_mk1Name || 'their')}'s date of birth.</div></div>`;
+    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">${isSelf ? 'Sure! Please enter your date of birth.' : `Sure! Please enter ${escapeHtml(_mk1Name || 'their')}'s date of birth.`}</div></div>`;
     messages.appendChild(botRow);
     scrollToBottom(messages);
     _kundaliStep = 'mk1Dob';
@@ -2897,28 +2926,31 @@ function goToMk1ChangeDob() {
 }
 
 function goToMk1PlaceStep() {
+  const isSelf = _mkForSelf && !_kundaliCreated;
   const messages = _kundaliAddUserBubble('Yes, that\'s correct');
   _kundaliThinkingThen(messages, 700, () => {
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
-    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">Where was ${escapeHtml(_mk1Name || 'they')} born?</div><div class="pred-body" style="padding-top:0;font-size:13px;color:var(--text-high);opacity:0.55;line-height:1.3">Mention City, State.</div></div>`;
+    botRow.innerHTML = `<div class="msg-bot"><div class="pred-body">${isSelf ? 'Where were you born?' : `Where was ${escapeHtml(_mk1Name || 'they')} born?`}</div><div class="pred-body" style="padding-top:0;font-size:13px;color:var(--text-high);opacity:0.55;line-height:1.3">Mention City, State.</div></div>`;
     messages.appendChild(botRow);
     scrollToBottom(messages);
     _kundaliStep = 'mk1Place';
-    document.getElementById('chatPlaceholder').textContent = 'Type their place of birth…';
+    document.getElementById('chatPlaceholder').textContent = isSelf ? 'Type your place of birth…' : 'Type their place of birth…';
     focusChatInput();
   });
 }
 
 function _handleMk1Place(place, messages) {
+  const isSelf = _mkForSelf && !_kundaliCreated;
+  const placeHolder = isSelf ? 'Type your place of birth…' : 'Type their place of birth…';
   const t = place.trim();
   if (t.length < 2) {
-    _kundaliError(messages, `Please enter the city or town — even a short name like <strong>Pune</strong> or <strong>Surat</strong> works.`, 'mk1Place', 'Type their place of birth…');
+    _kundaliError(messages, `Please enter the city or town — even a short name like <strong>Pune</strong> or <strong>Surat</strong> works.`, 'mk1Place', placeHolder);
     return;
   }
   if (/^\d+$/.test(t)) {
-    _kundaliError(messages, `That looks like a number — please enter a city or town name.`, 'mk1Place', 'Type their place of birth…');
+    _kundaliError(messages, `That looks like a number — please enter a city or town name.`, 'mk1Place', placeHolder);
     return;
   }
   _mk1Place = t;
@@ -2927,13 +2959,13 @@ function _handleMk1Place(place, messages) {
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
     botRow.innerHTML = `<div class="msg-bot">
-      <div class="pred-body">What time was ${escapeHtml(_mk1Name || 'they')} born?</div>
+      <div class="pred-body">${isSelf ? 'What time were you born?' : `What time was ${escapeHtml(_mk1Name || 'they')} born?`}</div>
       <div class="pred-body" style="padding-top:0;font-size:13px;color:var(--text-high);opacity:0.55;line-height:1.3">An approximate time works too.</div>
     </div>`;
     messages.appendChild(botRow);
     scrollToBottom(messages);
     _kundaliStep = 'mk1Time';
-    document.getElementById('chatPlaceholder').textContent = 'Type their time of birth…';
+    document.getElementById('chatPlaceholder').textContent = isSelf ? 'Type your time of birth…' : 'Type their time of birth…';
     focusChatInput();
   });
 }
@@ -2965,15 +2997,20 @@ function _handleMk1Time(time, messages) {
 }
 
 function goToMkPerson2() {
+  const isSelfFlow = _mkForSelf && !_kundaliCreated;
+  const intro = isSelfFlow
+    ? `Got it! Now I need a few details about the person you're matching with.`
+    : `Got it! Now let's get Person 2's details.`;
+  const question = isSelfFlow ? `What is the other person's name?` : `What is Person 2's name?`;
   const messages = document.getElementById('askMessages');
   _kundaliThinkingThen(messages, 800, () => {
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
     botRow.innerHTML = `<div class="msg-bot">
-      <div class="pred-body">Got it! Now let's get Person 2's details.</div>
+      <div class="pred-body">${intro}</div>
       <div style="height:0.5px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
-      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">What is Person 2's name?</p>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:8px 0">${question}</p>
       <p style="font-family:'JioType',sans-serif;font-size:13px;font-weight:400;color:var(--text-low);line-height:1.3;margin:4px 0 8px">Already have their Kundali? Tap the ${_mkPlusIcon()} in the chat bar to upload the file.</p>
     </div>`;
     messages.appendChild(botRow);
@@ -2985,13 +3022,17 @@ function goToMkPerson2() {
 }
 
 function goToMkUploadKundali() {
-  const messages = _kundaliAddUserBubble('Upload Kundali');
+  const isSelfUpload = _mkForSelf && !_kundaliCreated && !_mk1Name;
+  const intro = isSelfUpload
+    ? `Upload your Kundali PDF or image and I'll extract the details automatically.`
+    : `Upload their Kundali PDF or image and I'll extract the details automatically.`;
+  const messages = document.getElementById('askMessages');
   _kundaliThinkingThen(messages, 700, () => {
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
     botRow.innerHTML = `<div class="msg-bot">
-      <div class="pred-body">Upload their Kundali PDF or image and I'll extract the details automatically.</div>
+      <div class="pred-body">${intro}</div>
       <label class="mk-upload-area" onclick="goToMkSimulateUpload(this)">
         <svg class="mk-upload-icon" width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="var(--primary-50)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span class="mk-upload-label">Tap to upload</span>
@@ -3004,8 +3045,8 @@ function goToMkUploadKundali() {
 }
 
 function goToMkSimulateUpload(el) {
-  // Determine which person this upload is for
-  const forPerson1 = !_mkForSelf && _mk1Name === null;
+  // Determine which person this upload is for based on current step
+  const forPerson1 = !!_kundaliStep && _kundaliStep.startsWith('mk1');
   el.style.background = 'var(--sparkle-20)';
   el.style.borderColor = 'var(--sparkle-50)';
   el.innerHTML = `<svg width="28" height="28" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" style="fill:var(--sparkle-50)"/><path d="M6 10.3l2.6 2.6 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3023,7 +3064,8 @@ function goToMkSimulateUpload(el) {
     } else {
       _mkName = mockName; _mkDob = mockDob; _mkPlace = mockPlace; _mkTime = mockTime;
     }
-    const label = forPerson1 ? 'Person 1' : ((_mkForSelf) ? 'the other person' : 'Person 2');
+    const isSelfUpload = forPerson1 && _mkForSelf && !_kundaliCreated;
+    const label = isSelfUpload ? 'you' : forPerson1 ? 'Person 1' : (_mkForSelf ? 'the other person' : 'Person 2');
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
@@ -3060,6 +3102,7 @@ function _handleMkName(name, messages) {
     botRow.style.animation = 'msgSlideIn 0.22s ease';
     botRow.innerHTML = `<div class="msg-bot">
       <div class="pred-body">What is ${escapeHtml(_mkName)}'s date of birth?</div>
+      <div class="pred-body" style="padding-top:0;font-size:13px;color:var(--text-high);opacity:0.55;line-height:1.3">e.g. 22 June 1993</div>
     </div>`;
     messages.appendChild(botRow);
     scrollToBottom(messages);
@@ -3200,12 +3243,33 @@ function goToMkConfirmDetails() {
     const mkStatusRow = (label, val) =>
       `<div class="kundali-status-row"><span class="kundali-status-label">${label}</span><span class="kundali-status-value">${escapeHtml(val || '—')}</span></div>`;
     let detailsHtml;
-    if (_mkForSelf) {
+    if (_mkForSelf && _kundaliCreated) {
+      // User's kundali already exists — only show Person 2
       detailsHtml = `
         <div class="pred-body">Here are the details I have for ${escapeHtml(_mkName || 'the other person')}:</div>
         <div class="kundali-status-card" style="margin:4px 0 8px">
           <div class="kundali-status-table">
             ${mkStatusRow('Name', _mkName)}
+            ${mkStatusRow('Date of birth', _mkDob)}
+            ${mkStatusRow('Time of birth', _mkTime)}
+            ${mkStatusRow('Place of birth', _mkPlace)}
+          </div>
+        </div>`;
+    } else if (_mkForSelf && !_kundaliCreated) {
+      // User's own details collected in-flow — show both
+      detailsHtml = `
+        <div class="pred-body">Here are the details for both of you:</div>
+        <div class="pred-body" style="font-family:'JioType',sans-serif;font-size:14px;font-weight:600;color:var(--text-high);margin:8px 0 4px">You — ${escapeHtml(_mk1Name || '—')}</div>
+        <div class="kundali-status-card" style="margin:0 0 8px">
+          <div class="kundali-status-table">
+            ${mkStatusRow('Date of birth', _mk1Dob)}
+            ${mkStatusRow('Time of birth', _mk1Time)}
+            ${mkStatusRow('Place of birth', _mk1Place)}
+          </div>
+        </div>
+        <div class="pred-body" style="font-family:'JioType',sans-serif;font-size:14px;font-weight:600;color:var(--text-high);margin:8px 0 4px">Other person — ${escapeHtml(_mkName || '—')}</div>
+        <div class="kundali-status-card" style="margin:0 0 8px">
+          <div class="kundali-status-table">
             ${mkStatusRow('Date of birth', _mkDob)}
             ${mkStatusRow('Time of birth', _mkTime)}
             ${mkStatusRow('Place of birth', _mkPlace)}
@@ -3310,7 +3374,7 @@ function _showMkResult(messages) {
   const prog = document.getElementById('mkProgressFill');
   if (prog) prog.closest('.msg-bot-row')?.remove();
 
-  const p1 = _mkForSelf ? 'You' : escapeHtml(_mk1Name || 'Person 1');
+  const p1 = (_mkForSelf && _kundaliCreated) ? 'You' : escapeHtml(_mk1Name || 'Person 1');
   const p2 = escapeHtml(_mkName || (_mkForSelf ? 'them' : 'Person 2'));
 
   const checkIcon = (sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="10" style="fill:var(--success)"/><path d="M6 10.3l2.6 2.6 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
