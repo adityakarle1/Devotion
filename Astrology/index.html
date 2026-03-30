@@ -550,7 +550,6 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .mk-score-ring {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   width: 88px; height: 88px; border-radius: 50%;
-  background: conic-gradient(var(--success) 0% 77.7%, var(--grey-40) 77.7% 100%);
   flex-shrink: 0;
 }
 .mk-score-inner {
@@ -3349,15 +3348,15 @@ function _showMkResult(messages) {
 
     <!-- Score ring + label -->
     <div class="mk-score-row">
-      <div class="mk-score-ring">
+      <div class="mk-score-ring" style="background:conic-gradient(${total >= 18 ? 'var(--success)' : total >= 12 ? 'var(--warning)' : 'var(--error)'} 0% ${(total/36*100).toFixed(1)}%, var(--grey-40) ${(total/36*100).toFixed(1)}% 100%)">
         <div class="mk-score-inner">
           <span class="mk-score-num">${total}</span>
           <span class="mk-score-denom">of 36</span>
         </div>
       </div>
       <div class="mk-score-meta">
-        <div class="mk-score-label">Excellent Match</div>
-        <div class="mk-score-desc">Strong compatibility across most Ashtkoot categories. Highly recommended for marriage.</div>
+        <div class="mk-score-label">${total >= 28 ? 'Excellent Match' : total >= 18 ? 'Good Match' : total >= 12 ? 'Average Match' : 'Low Compatibility'}</div>
+        <div class="mk-score-desc">${total >= 28 ? 'Strong compatibility across most Ashtkoot categories. Highly recommended for marriage.' : total >= 18 ? 'Good compatibility overall. Minor differences can be resolved with understanding.' : 'Moderate compatibility. Careful consideration and remedies advised before marriage.'}</div>
       </div>
     </div>
 
@@ -3370,9 +3369,9 @@ function _showMkResult(messages) {
         </div>
         <div class="kundali-status-divider"></div>
         <div class="kundali-status-table">
-          <div class="kundali-status-row"><span class="kundali-status-label">Sneha's Rashi</span><span class="kundali-status-value">Vrishabh (Taurus)</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">${p1}'s Rashi</span><span class="kundali-status-value">Vrishabh (Taurus)</span></div>
           <div class="kundali-status-row"><span class="kundali-status-label">${p2}'s Rashi</span><span class="kundali-status-value">Mithun (Gemini)</span></div>
-          <div class="kundali-status-row"><span class="kundali-status-label">Sneha's Nakshatra</span><span class="kundali-status-value">Rohini</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">${p1}'s Nakshatra</span><span class="kundali-status-value">Rohini</span></div>
           <div class="kundali-status-row"><span class="kundali-status-label">${p2}'s Nakshatra</span><span class="kundali-status-value">Mrigashira</span></div>
           <div class="kundali-status-row"><span class="kundali-status-label">Mangal Dosha</span><span class="kundali-status-value">Cancelled</span></div>
         </div>
@@ -3419,6 +3418,9 @@ function mkReveal(section) {
   if (!card) return;
   card.querySelector('[data-fold="mk' + section + '"]')?.remove();
 
+  const p1 = _mkForSelf ? 'You' : (_mk1Name || 'Person 1');
+  const p2 = _mkName || (_mkForSelf ? 'them' : 'Person 2');
+
   const checkIcon = (sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="10" style="fill:var(--success)"/><path d="M6 10.3l2.6 2.6 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const warnIcon = (sz) => `<svg width="${sz}" height="${sz}" viewBox="0 0 20 20" fill="none" style="flex-shrink:0;margin-top:1px"><circle cx="10" cy="10" r="10" style="fill:var(--warning)"/><path d="M10 6v5M10 13.5v1" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>`;
 
@@ -3457,7 +3459,7 @@ function mkReveal(section) {
       </div>
       <div class="bullet-item">
         <div class="bullet-item-row">${checkIcon(20)}<span class="bullet-item-title">Gana Koota — compatible</span></div>
-        <div class="bullet-item-body">Manav (Sneha) and Deva (${escapeHtml(_mkName || 'partner')}) Gana have a 4/6 compatibility — occasional personality differences are expected but manageable with communication.</div>
+        <div class="bullet-item-body">Manav (${escapeHtml(p1)}) and Deva (${escapeHtml(p2)}) Gana have a 4/6 compatibility — occasional personality differences are expected but manageable with communication.</div>
       </div>
       <div class="bullet-item">
         <div class="bullet-item-row">${warnIcon(20)}<span class="bullet-item-title">Yoni Koota — moderate</span></div>
