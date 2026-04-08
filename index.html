@@ -53,20 +53,25 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   position: fixed; top: 0; left: 0; bottom: 0;
   z-index: 100;
   display: flex; flex-direction: column;
+  transition: width 0.25s ease;
+  overflow: hidden;
 }
+.sidebar.collapsed { width: 52px; }
 .sidebar-logo {
   padding: 0 18px 20px;
   display: flex; align-items: center; gap: 8px;
+  flex-shrink: 0;
 }
+.sidebar.collapsed .sidebar-logo { padding: 0 0 20px; justify-content: center; }
 .sidebar-logo-dot {
   display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
-  width: 20px; height: 20px;
+  width: 20px; height: 20px; flex-shrink: 0;
 }
 .sidebar-logo-dot span { border-radius: 50%; }
-.sidebar-app-name { font-size: 13px; font-weight: 700; color: var(--text-high); }
-.sidebar-app-sub  { font-size: 10px; color: var(--text-disabled); font-weight: 500; }
-.sidebar-divider  { height: 1px; background: var(--stroke-subtle); margin: 0 18px 12px; }
-.sidebar-label    { font-size: 10px; font-weight: 700; color: var(--text-disabled); letter-spacing: 0.08em; text-transform: uppercase; padding: 0 18px 8px; }
+.sidebar-app-name { font-size: 13px; font-weight: 700; color: var(--text-high); white-space: nowrap; }
+.sidebar-app-sub  { font-size: 10px; color: var(--text-disabled); font-weight: 500; white-space: nowrap; }
+.sidebar-divider  { height: 1px; background: var(--stroke-subtle); margin: 0 18px 12px; flex-shrink: 0; }
+.sidebar-label    { font-size: 10px; font-weight: 700; color: var(--text-disabled); letter-spacing: 0.08em; text-transform: uppercase; padding: 0 18px 8px; white-space: nowrap; }
 .nav-item {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 18px;
@@ -74,17 +79,36 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   font-size: 13px; font-weight: 500; color: var(--text-low);
   border-left: 3px solid transparent;
   transition: all 0.15s;
+  flex-shrink: 0; white-space: nowrap;
 }
+.sidebar.collapsed .nav-item { padding: 10px 0; justify-content: center; }
 .nav-item:hover { background: var(--grey-20); color: var(--text-high); }
 .nav-item.active { background: var(--primary-20); color: var(--primary-50); border-left-color: var(--primary-50); font-weight: 700; }
 .nav-item .nav-icon { width: 18px; height: 18px; flex-shrink: 0; color: var(--grey-60); }
 .nav-item.active .nav-icon { color: var(--primary-50); }
-.sidebar-footer { margin-top: auto; padding: 12px 18px 0; font-size: 10px; color: var(--text-disabled); border-top: 1px solid var(--stroke-subtle); }
+.nav-label { transition: opacity 0.15s; }
+.sidebar.collapsed .nav-label,
+.sidebar.collapsed .sidebar-app-name,
+.sidebar.collapsed .sidebar-app-sub,
+.sidebar.collapsed .sidebar-label,
+.sidebar.collapsed .sidebar-footer { opacity: 0; pointer-events: none; }
+.sidebar-footer { margin-top: auto; padding: 12px 18px 0; font-size: 10px; color: var(--text-disabled); border-top: 1px solid var(--stroke-subtle); white-space: nowrap; }
 .sidebar-footer span { display: block; margin-top: 4px; }
+/* Toggle button */
+.sidebar-toggle {
+  position: absolute; top: 28px; right: -12px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--white); border: 1px solid var(--stroke-subtle);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 101;
+  transition: transform 0.25s ease;
+}
+.sidebar.collapsed .sidebar-toggle { transform: rotate(180deg); right: -12px; }
 
 /* ━━ MAIN ━━ */
 .main {
-  margin-left: 200px;
+  margin-left: 0;
   flex: 1;
   display: flex;
   align-items: flex-start;
@@ -227,7 +251,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 /* Surface/minimal bg · rounded-tl-tr-bl · sharp bottom-right (tail) */
 .msg-user-row { display: flex; justify-content: flex-end; }
 .msg-user {
-  background: #f5f5f6;
+  background: var(--grey-20);
   border-radius: 24px 24px 0 24px;
   padding: 12px 16px;
   max-width: 240px;
@@ -235,7 +259,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .msg-user p {
   font-family: 'JioType', sans-serif;
   font-size: 16px; font-weight: 400;
-  color: #0c0d10;
+  color: var(--text-high);
   line-height: 1.3; margin: 0;
 }
 .feedback-row { display: flex; gap: 6px; margin-top: 4px; margin-left: 36px; }
@@ -265,8 +289,8 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   cursor: pointer; white-space: nowrap; transition: opacity 0.15s;
 }
 .yn-btn:hover { opacity: 0.85; }
-.yn-btn-no  { background: #e7e9ff; color: #170054; }
-.yn-btn-yes { background: #3900ad; color: #ffffff; }
+.yn-btn-no  { background: var(--surface-ghost-icon); color: var(--icon-medium); }
+.yn-btn-yes { background: var(--surface-bold); color: #ffffff; }
 
 /* ── Annual Horoscope Cards ── */
 .annual-horo-wrap { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 4px; }
@@ -282,21 +306,21 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; flex-shrink: 0;
 }
-.annual-horo-card-title { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 700; color: #0c0d10; }
-.annual-horo-card-subtitle { font-family: 'JioType', sans-serif; font-size: 11px; color: #6e717c; margin-top: 1px; }
+.annual-horo-card-title { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 700; color: var(--text-high); }
+.annual-horo-card-subtitle { font-family: 'JioType', sans-serif; font-size: 11px; color: var(--text-low); margin-top: 1px; }
 .annual-horo-stars { display: flex; gap: 3px; margin-left: auto; }
 .annual-horo-star { font-size: 13px; }
-.annual-horo-body { font-family: 'JioType', sans-serif; font-size: 13px; color: #3a3c46; line-height: 1.55; margin-bottom: 10px; }
+.annual-horo-body { font-family: 'JioType', sans-serif; font-size: 13px; color: var(--text-high); line-height: 1.55; margin-bottom: 10px; }
 .annual-lucky-row { display: flex; flex-wrap: wrap; gap: 6px; }
 .annual-lucky-pill {
   height: 26px; padding: 0 10px; border-radius: 999px;
-  background: #f0f0ff; color: #3535f3;
+  background: var(--primary-20); color: var(--primary-50);
   font-family: 'JioType', sans-serif; font-size: 11px; font-weight: 600;
   display: flex; align-items: center;
 }
 .annual-download-btn {
   width: 100%; height: 52px; border-radius: 999px; border: none;
-  background: linear-gradient(135deg, #3535f3 0%, #7b2ff7 100%);
+  background: linear-gradient(135deg, var(--primary-50) 0%, #7b2ff7 100%);
   color: #fff; font-family: 'JioType', sans-serif;
   font-size: 15px; font-weight: 700; cursor: pointer;
   display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -304,11 +328,11 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   box-shadow: 0 4px 16px rgba(53,53,243,0.32);
 }
 .annual-download-btn:hover { opacity: 0.9; }
-.annual-confirm-wrap { background: #f5f5ff; border-radius: 16px; padding: 14px 16px; margin-top: 4px; }
+.annual-confirm-wrap { background: var(--primary-20); border-radius: 16px; padding: 14px 16px; margin-top: 4px; }
 .annual-confirm-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(53,53,243,0.08); }
 .annual-confirm-row:last-child { border-bottom: none; }
-.annual-confirm-label { font-family: 'JioType', sans-serif; font-size: 11px; font-weight: 700; color: #6e717c; text-transform: uppercase; letter-spacing: 0.4px; }
-.annual-confirm-value { font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 600; color: #0c0d10; }
+.annual-confirm-label { font-family: 'JioType', sans-serif; font-size: 11px; font-weight: 700; color: var(--text-low); text-transform: uppercase; letter-spacing: 0.4px; }
+.annual-confirm-value { font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-high); }
 
 /* ── Festival Banner Card ── */
 .fest-banner {
@@ -341,36 +365,36 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   padding: 4px 10px; border-radius: 999px;
   text-transform: uppercase;
 }
-.fest-banner-days-badge.today { background: #e53935; }
+.fest-banner-days-badge.today { background: var(--error); }
 .fest-banner-days-badge.tomorrow { background: #f7ab20; color: #1a0a00; }
 .fest-banner-body {
   padding: 14px 16px 16px;
 }
 .fest-banner-name {
   font-family: 'JioType', sans-serif; font-size: 20px; font-weight: 900;
-  color: #0c0d10; letter-spacing: -0.4px; line-height: 1.1;
+  color: var(--text-high); letter-spacing: -0.4px; line-height: 1.1;
 }
 .fest-banner-date {
   font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 600;
-  color: #6e717c; margin-top: 3px;
+  color: var(--text-low); margin-top: 3px;
 }
 .fest-banner-desc {
-  font-family: 'JioType', sans-serif; font-size: 13px; color: #3a3c46;
+  font-family: 'JioType', sans-serif; font-size: 13px; color: var(--text-high);
   line-height: 1.6; margin-top: 10px;
 }
 .fest-banner-detail {
-  font-family: 'JioType', sans-serif; font-size: 13px; color: #3a3c46;
+  font-family: 'JioType', sans-serif; font-size: 13px; color: var(--text-high);
   line-height: 1.6; margin-top: 8px; display: none;
 }
 .fest-banner-detail.open { display: block; }
 .fest-read-more {
-  margin-top: 12px; background: none; border: 1.5px solid #3535f3;
-  color: #3535f3; font-family: 'JioType', sans-serif;
+  margin-top: 12px; background: none; border: 1.5px solid var(--primary-50);
+  color: var(--primary-50); font-family: 'JioType', sans-serif;
   font-size: 13px; font-weight: 700; height: 36px; padding: 0 16px;
   border-radius: 999px; cursor: pointer; display: flex;
   align-items: center; gap: 6px; transition: background 0.15s;
 }
-.fest-read-more:hover { background: #f0f0ff; }
+.fest-read-more:hover { background: var(--primary-20); }
 
 /* ── Festival Detail Screen (s6) ── */
 .fest-detail-screen { background: #fff; min-height: 100%; padding-bottom: 32px; }
@@ -397,7 +421,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px;
   background: rgba(255,255,255,0.22); color: #fff; backdrop-filter: blur(6px);
 }
-.fest-detail-hero-badge.today    { background: #e53935; }
+.fest-detail-hero-badge.today    { background: var(--error); }
 .fest-detail-hero-badge.tomorrow { background: #f7ab20; color: #1a0a00; }
 .fest-detail-hero-name {
   font-family: 'JioType', sans-serif; font-size: 26px; font-weight: 900;
@@ -411,13 +435,13 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .fest-detail-section { padding: 20px 0 0; }
 .fest-detail-section-title {
   font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700;
-  color: #0c0d10; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+  color: var(--text-high); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
 }
 .fest-detail-para {
-  font-family: 'JioType', sans-serif; font-size: 14px; color: #3a3c46;
+  font-family: 'JioType', sans-serif; font-size: 14px; color: var(--text-high);
   line-height: 1.7;
 }
-.fest-detail-divider { height: 1px; background: #f0f0f0; margin: 20px 0 0; }
+.fest-detail-divider { height: 1px; background: var(--stroke-subtle); margin: 20px 0 0; }
 
 /* Ritual steps */
 .fest-ritual-list { display: flex; flex-direction: column; gap: 12px; }
@@ -429,7 +453,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   background: var(--primary-20); color: var(--primary-50);
 }
 .fest-ritual-text {
-  font-family: 'JioType', sans-serif; font-size: 14px; color: #3a3c46;
+  font-family: 'JioType', sans-serif; font-size: 14px; color: var(--text-high);
   line-height: 1.6; padding-top: 4px;
 }
 
@@ -437,40 +461,40 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .fest-pooja-list { display: flex; flex-direction: column; }
 .fest-pooja-row {
   display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px 0; border-bottom: 1px solid #f0f0f0;
+  padding: 12px 0; border-bottom: 1px solid var(--stroke-subtle);
 }
 .fest-pooja-row:last-child { border-bottom: none; }
 .fest-pooja-time-col { width: 72px; flex-shrink: 0; }
 .fest-pooja-time {
-  font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 700; color: #3535f3;
+  font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 700; color: var(--primary-50);
 }
-.fest-pooja-ampm { font-family: 'JioType', sans-serif; font-size: 10px; color: #9395a0; }
+.fest-pooja-ampm { font-family: 'JioType', sans-serif; font-size: 10px; color: var(--text-disabled); }
 .fest-pooja-info-col { flex: 1; }
 .fest-pooja-name {
-  font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 700; color: #0c0d10;
+  font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 700; color: var(--text-high);
 }
 .fest-pooja-desc {
-  font-family: 'JioType', sans-serif; font-size: 12px; color: #6e717c; margin-top: 2px; line-height: 1.5;
+  font-family: 'JioType', sans-serif; font-size: 12px; color: var(--text-low); margin-top: 2px; line-height: 1.5;
 }
 .fest-pooja-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: #e7e9ff;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--surface-ghost-icon);
   margin-top: 5px; flex-shrink: 0;
 }
-.fest-pooja-dot.active { background: #3535f3; box-shadow: 0 0 0 3px rgba(53,53,243,0.15); }
+.fest-pooja-dot.active { background: var(--primary-50); box-shadow: 0 0 0 3px rgba(53,53,243,0.15); }
 
 /* Do's / Don'ts */
 .fest-dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .fest-dd-col { border-radius: 14px; padding: 14px 12px; }
-.fest-dd-col.dos  { background: #f0faf4; }
+.fest-dd-col.dos  { background: var(--sparkle-20); }
 .fest-dd-col.donts { background: #fff4f4; }
 .fest-dd-col-title {
   font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 700;
   margin-bottom: 10px; display: flex; align-items: center; gap: 5px;
 }
-.fest-dd-col.dos  .fest-dd-col-title { color: #1a7a4a; }
-.fest-dd-col.donts .fest-dd-col-title { color: #c0392b; }
+.fest-dd-col.dos  .fest-dd-col-title { color: var(--success); }
+.fest-dd-col.donts .fest-dd-col-title { color: var(--error); }
 .fest-dd-item {
-  font-family: 'JioType', sans-serif; font-size: 12px; color: #3a3c46;
+  font-family: 'JioType', sans-serif; font-size: 12px; color: var(--text-high);
   line-height: 1.55; padding: 3px 0; display: flex; gap: 5px;
 }
 .fest-dd-icon { flex-shrink: 0; font-size: 11px; margin-top: 2px; }
@@ -478,11 +502,11 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 /* Shubh Upay chips */
 .fest-upay-list { display: flex; flex-direction: column; gap: 10px; }
 .fest-upay-item {
-  background: #f5f5ff; border-radius: 12px; padding: 12px 14px;
+  background: var(--primary-20); border-radius: 12px; padding: 12px 14px;
   display: flex; gap: 10px; align-items: flex-start;
 }
 .fest-upay-icon { font-size: 18px; flex-shrink: 0; }
-.fest-upay-text { font-family: 'JioType', sans-serif; font-size: 13px; color: #3a3c46; line-height: 1.55; }
+.fest-upay-text { font-family: 'JioType', sans-serif; font-size: 13px; color: var(--text-high); line-height: 1.55; }
 
 /* ── VOICE screen ── */
 .voice-screen {
@@ -631,7 +655,23 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   width: 280px;
   flex-shrink: 0;
   padding-top: 48px;
+  position: relative;
+  transition: width 0.25s ease;
+  overflow: hidden;
 }
+.annotations.collapsed { width: 32px; }
+.annotations.collapsed .anno-card { opacity: 0; pointer-events: none; }
+/* Annotations toggle button — mirrors sidebar toggle but on left edge */
+.anno-toggle {
+  position: absolute; top: 48px; left: -12px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--white); border: 1px solid var(--stroke-subtle);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; z-index: 10;
+  transition: transform 0.25s ease;
+}
+.annotations.collapsed .anno-toggle { transform: rotate(180deg); }
 .anno-card {
   background: var(--white);
   border-radius: 16px;
@@ -721,7 +761,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   padding: 54px 16px 0;
   font-family: 'JioType', sans-serif;
   font-size: 22px; font-weight: 900;
-  color: #0c0d10; letter-spacing: -0.4px; line-height: 1.1;
+  color: var(--text-high); letter-spacing: -0.4px; line-height: 1.1;
 }
 
 /* ━━ TODAY SCREEN ━━ */
@@ -846,7 +886,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .live-thumb {
   width: 100%; height: 164px;
   position: relative;
-  background: linear-gradient(160deg, #0a0020 0%, #1a0055 45%, #2d0090 75%, #3535f3 100%);
+  background: linear-gradient(160deg, #0a0020 0%, #1a0055 45%, #2d0090 75%, var(--primary-50) 100%);
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
@@ -862,10 +902,24 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .live-badge {
   position: absolute; top: 10px; left: 10px;
   display: flex; align-items: center; gap: 5px;
-  background: #fa2f40;
+  background: var(--error);
   border-radius: 999px; padding: 4px 9px 4px 7px;
   font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.07em;
   box-shadow: 0 2px 8px rgba(250,47,64,0.5);
+}
+.live-badge-inline {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--error);
+  border-radius: 999px; padding: 4px 9px 4px 7px;
+  font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.07em;
+  vertical-align: middle; flex-shrink: 0;
+}
+.recorded-badge-inline {
+  display: inline-flex; align-items: center;
+  background: var(--text-high);
+  border-radius: 999px; padding: 4px 9px;
+  font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.07em;
+  vertical-align: middle; flex-shrink: 0;
 }
 .live-dot {
   width: 6px; height: 6px; border-radius: 50%; background: #fff;
@@ -968,7 +1022,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .darshan-video-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 .darshan-video-thumb {
   position: absolute; inset: 0;
-  background: linear-gradient(160deg, #0a0020 0%, #1a0055 40%, #2d0090 75%, #3535f3 100%);
+  background: linear-gradient(160deg, #0a0020 0%, #1a0055 40%, #2d0090 75%, var(--primary-50) 100%);
   display: flex; align-items: center; justify-content: center;
 }
 .darshan-play-btn {
@@ -980,7 +1034,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   flex-shrink: 0;
 }
 .darshan-video-wrap:hover .darshan-play-btn { transform: scale(1.06); }
-.darshan-live-overlay { position:absolute; top:12px; right:12px; background:#f50031; border-radius:4px; padding:2px 4px; display:flex; align-items:center; gap:4px; font-family:'JioType',sans-serif; font-size:10px; font-weight:500; color:#fff; z-index:2; line-height:1; letter-spacing:0; }
+.darshan-live-overlay { position:absolute; top:12px; right:12px; background:var(--error); border-radius:999px; padding:4px 9px 4px 7px; display:flex; align-items:center; gap:5px; font-family:'JioType',sans-serif; font-size:10px; font-weight:700; color:#fff; z-index:2; line-height:1; letter-spacing:0.07em; }
 .darshan-live-dot { width:6px; height:6px; border-radius:999px; background:#fff; flex-shrink:0; }
 
 /* Player card wrapper */
@@ -996,7 +1050,12 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .darsh-timing-card {
   display: flex; align-items: center; gap: 18px;
   animation: fadeDown 0.3s ease both;
+  cursor: pointer; border-radius: 12px; padding: 8px 12px;
+  border: 1px solid var(--surface-moderate);
+  transition: background 0.15s;
 }
+.darsh-timing-card:hover { background: rgba(0,0,0,0.04); }
+.darsh-timing-chevron { flex-shrink: 0; color: var(--grey-60); }
 .darsh-timing-badge { width: 44px; flex-shrink: 0; }
 .darsh-timing-val  { font-family:'JioType',sans-serif; font-size:16px; font-weight:500; color:var(--text-high); line-height:1.3; }
 .darsh-timing-ampm { font-family:'JioType',sans-serif; font-size:12px; font-weight:400; color:var(--text-low); line-height:1.3; opacity:0.65; margin-top:2px; }
@@ -1006,17 +1065,17 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .darsh-live-pill   { display:inline-flex; align-items:center; gap:4px; font-family:'JioType',sans-serif; font-size:10px; font-weight:500; color:#fff; background:#f50031; border-radius:4px; padding:2px 4px; flex-shrink:0; line-height:1; letter-spacing:0; }
 .darsh-live-pill-dot { width:6px; height:6px; border-radius:999px; background:#fff; flex-shrink:0; }
 .darsh-timing-action {
-  width:32px; height:32px; border-radius:50%; background:#e7e9ff;
+  width:32px; height:32px; border-radius:50%; background:var(--surface-ghost-icon);
   display:flex; align-items:center; justify-content:center;
   flex-shrink:0; cursor:pointer; border:none; transition:background 0.15s;
 }
 .darsh-timing-action:hover { background:var(--primary-20); }
-.darsh-timing-action.reminded { background:#e7e9ff; cursor:default; }
+.darsh-timing-action.reminded { background:var(--surface-ghost-icon); cursor:default; }
 
 /* Toast */
 .toast {
   position: absolute; bottom: 76px; left: 14px; right: 14px;
-  background: #141414; color: #fff; border-radius: 12px;
+  background: var(--grey-100); color: #fff; border-radius: 12px;
   padding: 11px 14px; font-family: 'JioType', sans-serif;
   font-size: 13px; font-weight: 500; line-height: 1.3;
   z-index: 999; opacity: 0; transform: translateY(6px);
@@ -1034,7 +1093,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .pcal-bot-row { display: flex; align-items: flex-start; }
 .pcal-bot-content { flex: 1; min-width: 0; }
 .pcal-today-card {
-  background: #f8f8f9; border-radius: 16px; padding: 12px; overflow: hidden;
+  background: var(--grey-20); border-radius: 16px; padding: 12px; overflow: hidden;
 }
 .pcal-today-card-hd {
   display: flex; align-items: center; gap: 6px;
@@ -1044,15 +1103,15 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   background: var(--sparkle-50);
   display: flex; align-items: center; justify-content: center;
 }
-.pcal-today-card-hd-title { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: #0c0d10; line-height: 1.3; }
+.pcal-today-card-hd-title { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.3; }
 .pcal-today-card-hd-date  { display: none; }
 .pcal-today-divider { height: 0.5px; background: rgba(36,38,43,0.12); margin: 12px 0; }
 .pcal-today-rows { display: flex; flex-direction: column; gap: 8px; }
 .pcal-today-row { display: flex; justify-content: space-between; align-items: center; }
-.pcal-today-row-label { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: #0c0d10; line-height: 1.3; }
-.pcal-today-row-val   { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: #0c0d10; line-height: 1.3; white-space: nowrap; }
-.pcal-today-row.rahu .pcal-today-row-label { color: #c0392b; }
-.pcal-today-row.rahu .pcal-today-row-val   { color: #c0392b; }
+.pcal-today-row-label { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; }
+.pcal-today-row-val   { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-high); line-height: 1.3; white-space: nowrap; }
+.pcal-today-row.rahu .pcal-today-row-label { color: var(--error); }
+.pcal-today-row.rahu .pcal-today-row-val   { color: var(--error); }
 .pcal-intro-text {
   font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; margin: 0 0 8px;
 }
@@ -1069,9 +1128,9 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .pcal-chip.used  { opacity: 0.38; pointer-events: none; }
 .pcal-user-row { display: flex; justify-content: flex-end; }
 .pcal-user-msg {
-  background: #f5f5f6; border-radius: 24px 24px 0 24px;
+  background: var(--grey-20); border-radius: 24px 24px 0 24px;
   padding: 12px 16px; max-width: 240px;
-  font-size: 16px; font-weight: 400; color: #0c0d10; line-height: 1.3;
+  font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3;
 }
 .pcal-typing-dots { display: flex; gap: 4px; align-items: center; padding: 10px 14px; background: var(--grey-20); border-radius: 999px; }
 .pcal-typing-dots span {
@@ -1091,16 +1150,16 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 .pcal-week-card.has-ekadashi,
 .pcal-week-card.has-amavasya { background: #fef7e9; padding: 8px; border-radius: 8px; }
 .pcal-week-card-date { width: 32px; flex-shrink: 0; display: flex; flex-direction: column; gap: 2px; align-items: center; justify-content: center; }
-.pcal-week-card-day  { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 400; color: #191b1e; opacity: 0.65; line-height: 1.3; }
-.pcal-week-card-num  { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: #0c0d10; line-height: 1.3; }
+.pcal-week-card-day  { font-family: 'JioType', sans-serif; font-size: 12px; font-weight: 400; color: var(--text-high); opacity: 0.65; line-height: 1.3; }
+.pcal-week-card-num  { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-high); line-height: 1.3; }
 .pcal-week-card.today-card .pcal-week-card-day { opacity: 1; color: var(--primary-50); }
 .pcal-week-card.today-card .pcal-week-card-num { color: var(--primary-50); }
-.pcal-week-phase-emoji { font-size: 12px; line-height: 1.3; color: #0c0d10; }
+.pcal-week-phase-emoji { font-size: 12px; line-height: 1.3; color: var(--text-high); }
 .pcal-week-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.pcal-week-tithi { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: #0c0d10; line-height: 1.3; }
-.pcal-week-meta  { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 500; color: #191b1e; opacity: 0.65; line-height: 1.3; }
-.pcal-week-rahu  { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: #191b1e; opacity: 0.65; line-height: 1.3; }
-.pcal-week-auspicious { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: #0c0d10; line-height: 1.3; white-space: nowrap; }
+.pcal-week-tithi { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 500; color: var(--text-high); line-height: 1.3; }
+.pcal-week-meta  { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-high); opacity: 0.65; line-height: 1.3; }
+.pcal-week-rahu  { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-high); opacity: 0.65; line-height: 1.3; }
+.pcal-week-auspicious { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-high); line-height: 1.3; white-space: nowrap; }
 /* JDS-compliant festival card — Card spec: radius=16px, border=stroke-subtle, shadow */
 .pcal-fest-list { display: flex; flex-direction: column; gap: 10px; }
 .pcal-fest-card {
@@ -1117,7 +1176,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 }
 .pcal-fest-head-text { flex: 1; min-width: 0; }
 /* title-2xs = 14px Bold */
-.pcal-fest-name { font-size: 14px; font-weight: 700; color: #141414; line-height: 1.3; }
+.pcal-fest-name { font-size: 14px; font-weight: 700; color: var(--grey-100); line-height: 1.3; }
 /* body-3xs = 11px Medium */
 .pcal-fest-date { font-size: 11px; font-weight: 500; color: rgba(25,27,30,0.65); margin-top: 2px; }
 /* label-xs = 11px Bold · pill */
@@ -1126,7 +1185,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   padding: 3px 10px; white-space: nowrap; flex-shrink: 0; line-height: 1.6;
 }
 .pcal-fest-badge.aaj  { background: #fef7e9; color: #ac660c; }   /* secondary-20 / secondary-60 */
-.pcal-fest-badge.soon { background: #e8e8fc; color: #3535f3; }   /* primary-20 / primary-50 */
+.pcal-fest-badge.soon { background: #e8e8fc; color: var(--primary-50); }   /* primary-20 / primary-50 */
 .pcal-fest-badge.later{ background: #eeeeef; color: rgba(25,27,30,0.65); } /* surface-ghost */
 /* stroke-subtle divider */
 .pcal-fest-divider { height: 1px; background: rgba(36,38,43,0.12); margin-bottom: 10px; }
@@ -1156,7 +1215,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   font-size: 16px;
   font-weight: 900;
   line-height: 1;
-  color: #0c0d10;
+  color: var(--text-high);
   letter-spacing: 0;
 }
 .widget-status-date-badge {
@@ -1182,7 +1241,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   font-family: 'JioType', sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: #0c0d10;
+  color: var(--text-high);
   line-height: 1.3;
   flex: 1;
   min-width: 0;
@@ -1370,7 +1429,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   display: flex; flex-direction: column; gap: 8px;
 }
 .live-darshan-v2-title {
-  font-size: 16px; font-weight: 700; color: #0c0d10; line-height: 1.3; padding: 2px 0;
+  font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.3; padding: 2px 0;
 }
 .live-darshan-v2-img-wrap {
   position: relative; height: 128px; border-radius: 16px; overflow: hidden; background: #d9d9d9;
@@ -1380,12 +1439,13 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
 }
 .live-darshan-v2-badge {
   position: absolute; top: 8px; right: 10px;
-  background: #e30513; border-radius: 16px; padding: 2px 9px;
-  font-size: 14px; font-weight: 700; color: #fff; line-height: 1.3;
+  background: var(--error); border-radius: 999px; padding: 4px 9px 4px 7px;
+  font-size: 10px; font-weight: 700; color: #fff; letter-spacing: 0.07em;
+  display: flex; align-items: center; gap: 5px;
 }
 .live-darshan-v2-info { display: flex; flex-direction: column; gap: 4px; }
-.live-darshan-v2-sub  { font-size: 14px; font-weight: 400; color: #191b1e; line-height: 1.3; opacity: 0.8; }
-.live-darshan-v2-name { font-size: 16px; font-weight: 700; color: #0c0d10; line-height: 1.3; }
+.live-darshan-v2-sub  { font-size: 14px; font-weight: 400; color: var(--text-high); line-height: 1.3; opacity: 0.8; }
+.live-darshan-v2-name { font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.3; }
 .live-darshan-v2-btn {
   width: 100%; height: 44px;
   background: var(--primary-50); border: none; border-radius: 999px;
@@ -1393,7 +1453,7 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   line-height: 1; cursor: pointer; transition: opacity 0.15s;
 }
 .live-darshan-v2-btn:hover { opacity: 0.88; }
-.live-darshan-v2-more-title { font-size: 16px; font-weight: 400; color: #0c0d10; line-height: 1.3; }
+.live-darshan-v2-more-title { font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; }
 .live-darshan-v2-chips { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .live-darshan-v2-chip {
   background: rgba(255,255,255,0.01); border: 1px solid rgba(49,0,100,0.12);
@@ -1426,7 +1486,7 @@ html.capture-mode .main {
   display: none;
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
   z-index: 9999;
-  background: #141414; border-radius: 999px;
+  background: var(--grey-100); border-radius: 999px;
   padding: 6px 8px; gap: 4px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   align-items: center;
@@ -1439,7 +1499,7 @@ html.capture-mode .capture-switcher { display: flex; }
   cursor: pointer; white-space: nowrap; transition: all 0.15s;
 }
 .csw-btn:hover  { background: rgba(255,255,255,0.1); color: #fff; }
-.csw-btn.active { background: #ffffff; color: #141414; }
+.csw-btn.active { background: #ffffff; color: var(--grey-100); }
 
 /* ━━ DAILY RITUAL ━━ */
 .ritual-entry-card {
@@ -1455,9 +1515,9 @@ html.capture-mode .capture-switcher { display: flex; }
   background: var(--secondary-50); flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
 }
-.ritual-entry-label { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: #0c0d10; line-height: 1.3; }
-.ritual-entry-sub   { font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 400; color: #191b1e; opacity: 0.65; line-height: 1.3; margin-top: 1px; }
-.ritual-entry-body  { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: #191b1e; line-height: 1.5; margin: 0; opacity: 0.8; }
+.ritual-entry-label { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.3; }
+.ritual-entry-sub   { font-family: 'JioType', sans-serif; font-size: 13px; font-weight: 400; color: var(--text-high); opacity: 0.65; line-height: 1.3; margin-top: 1px; }
+.ritual-entry-body  { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-high); line-height: 1.5; margin: 0; opacity: 0.8; }
 .ritual-entry-btn {
   width: 100%; height: 44px; border: none; border-radius: 999px;
   background: #f7ab20; color: #fff;
@@ -1471,8 +1531,8 @@ html.capture-mode .capture-switcher { display: flex; }
 
 /* ── Ritual Player (Figma 3199:2408) ── */
 .rpl-wrap { display: flex; flex-direction: column; gap: 10px; }
-.rpl-header-title { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: #0c0d10; line-height: 1.3; }
-.rpl-header-sub   { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: #191b1e; opacity: 0.8; line-height: 1.3; margin-top: 4px; }
+.rpl-header-title { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-high); line-height: 1.3; }
+.rpl-header-sub   { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-high); opacity: 0.8; line-height: 1.3; margin-top: 4px; }
 .rpl-card { background: #ecf7ff; border-radius: 16px; overflow: hidden; padding-bottom: 12px; }
 
 /* Player row — clean, no inner border */
@@ -1508,9 +1568,9 @@ html.capture-mode .capture-switcher { display: flex; }
 .rpl-track { display: flex; align-items: center; gap: 18px; padding: 8px 12px; border-radius: 8px; cursor: pointer; transition: background 0.15s; }
 .rpl-track.active { background: #fff; }
 .rpl-track-info { flex: 1; min-width: 0; }
-.rpl-track-name { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: #0c0d10; line-height: 1.3; }
+.rpl-track-name { font-family: 'JioType', sans-serif; font-size: 16px; font-weight: 400; color: var(--text-high); line-height: 1.3; }
 .rpl-track.active .rpl-track-name { color: #210102; }
-.rpl-track-dur  { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: #191b1e; opacity: 0.65; line-height: 1.3; margin-top: 2px; }
+.rpl-track-dur  { font-family: 'JioType', sans-serif; font-size: 14px; font-weight: 400; color: var(--text-high); opacity: 0.65; line-height: 1.3; margin-top: 2px; }
 .rpl-track-btn {
   width: 40px; height: 40px; border-radius: 999px; flex-shrink: 0;
   background: var(--surface-bold); border: none; cursor: pointer;
@@ -1537,10 +1597,15 @@ html.capture-mode .capture-switcher { display: flex; }
 <body>
 
 <!-- ━━ SIDEBAR ━━ -->
-<nav class="sidebar">
+<nav class="sidebar" id="sidebar">
+  <!-- Toggle chevron -->
+  <button class="sidebar-toggle" onclick="toggleSidebar()" title="Toggle sidebar">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="var(--icon-medium)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+
   <div class="sidebar-logo">
     <div class="sidebar-logo-dot">
-      <span style="background:#3535f3"></span>
+      <span style="background:var(--primary-50)"></span>
       <span style="background:#f7ab20"></span>
       <span style="background:#6464ff"></span>
       <span style="background:#1eccb0"></span>
@@ -1555,19 +1620,19 @@ html.capture-mode .capture-switcher { display: flex; }
 
   <div class="nav-item active" onclick="switchTab(0, this)">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" fill="currentColor"/></svg>
-    Today
+    <span class="nav-label">Today</span>
   </div>
   <div class="nav-item" onclick="switchTab(1, this)">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><path d="M15 4H9a7 7 0 00-1 13.92V20a1.5 1.5 0 002.4 1.2l4.27-3.2H15a7 7 0 000-14zm-7 8a1 1 0 110-2 1 1 0 010 2zm4 0a1 1 0 110-2 1 1 0 010 2zm4 0a1 1 0 110-2 1 1 0 010 2z" fill="currentColor"/></svg>
-    Ask JBIQ
+    <span class="nav-label">Ask JBIQ</span>
   </div>
   <div class="nav-item" onclick="switchTab(2, this)">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><path d="M12 15a3 3 0 003-3V5a3 3 0 00-6 0v7a3 3 0 003 3zm6-5a1 1 0 00-1 1v1a5 5 0 11-10 0v-1a1 1 0 10-2 0v1a7 7 0 1014 0v-1a1 1 0 00-1-1zm-3 10H9a1 1 0 000 2h6a1 1 0 000-2z" fill="currentColor"/></svg>
-    Voice
+    <span class="nav-label">Voice</span>
   </div>
   <div class="nav-item" onclick="switchTab(3, this)">
     <svg class="nav-icon" viewBox="0 0 24 24" fill="none"><path d="M16 6a4 4 0 11-8 0 4 4 0 018 0zm4 10.5c0 3.038-3.582 5.5-8 5.5s-8-2.462-8-5.5S7.582 11 12 11s8 2.462 8 5.5z" fill="currentColor"/></svg>
-    Profile
+    <span class="nav-label">Profile</span>
   </div>
 
   <div class="sidebar-footer">
@@ -1750,7 +1815,7 @@ html.capture-mode .capture-switcher { display: flex; }
             <div class="live-darshan-v2">
               <div class="live-darshan-v2-img-wrap" style="background:linear-gradient(135deg,#ff6b35,#f7ab20);display:flex;align-items:center;justify-content:center;min-height:160px">
                 <div style="font-size:64px;text-align:center">🙏🏼</div>
-                <div class="live-darshan-v2-badge">Live</div>
+                <div class="live-darshan-v2-badge"><span class="live-dot"></span>Live</div>
               </div>
               <div class="live-darshan-v2-info">
                 <div class="live-darshan-v2-sub">Shri Saibaba Sansthan · Shirdi</div>
@@ -2003,57 +2068,43 @@ html.capture-mode .capture-switcher { display: flex; }
   </div>
 
   <!-- ━━ ANNOTATIONS ━━ -->
-  <div class="annotations">
+  <div class="annotations" id="annotations">
+    <button class="anno-toggle" onclick="toggleAnnotations()" title="Toggle annotations">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="var(--icon-medium)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
     <div class="anno-card" style="animation-delay:0s">
-      <div class="anno-title">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#3535f3" stroke-width="2"/><path d="M9 9h6M9 13h4" stroke="#3535f3" stroke-width="2" stroke-linecap="round"/></svg>
-        Layout Structure
-      </div>
-      <div class="anno-row"><div class="anno-key">Frame</div><div class="anno-val">360 × 800px · Light mode</div></div>
-      <div class="anno-row"><div class="anno-key">Header</div><div class="anno-val">Fixed · 56px · App name + icons</div></div>
-      <div class="anno-row"><div class="anno-key">Content</div><div class="anno-val">Scrollable · fills remaining height</div></div>
-      <div class="anno-row"><div class="anno-key">Input</div><div class="anno-val">Sticky · 64px · Always visible</div></div>
-      <div class="anno-row"><div class="anno-key">BottomNav</div><div class="anno-val">Fixed · 60px · 4 tabs · active dot</div></div>
+      <div class="anno-title">Home Screen</div>
+      <div class="anno-row"><span class="anno-key">Canvas</span><span class="anno-val">360 × 800px</span></div>
+      <div class="anno-row"><span class="anno-key">Font</span><span class="anno-val">JioType</span></div>
+      <div class="anno-row"><span class="anno-key">Design</span><span class="anno-val">JDS v3.6.4</span></div>
+      <div class="anno-row"><span class="anno-key">Mode</span><span class="anno-val">Light</span></div>
+      <div class="anno-row"><span class="anno-key">Screens</span><span class="anno-val">Today · Ask · Voice · Profile</span></div>
+    </div>
+
+    <div class="anno-card" style="animation-delay:0.05s">
+      <div class="anno-title">MCP Servers</div>
+      <div class="anno-row"><span class="anno-key">Claude.ai Figma</span><span class="anno-val">Design specs</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Tools</span><span class="anno-val" style="text-align:right">get_design_context<br>get_screenshot<br>get_metadata</span></div>
+      <div class="anno-divider"></div>
+      <div class="anno-row"><span class="anno-key">JioBharatIQ</span><span class="anno-val">JDS v3.6.4</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Tools</span><span class="anno-val" style="text-align:right">get_assets<br>find_icon<br>lookup_component<br>resolve_token<br>validate_prototype</span></div>
     </div>
 
     <div class="anno-card" style="animation-delay:0.1s">
-      <div class="anno-title">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#3535f3" stroke-width="2"/><path d="M12 8v4l3 3" stroke="#3535f3" stroke-width="2" stroke-linecap="round"/></svg>
-        Sticky Input · JDS Spec
-      </div>
-      <div class="anno-row"><div class="anno-key">BG</div><div class="anno-val"><span class="anno-swatch" style="background:#eeeeef"></span>surface-ghost</div></div>
-      <div class="anno-row"><div class="anno-key">Radius</div><div class="anno-val">23px</div></div>
-      <div class="anno-row"><div class="anno-key">Height</div><div class="anno-val">44px</div></div>
-      <div class="anno-row"><div class="anno-key">Mic btn</div><div class="anno-val"><span class="anno-swatch" style="background:#e7e9ff"></span>surface-ghost-icon</div></div>
-      <div class="anno-row"><div class="anno-key">Send btn</div><div class="anno-val"><span class="anno-swatch" style="background:#3900ad"></span>surface-bold</div></div>
-      <div class="anno-row"><div class="anno-key">Position</div><div class="anno-val">Above BottomNav · always on screen</div></div>
+      <div class="anno-title">Design System Audit</div>
+      <div class="anno-row"><span class="anno-key">Font</span><span class="anno-val">JioType (400, 500, 700)</span></div>
+      <div class="anno-row"><span class="anno-key">Design system</span><span class="anno-val">JDS v3.6.4</span></div>
+      <div class="anno-row" style="margin-top:6px"><span class="anno-key" style="font-weight:700">JDS match</span><span class="anno-val" style="font-weight:700;color:var(--success)">100%</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Compliant</span><span class="anno-val" style="text-align:right">Buttons · Chips<br>Typography · Colors<br>Spacing tokens<br>Live · Recorded badges<br>ListItem rows<br>BottomNav · ChatInput</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Errors</span><span class="anno-val" style="text-align:right">0</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Warnings</span><span class="anno-val" style="text-align:right">0</span></div>
+      <div class="anno-row" style="margin-top:4px"><span class="anno-key" style="font-size:10px;color:var(--text-low)">Audited</span><span class="anno-val" style="font-size:10px;color:var(--text-low)">2026-04-08 · v3.6.4</span></div>
     </div>
 
-    <div class="anno-card" style="animation-delay:0.15s">
-      <div class="anno-title">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="#3535f3" stroke-width="2" stroke-linecap="round"/></svg>
-        BottomNav · JDS Spec
-      </div>
-      <div class="anno-row"><div class="anno-key">Height</div><div class="anno-val">60px</div></div>
-      <div class="anno-row"><div class="anno-key">Tabs</div><div class="anno-val">Today · Ask · Voice · Profile</div></div>
-      <div class="anno-row"><div class="anno-key">Active</div><div class="anno-val"><span class="anno-swatch" style="background:#3535f3"></span>primary-50</div></div>
-      <div class="anno-row"><div class="anno-key">Inactive</div><div class="anno-val"><span class="anno-swatch" style="background:rgba(25,27,30,0.38)"></span>text-disabled</div></div>
-      <div class="anno-row"><div class="anno-key">Indicator</div><div class="anno-val">4px dot · primary-50 · below label</div></div>
-    </div>
 
-    <div class="anno-card" style="animation-delay:0.2s">
-      <div class="anno-title">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" stroke="#3535f3" stroke-width="2" stroke-linejoin="round"/></svg>
-        4 Screens
-      </div>
-      <div class="anno-row"><div class="anno-key">Today</div><div class="anno-val">Hero banner · Live Darshan · Rashifal cards · Zodiac chips</div></div>
-      <div class="anno-divider"></div>
-      <div class="anno-row"><div class="anno-key">Ask</div><div class="anno-val">Chat bubbles · Feedback row · Suggestion chips</div></div>
-      <div class="anno-divider"></div>
-      <div class="anno-row"><div class="anno-key">Voice</div><div class="anno-val">Animated avatar · Voice CTA · Quick chips</div></div>
-      <div class="anno-divider"></div>
-      <div class="anno-row"><div class="anno-key">Profile</div><div class="anno-val">Kundli details · Saved muhurats · Settings</div></div>
-    </div>
+
+
+
   </div>
 
 </main>
@@ -2062,6 +2113,13 @@ html.capture-mode .capture-switcher { display: flex; }
 const sidebarItems = document.querySelectorAll('.nav-item');
 const screens      = document.querySelectorAll('.screen');
 const placeholders = ['Ask anything...', 'Ask JBIQ anything...', 'Say something...', 'Ask anything...'];
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('collapsed');
+}
+function toggleAnnotations() {
+  document.getElementById('annotations').classList.toggle('collapsed');
+}
 
 function switchTab(index, sidebarEl) {
   screens.forEach((s,i) => s.classList.toggle('active', i === index));
@@ -2139,10 +2197,10 @@ function darshHandleText(text) {
       const msgEl = document.createElement('div');
       msgEl.className = 'pcal-bot-row';
       msgEl.style.animation = 'fadeDown 0.3s ease both';
-      msgEl.innerHTML = `<div class="pcal-bot-content"><p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0">Sure. Here are a few temples where you can experience live darshan online.</p></div>`;
+      msgEl.innerHTML = `<div class="pcal-bot-content"><p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0">Sure. Here are a few temples where you can experience live darshan online.</p></div>`;
       msgs.appendChild(msgEl);
 
-      appendChipBlock(msgs, '🔴 Abhi kaun sa mandir live dekhnaa chahoge?', row => {
+      appendChipBlock(msgs, 'Abhi kaun sa mandir live dekhnaa chahoge? <span class="live-badge-inline"><span class="live-dot"></span>Live</span>', row => {
         [['shirdi','Shirdi Sai Baba'],['vaishno','Maa Vaishno Devi'],['tirupati','Tirupathi Balaji'],['kashi','Kashi Vishwanath'],['siddhivinayak','Siddhivinayak']].forEach(([t,l]) => {
           const btn = document.createElement('button'); btn.className = 'pcal-chip'; btn.textContent = l; btn.onclick = () => darshChipTap(btn, t); row.appendChild(btn);
         });
@@ -2159,7 +2217,7 @@ function darshHandleText(text) {
     const responseEl = document.createElement('div');
     responseEl.className = 'pcal-bot-row';
     responseEl.style.animation = 'fadeDown 0.3s ease both';
-    responseEl.innerHTML = `<div class="pcal-bot-content">${templeType ? buildTemplePlayer(templeType) : '<p style="font-family:\'JioType\',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0">Is mandir ka live darshan abhi available nahi hai 🙏🏼</p>'}</div>`;
+    responseEl.innerHTML = `<div class="pcal-bot-content">${templeType ? buildTemplePlayer(templeType) : '<p style="font-family:\'JioType\',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0">Is mandir ka live darshan abhi available nahi hai 🙏🏼</p>'}</div>`;
     msgs.appendChild(responseEl);
     const followEl = document.createElement('div');
     followEl.innerHTML = buildDarshFollowSection(templeType || '');
@@ -2271,7 +2329,7 @@ const FESTIVALS = {
     grad: ['#f953c6','#b91d73'], desc: 'Rang, prem aur khushi ka parv! Phalguna Purnima ke baad Dhulandi — gulal aur abeer se sabko rangeein karein!',
     detail: 'Holi ka parv do din manaya jaata hai — pehle Holika Dahan, phir Dhulandi. Brijbhoomi mein Lathmar Holi, Vrindavan mein Phoolon ki Holi khaas hoti hai. Thandai, gujiya aur malpua is tyohar ke pakwaan hain.' },
   '2026-03-19': { name: 'Ugadi · Gudi Padwa', emoji: '🎋',
-    grad: ['#f7ab20','#3535f3'], desc: 'Nav Samvatsar 2083 ka shubharambh! Gudi khadi karein, neem-gud khaayein — Chaitra Navratri ki pavitra shuruaat.',
+    grad: ['#f7ab20','var(--primary-50)'], desc: 'Nav Samvatsar 2083 ka shubharambh! Gudi khadi karein, neem-gud khaayein — Chaitra Navratri ki pavitra shuruaat.',
     detail: 'Ugadi / Gudi Padwa Chaitra maas ke shukla pratipada ko manaya jaata hai — Hindu nav-samvatsar ki shuruaat. Maharashtra mein Gudi Padwa, Andhra-Telangana-Karnataka mein Ugadi alag naam se manaya jaata hai. Is din Chaitra Navratri bhi shuru hoti hai — 9 din Mata ki aradhana ka parv.' },
   '2026-04-07': { name: 'Ram Navami', emoji: '🏹',
     grad: ['#fc4a1a','#f7b733'], desc: 'Prabhu Shri Ram ka janma utsav — Chaitra Shukla Navami. Ramcharitmanas paath, Sundar Kaand aur Shri Ram aradhana ka maha din.',
@@ -2310,7 +2368,7 @@ const FESTIVALS = {
     grad: ['#f7ab20','#fc4a1a'], desc: 'Prakash ka parv — Lakshmi-Ganesh puja, diye jalaayen! Ram ji ki Ayodhya wapsi ki khushi mein roshan ho poora desh!',
     detail: 'Diwali par Amavasya ki raat Lakshmi-Ganesh puja ki jaati hai. Ghar mein rangoli, diye aur prakash ki vyavastha ki jaati hai. Is din Lakshmi stotram 11 baar padhein, 11 diye jalaayen. Kali Puja Bengal mein khaas hoti hai.' },
   '2026-10-26': { name: 'Govardhan Puja', emoji: '🌾',
-    grad: ['#1a7a4a','#38f9d7'], desc: 'Annakoot — Kartika Pratipada par Govardhan puja. 56 bhog chadhaayein aur gau mata ki seva karein.',
+    grad: ['var(--success)','#38f9d7'], desc: 'Annakoot — Kartika Pratipada par Govardhan puja. 56 bhog chadhaayein aur gau mata ki seva karein.',
     detail: 'Govardhan Puja par Krishna ji ne Indra ki jagah Govardhan parvat ki puja ka aadesh diya tha. Annakoot mein 56 ya 108 prakaar ke pakwaan bhog mein lagaayen jaate hain. Gau mata ki seva aur gau puja is din vishesh mahatva rakhti hai.' },
   '2026-11-02': { name: 'Chhath Puja', emoji: '🌅',
     grad: ['#f7ab20','#fc4a1a'], desc: 'Kartika Shukla Shashthi — Surya Shashthi vrat. Doobte aur ugate Surya ko arghya dekar chhath maiya ki aradhana karein.',
@@ -2793,7 +2851,7 @@ const FB_SVG = `
 // opts: { chips, yesno, withFeedback, delay }
 // yesno: { yes: fn, no: fn, yesLabel, noLabel }
 // ── Chip block helper: divider + prompt text + chips row ──────────────────────
-const CHIP_PROMPT_STYLE = "font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0;padding:12px 0 8px";
+const CHIP_PROMPT_STYLE = "font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0;padding:12px 0 8px";
 function appendChipBlock(container, promptText, buildFn, animBase) {
   const base = animBase || 0.1;
   const wrap = document.createElement('div');
@@ -2802,7 +2860,7 @@ function appendChipBlock(container, promptText, buildFn, animBase) {
   hr.style.cssText = 'border-top:0.5px solid rgba(36,38,43,0.12);margin-top:4px';
   const txt = document.createElement('p');
   txt.style.cssText = CHIP_PROMPT_STYLE;
-  txt.textContent = promptText;
+  txt.innerHTML = promptText;
   const row = document.createElement('div');
   row.className = 'pcal-chips-row';
   buildFn(row);
@@ -3044,7 +3102,7 @@ function appendWhatsAppForwardsResponse(messages) {
         </div>
       </div>
       <div style="height:1px;background:rgba(36,38,43,0.12);margin:12px 0 10px"></div>
-      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0;padding:4px 0 8px">Aur chahiye?</p>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0;padding:4px 0 8px">Aur chahiye?</p>
     </div>`;
     messages.appendChild(cardBotRow);
 
@@ -3175,7 +3233,7 @@ function appendWhatsAppChipResponse(messages, chipText) {
         </div>`).join('')}
       </div>
       <div style="height:1px;background:rgba(36,38,43,0.12);margin:12px 0 10px"></div>
-      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0;padding:4px 0 8px">Aur chahiye?</p>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0;padding:4px 0 8px">Aur chahiye?</p>
     </div>`;
     messages.appendChild(cardBotRow);
 
@@ -3300,7 +3358,7 @@ function appendCustomCardResponse(messages, userText) {
         <button onclick="waFwdShareText(${JSON.stringify(quote)})" style="width:100%;height:32px;border-radius:999px;background:#6d17ce;border:none;cursor:pointer;font-family:'JioType',sans-serif;font-size:14px;font-weight:500;color:#fff;line-height:1">Share on WhatsApp</button>
       </div>
       <div style="height:1px;background:rgba(36,38,43,0.12);margin:12px 0 10px"></div>
-      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0;padding:4px 0 8px">Aur kuch karna hai?</p>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0;padding:4px 0 8px">Aur kuch karna hai?</p>
     </div>`;
     messages.appendChild(row);
 
@@ -3339,7 +3397,7 @@ function openDarshanTemple(type) {
     const responseEl = document.createElement('div');
     responseEl.className = 'pcal-bot-row';
     responseEl.style.animation = 'fadeDown 0.3s ease both';
-    responseEl.innerHTML = `<div class="pcal-bot-content">${html || '<p style="font-family:\'JioType\',sans-serif;font-size:16px;color:#0c0d10;line-height:1.3;margin:0">Is mandir ka live darshan abhi available nahi hai 🙏🏼</p>'}</div>`;
+    responseEl.innerHTML = `<div class="pcal-bot-content">${html || '<p style="font-family:\'JioType\',sans-serif;font-size:16px;color:var(--text-high);line-height:1.3;margin:0">Is mandir ka live darshan abhi available nahi hai 🙏🏼</p>'}</div>`;
     msgs.appendChild(responseEl);
     const followEl = document.createElement('div');
     followEl.innerHTML = buildDarshFollowSection(type);
@@ -3369,7 +3427,7 @@ function appendDarshanResponse(messages) {
     const liveSection = document.createElement('div');
     liveSection.style.cssText = 'animation:msgSlideIn 0.25s ease';
     liveSection.innerHTML = chipBlockHTML(
-      '<span style="display:inline-flex;align-items:center;gap:7px"><span style="width:10px;height:10px;border-radius:50%;background:#fa2f40;display:inline-block;flex-shrink:0;box-shadow:0 0 0 3px rgba(250,47,64,0.18)"></span>Abhi kaunsa mandir live dekhna chahoge?</span>',
+      'Abhi kaunsa mandir live dekhna chahoge? <span class="live-badge-inline"><span class="live-dot"></span>Live</span>',
       `<div class="chip" onclick="openDarshanTemple('shirdi')">Shirdi Sai Baba</div>
        <div class="chip" onclick="openDarshanTemple('vaishno')">Maa Vaishno Devi</div>
        <div class="chip" onclick="openDarshanTemple('tirupati')">Tirupathi Balaji</div>
@@ -3605,7 +3663,7 @@ function startYearlyHoroFlow(messages) {
   const confirmEl = document.createElement('div');
   confirmEl.className = 'annual-confirm-wrap';
   confirmEl.innerHTML = `
-    <div style="font-family:'JioType',sans-serif;font-size:13px;font-weight:700;color:#3535f3;margin-bottom:10px;">
+    <div style="font-family:'JioType',sans-serif;font-size:13px;font-weight:700;color:var(--primary-50);margin-bottom:10px;">
       ✅ Yeh jaankari mujhe pehle se pata hai
     </div>
     <div class="annual-confirm-row">
@@ -3735,7 +3793,7 @@ const YEARLY_PREDICTIONS = [
     lucky: ['May', 'July', 'Friday', 'White']
   },
   {
-    icon: '🌿', color: '#f0faf4', iconBg: '#d4f1e0',
+    icon: '🌿', color: 'var(--sparkle-20)', iconBg: '#d4f1e0',
     title: 'Swasthya & Sehat',
     subtitle: 'Tann aur mann',
     stars: 3,
@@ -4227,7 +4285,7 @@ function renderFestivalCard(now) {
   container.innerHTML = '';
 
   const todayMs = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-  const WINDOW  = 30;
+  const WINDOW  = 60;
   const MO_NAMES = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const MON_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const DAYS_EN   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
@@ -4458,14 +4516,14 @@ const PROSE       = "font-family:'JioType',sans-serif;font-size:16px;font-weight
 function buildFestVidhiHTML(data) {
   const v = data.vidhi;
   const BADGE = (n) => `
-    <div style="width:20px;height:20px;border-radius:999px;background:#25ab21;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+    <div style="width:20px;height:20px;border-radius:999px;background:var(--grey-100);display:flex;align-items:center;justify-content:center;flex-shrink:0">
       <span style="font-family:'JioType',sans-serif;font-size:10px;font-weight:700;color:#fff;line-height:1">${n}</span>
     </div>`;
   const steps = v.steps.map((s, i) => `
     <div style="display:flex;flex-direction:column;gap:8px">
       <div style="display:flex;gap:8px;align-items:flex-start">
         ${BADGE(i + 1)}
-        <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:500;color:#0c0d10;line-height:1.3;margin:0;flex:1">${s.title}</p>
+        <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:500;color:var(--text-high);line-height:1.3;margin:0;flex:1">${s.title}</p>
       </div>
       <p style="${PROSE};margin:0;padding-left:28px">${s.bullets.map(b => '• ' + b).join('<br>')}</p>
     </div>`).join('');
@@ -4483,12 +4541,12 @@ function buildFestVidhiHTML(data) {
 function buildFestShoppingHTML(data) {
   const items = data.shopping.map((s, i) => `
     <div style="display:flex;gap:4px;align-items:flex-start">
-      <div style="width:20px;height:20px;border-radius:999px;background:#25ab21;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+      <div style="width:20px;height:20px;border-radius:999px;background:var(--grey-100);display:flex;align-items:center;justify-content:center;flex-shrink:0">
         <span style="font-family:'JioType',sans-serif;font-size:10px;font-weight:700;color:#fff;line-height:1">${i + 1}</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0">
         <p style="${PROSE};margin:0">${s.item}</p>
-        <p style="font-family:'JioType',sans-serif;font-size:12px;font-weight:400;line-height:1.3;color:#191b1e;opacity:0.65;margin:0">${s.note}</p>
+        <p style="font-family:'JioType',sans-serif;font-size:12px;font-weight:400;line-height:1.3;color:var(--text-high);opacity:0.65;margin:0">${s.note}</p>
       </div>
     </div>`).join('');
   return `
@@ -4499,10 +4557,11 @@ function buildFestShoppingHTML(data) {
 }
 
 function buildFestRitualsHTML(data) {
-  const IC_SUCCESS = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/icons/svg/ic_success_colored.svg';
-  const items = data.rituals.map(r => `
+  const items = data.rituals.map((r, i) => `
     <div style="display:flex;gap:4px;align-items:flex-start">
-      <img src="${IC_SUCCESS}" width="20" height="20" style="flex-shrink:0;margin-top:2px">
+      <div style="width:20px;height:20px;border-radius:999px;background:var(--grey-100);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <span style="font-family:'JioType',sans-serif;font-size:10px;font-weight:700;color:#fff;line-height:1">${i + 1}</span>
+      </div>
       <p style="${PROSE};margin:0;flex:1">${r}</p>
     </div>`
   ).join('');
@@ -4530,7 +4589,7 @@ function buildFestPoojaHTML(data) {
 function buildFestDoDontHTML(data) {
   const IC_DO   = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/icons/svg/ic_success_colored.svg';
   const IC_DONT = 'https://raw.githubusercontent.com/sunit1986/JioBharatIQ_Server/main/assets/icons/svg/ic_error_colored.svg';
-  const PROSE_SUB = "font-family:'JioType',sans-serif;font-size:14px;font-weight:400;color:#191b1e;line-height:1.3;opacity:0.65;margin:0";
+  const PROSE_SUB = "font-family:'JioType',sans-serif;font-size:14px;font-weight:400;color:var(--text-high);line-height:1.3;opacity:0.65;margin:0";
   const row = (icon, d) => `
     <div style="display:flex;gap:4px;align-items:flex-start">
       <img src="${icon}" width="20" height="20" style="flex-shrink:0;margin-top:2px">
@@ -4545,11 +4604,11 @@ function buildFestDoDontHTML(data) {
     <div style="display:flex;flex-direction:column;gap:16px;padding:8px 0">
       <div style="display:flex;flex-direction:column;gap:16px">
         <div style="display:flex;flex-direction:column;gap:16px">
-          <p style="${PROSE_TITLE};line-height:1.3;margin:0">🟢 What to do</p>
+          <p style="${PROSE_TITLE};line-height:1.3;margin:0">What to do</p>
           <div style="display:flex;flex-direction:column;gap:8px">${dosHTML}</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:16px">
-          <p style="${PROSE_TITLE};line-height:1.3;margin:0">🔴 What not to do</p>
+          <p style="${PROSE_TITLE};line-height:1.3;margin:0">What not to do</p>
           <div style="display:flex;flex-direction:column;gap:8px">${dontsHTML}</div>
         </div>
       </div>
@@ -4621,8 +4680,8 @@ function renderPanchangCard(nakIdx, moonRashi, sunRashi, tithiName, paksha, now)
           <div class="lucky-pill-val">${VARA_NAMES[now.getDay()]}</div>
         </div>
         <div class="lucky-pill" style="flex:1;min-width:40%;background:rgba(250,47,64,0.07)">
-          <div class="lucky-pill-label" style="color:#c0392b">Rahukaal ⚠️</div>
-          <div class="lucky-pill-val" style="color:#c0392b">${RAHUKAAL[now.getDay()]}</div>
+          <div class="lucky-pill-label" style="color:var(--error)">Rahukaal ⚠️</div>
+          <div class="lucky-pill-val" style="color:var(--error)">${RAHUKAAL[now.getDay()]}</div>
         </div>
       </div>
     </div>`;
@@ -4688,7 +4747,7 @@ function initDarshanChat() {
   msgs.dataset.init = '1';
 
   const now = new Date();
-  const hr  = now.getHours();
+  const hr  = 12; // mocked: testing 12 PM live state
   const AARTIS = [
     { name: 'Kakad Aarti',   time: '5:15',  ampm: 'AM', hour: 5,  desc: 'Pratah puja · 30 min' },
     { name: 'Madhyan Aarti', time: '12:00', ampm: 'PM', hour: 12, desc: 'Dopahar puja · ~45 min' },
@@ -4708,9 +4767,8 @@ function initDarshanChat() {
         <div class="darsh-player-card">
           <div class="darsh-player-img">
             <div class="darshan-video-wrap" id="darshVideoWrap" onclick="loadDarshVideo(this)">
-              <div class="darshan-video-thumb" style="background:#000;padding:0">
-                <img src="https://www.figma.com/api/mcp/asset/a6ab8df4-acf9-4910-a9c0-a10094c88e8d" alt="Shirdi Sai Baba mandir" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"/>
-                ${isCurrentlyLive ? `<div class="darshan-live-overlay"><div class="darshan-live-dot"></div>Live</div>` : ''}
+              <div class="darshan-video-thumb" style="background:linear-gradient(135deg,#f7ab20,#fc4a1a)">
+                <div style="font-size:52px;opacity:0.3;position:absolute">🙏🏼</div>
                 <div class="darshan-play-btn">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-left:3px">
                     <polygon points="5 3 19 12 5 21 5 3" fill="#3535f3"/>
@@ -4720,11 +4778,11 @@ function initDarshanChat() {
             </div>
           </div>
           <div class="darsh-player-info">
-            <div class="darsh-player-title">${liveAarti.name} 🙏🏼</div>
+            <div class="darsh-player-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">${liveAarti.name} 🙏🏼 ${isCurrentlyLive ? `<span class="live-badge-inline"><span class="live-dot"></span>Live</span>` : ''}</div>
             <div class="darsh-player-sub">${liveAarti.time} ${liveAarti.ampm} · ${liveAarti.desc}</div>
           </div>
           <div style="margin-top:20px">
-            <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;color:#0c0d10;margin:0 0 4px;line-height:1.3">Aajke aarti timings</p>
+            <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;color:var(--text-high);margin:0 0 4px;line-height:1.3">Aajke aarti timings</p>
             <div class="darsh-timing-list">${buildShirdiTimingRows()}</div>
           </div>
         </div>
@@ -4880,15 +4938,28 @@ const TEMPLE_AARTIS = {
     { name: 'Sandhya Aarti', time: '8:00',  ampm: 'PM', hour: 20, desc: 'Sandhya puja · 20 min' },
     { name: 'Shej Aarti',    time: '10:30', ampm: 'PM', hour: 22, desc: 'Ratri ki antim aarti · 20 min' },
   ],
+  meenakshi: [
+    { name: 'Thiruvanandal', time: '5:30',  ampm: 'AM', hour: 5,  desc: 'Pratah darshan · 30 min' },
+    { name: 'Kalasandhi',    time: '12:00', ampm: 'PM', hour: 12, desc: 'Madhyan puja · 45 min' },
+    { name: 'Sayarakshai',   time: '6:00',  ampm: 'PM', hour: 18, desc: 'Sandhya puja · 45 min' },
+    { name: 'Ardha Jamam',   time: '9:00',  ampm: 'PM', hour: 21, desc: 'Ratri puja · 30 min' },
+  ],
+  dwarkadhish: [
+    { name: 'Mangla Aarti',  time: '6:30',  ampm: 'AM', hour: 6,  desc: 'Pratah darshan · 30 min' },
+    { name: 'Rajbhog Aarti', time: '12:30', ampm: 'PM', hour: 12, desc: 'Madhyan bhog · 45 min' },
+    { name: 'Sandhya Aarti', time: '7:30',  ampm: 'PM', hour: 19, desc: 'Sandhya darshan · 45 min' },
+    { name: 'Shayan Aarti',  time: '9:30',  ampm: 'PM', hour: 21, desc: 'Ratri ki antim aarti · 30 min' },
+  ],
 };
 
-function buildTimingRows(aartis) {
-  const hr = new Date().getHours();
+function buildTimingRows(aartis, isTemplateLive = true) {
+  const hr = 12; // mocked: testing 12 PM live state
   const BELL_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 16h-1v-6a8 8 0 00-16 0v6H3a1 1 0 000 2h18a1 1 0 000-2zm-9 6a3 3 0 003-3H9a3 3 0 003 3z" fill="#141414"/></svg>`;
   return aartis.map((a, i) => {
-    const isLive = hr >= a.hour && hr < a.hour + 1;
-    const liveTag = isLive ? `<span class="darsh-live-pill"><span class="darsh-live-pill-dot"></span>Live</span>` : '';
-    const actionBtn = `<button class="darsh-timing-action" onclick="setReminder(this,'${a.name}','${a.time} ${a.ampm}')" aria-label="Set reminder">${BELL_SVG}</button>`;
+    const isRecorded   = !isTemplateLive && a.hour <= hr;
+    const badge = isRecorded ? `<span class="recorded-badge-inline">Recorded</span>` : '';
+    const actionBtn = `<button class="darsh-timing-action" onclick="event.stopPropagation();setReminder(this,'${a.name}','${a.time} ${a.ampm}')" aria-label="Set reminder">${BELL_SVG}</button>`;
+    const chevron = `<svg class="darsh-timing-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 17a1.002 1.002 0 01-1.006-1 1 1 0 01.296-.71l3.3-3.29-3.3-3.29a1.004 1.004 0 011.42-1.42l4 4a.997.997 0 01.219 1.095.999.999 0 01-.22.325l-4 4A1 1 0 0110 17z" fill="currentColor"/></svg>`;
     return `
       <div class="darsh-timing-card" style="animation-delay:${i * 0.07}s">
         <div class="darsh-timing-badge">
@@ -4896,10 +4967,11 @@ function buildTimingRows(aartis) {
           <div class="darsh-timing-ampm">${a.ampm}</div>
         </div>
         <div class="darsh-timing-info">
-          <div class="darsh-timing-name">${a.name}${liveTag}</div>
-          <div class="darsh-timing-sub">${a.desc}</div>
+          <div class="darsh-timing-name">${a.name}${badge}</div>
+          <div class="darsh-timing-sub">${a.desc.split(' · ')[0]}</div>
         </div>
         ${actionBtn}
+        ${chevron}
       </div>`;
   }).join('');
 }
@@ -4907,24 +4979,24 @@ function buildTimingRows(aartis) {
 function buildShirdiTimingRows() { return buildTimingRows(SHIRDI_AARTIS); }
 
 function buildShirdiTiming() {
-  return `<p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;color:#0c0d10;margin:0 0 4px;line-height:1.3">Aajke aarti timings</p><div class="darsh-timing-list">${buildShirdiTimingRows()}</div>`;
+  return `<p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;color:var(--text-high);margin:0 0 4px;line-height:1.3">Aajke aarti timings</p><div class="darsh-timing-list">${buildShirdiTimingRows()}</div>`;
 }
 
 function buildTemplePlayer(type) {
   const TEMPLES = {
-    vaishno:       { name: 'Mata Vaishno Devi',      loc: 'Katra, Jammu & Kashmir',   aarti: 'Aarti · 9:15 AM',          ytId: 'UC7jJmqBT3UgJHRCU0GVsHXQ', grad: 'linear-gradient(135deg,#1a7a4a,#38f9d7)', emoji: '🏔️' },
+    vaishno:       { name: 'Mata Vaishno Devi',      loc: 'Katra, Jammu & Kashmir',   aarti: 'Aarti · 9:15 AM',          ytId: 'UC7jJmqBT3UgJHRCU0GVsHXQ', grad: 'linear-gradient(135deg,var(--success),#38f9d7)', emoji: '🏔️' },
     tirupati:      { name: 'Tirupati Balaji',         loc: 'Tirupati, Andhra Pradesh', aarti: 'Thomala Seva · 9:00 AM',   ytId: 'UCY9SoJWzegKUKOPm0lhlyiA', grad: 'linear-gradient(135deg,#f7ab20,#ffd700)', emoji: '🛕' },
     kashi:         { name: 'Kashi Vishwanath',        loc: 'Varanasi, Uttar Pradesh',  aarti: 'Bhog Aarti · 11:15 AM',   ytId: 'UC0c5dUKN22Tq6oHmyXrpvqA', grad: 'linear-gradient(135deg,#667eea,#764ba2)', emoji: '⛩️' },
     siddhivinayak: { name: 'Siddhivinayak Ganpati',   loc: 'Prabhadevi, Mumbai',       aarti: 'Madhyan Aarti · 12:00 PM', ytId: 'UCnVBVKDWWnQeHSnEUPZTXcA', grad: 'linear-gradient(135deg,#fc4a1a,#f7b733)', emoji: '🐘' },
     mahakal:       { name: 'Mahakaleshwar',           loc: 'Ujjain, Madhya Pradesh',   aarti: 'Bhasma Aarti · 4:00 AM',  ytId: 'UCmahakaleshwar',           grad: 'linear-gradient(135deg,#434343,#1c1c1e)', emoji: '🔱' },
     kedarnath:     { name: 'Kedarnath Dham',           loc: 'Rudraprayag, Uttarakhand', aarti: 'Abhishek · 6:00 AM',       ytId: 'UCkedarnath',               grad: 'linear-gradient(135deg,#4b6cb7,#182848)', emoji: '🏔️' },
-    somnath:       { name: 'Somnath Jyotirlinga',     loc: 'Somnath, Gujarat',         aarti: 'Madhyan Aarti · 12:00 PM', ytId: 'UCsomnath',                 grad: 'linear-gradient(135deg,#1a6b8a,#30cfd0)', emoji: '🌊' },
+    somnath:       { name: 'Somnath Jyotirlinga',     loc: 'Somnath, Gujarat',         aarti: 'Madhyan Aarti · 12:00 PM', ytId: 'UCsomnath',                 grad: 'linear-gradient(135deg,#1a6b8a,#30cfd0)', emoji: '🌊', live: false },
     jagannath:     { name: 'Jagannath Puri',           loc: 'Puri, Odisha',             aarti: 'Sahana Mela · 6:00 AM',   ytId: 'UCjagannath',               grad: 'linear-gradient(135deg,#f953c6,#b91d73)', emoji: '🎪' },
     rammandir:     { name: 'Ram Mandir Ayodhya',       loc: 'Ayodhya, Uttar Pradesh',   aarti: 'Sandhya Aarti · 7:00 PM', ytId: 'UCrammandir',               grad: 'linear-gradient(135deg,#f7971e,#ffd200)', emoji: '🏹' },
     dagdushet:     { name: 'Dagdushet Halwai Ganpati', loc: 'Pune, Maharashtra',        aarti: 'Madhyan Aarti · 12:00 PM', ytId: 'UCdagdushet',               grad: 'linear-gradient(135deg,#f7ab20,#fc4a1a)', emoji: '🐘', live: false },
     shirdi:        { name: 'Shirdi Sai Baba',           loc: 'Shirdi, Maharashtra',       aarti: 'Dhoop Aarti · 12:00 PM',   ytId: 'UCshirdi',                  grad: 'linear-gradient(135deg,#f7ab20,#fc4a1a)', emoji: '🙏🏼' },
-    meenakshi:     { name: 'Meenakshi Amman',            loc: 'Madurai, Tamil Nadu',       aarti: 'Kalasandhi · 12:00 PM',    ytId: 'UCmeenakshi',               grad: 'linear-gradient(135deg,#ee0979,#ff6a00)', emoji: '🌺' },
-    dwarkadhish:   { name: 'Dwarkadhish Temple',         loc: 'Dwarka, Gujarat',           aarti: 'Rajbhog Aarti · 12:30 PM', ytId: 'UCdwarkadhish',             grad: 'linear-gradient(135deg,#1a6b8a,#f7b733)', emoji: '🐚' },
+    meenakshi:     { name: 'Meenakshi Amman',            loc: 'Madurai, Tamil Nadu',       aarti: 'Kalasandhi · 12:00 PM',    ytId: 'UCmeenakshi',               grad: 'linear-gradient(135deg,#ee0979,#ff6a00)', emoji: '🌺', live: false },
+    dwarkadhish:   { name: 'Dwarkadhish Temple',         loc: 'Dwarka, Gujarat',           aarti: 'Rajbhog Aarti · 12:30 PM', ytId: 'UCdwarkadhish',             grad: 'linear-gradient(135deg,#1a6b8a,#f7b733)', emoji: '🐚', live: false },
   };
   const t = TEMPLES[type];
   if (!t) return '';
@@ -4935,7 +5007,6 @@ function buildTemplePlayer(type) {
         <div style="position:relative;width:100%;padding-top:56.25%;background:${t.grad};overflow:hidden;border-radius:16px;cursor:${t.live !== false ? 'pointer' : 'default'}"
              ${t.live !== false ? `onclick="loadTempleVideo(this,'${t.ytId}')"` : ''}>
           <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
-            ${t.live !== false ? `<div class="darshan-live-overlay"><div class="darshan-live-dot"></div>Live</div>` : ''}
             <div style="font-size:52px;opacity:0.3;position:absolute">${t.emoji}</div>
             ${t.live !== false ? `<div class="darshan-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-left:3px"><polygon points="5 3 19 12 5 21 5 3" fill="#3535f3"/></svg></div>` : ''}
           </div>
@@ -4943,12 +5014,12 @@ function buildTemplePlayer(type) {
       </div>
       <div class="darsh-player-info">
         <div class="darsh-player-title">${t.name} 🙏🏼</div>
-        ${t.live !== false ? `<div class="darsh-player-sub">${t.loc} · ${t.aarti}</div>` : `<div class="darsh-player-sub">Currently no live darshan</div>`}
+        <div class="darsh-player-sub">${t.loc}${t.live !== false ? ` · ${t.aarti}` : ''}</div>
       </div>
     </div>
     <div style="margin-top:20px">
-      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;color:#0c0d10;margin:0 0 4px;line-height:1.3">Aajke aarti timings</p>
-      <div class="darsh-timing-list">${buildTimingRows(TEMPLE_AARTIS[type] || [])}</div>
+      <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;color:var(--text-high);margin:0 0 4px;line-height:1.3">Aajke aarti timings</p>
+      <div class="darsh-timing-list">${buildTimingRows(TEMPLE_AARTIS[type] || [], t.live !== false)}</div>
     </div>`;
 }
 
@@ -5109,7 +5180,7 @@ function initRitualChat() {
     <div class="msg-date">${dateStr}</div>
     <div class="pcal-bot-row" style="animation:fadeDown 0.35s ease both">
       <div class="pcal-bot-content">
-        <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0">
+        <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0">
           Swagat hai! Milke banate hain aapka ek khaas daily ritual — jo roz subah aapko prarthna se jode. 🙏
         </p>
       </div>
@@ -5139,7 +5210,7 @@ function ritualPickDeity(el, deityId) {
     wrap.innerHTML = `
       <div class="pcal-bot-row">
         <div class="pcal-bot-content">
-          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0">
+          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0">
             Bahut sundar! ${deity.emoji} ${deity.name} ke bhajan — kisi ki bhi awaaz mein khaas lagte hain.
           </p>
         </div>
@@ -5174,7 +5245,7 @@ function ritualPickSinger(el, singerId) {
     wrap.innerHTML = `
       <div class="pcal-bot-row">
         <div class="pcal-bot-content">
-          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0">
+          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0">
             ${singer.name} ki awaaz mein ${ritualState.deity.name} ke bhajan — bahut pavitr hoga yeh ritual.
           </p>
         </div>
@@ -5206,7 +5277,7 @@ function ritualPickDuration(el, durId) {
     wrap.innerHTML = `
       <div class="pcal-bot-row">
         <div class="pcal-bot-content">
-          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0">
+          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0">
             Aapka ritual tayaar ho raha hai...
           </p>
         </div>
@@ -5241,7 +5312,7 @@ function buildRitualPlaylist(msgs) {
   const DEITY_GRAD = {
     krishna:'linear-gradient(145deg,#1a6b2e,#0d4a6e)',
     shiv:'linear-gradient(145deg,#3a1f5e,#1c4a7a)',
-    durga:'linear-gradient(145deg,#8b1a1a,#c0392b)',
+    durga:'linear-gradient(145deg,#8b1a1a,var(--error))',
     ganesh:'linear-gradient(145deg,#7a3b00,#c97d0e)',
     hanuman:'linear-gradient(145deg,#8b2500,#e05a00)',
     ram:'linear-gradient(145deg,#1a4a2e,#2e7d32)',
@@ -5266,7 +5337,7 @@ function buildRitualPlaylist(msgs) {
   wrap.innerHTML = `
     <div class="pcal-bot-row">
       <div class="pcal-bot-content">
-        <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0 0 10px">
+        <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0 0 10px">
           Yeh raha aapka daily ritual — ${tracks.length} bhajans, ${totalStr}. Roz subah is playlist ke saath din ki shuruat karein. 🙏
         </p>
         <div class="rpl-wrap">
@@ -5312,7 +5383,7 @@ function buildRitualPlaylist(msgs) {
             <div class="rpl-track-list">${trackRows}</div>
           </div>
           <div style="height:1px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
-          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0">
+          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0">
             Do you want me to set a reminder for this every morning?
           </p>
           <div class="chips-row" style="margin-top:8px">
@@ -5405,7 +5476,7 @@ function ritualSetTime(btn) {
   picker.id = 'ritualTimePicker';
   picker.innerHTML = `
     <div style="height:1px;background:var(--stroke-subtle);margin:12px 0 10px"></div>
-    <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:#0c0d10;line-height:1.3;margin:0 0 10px">What will be your preferred time?</p>
+    <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;color:var(--text-high);line-height:1.3;margin:0 0 10px">What will be your preferred time?</p>
     <div class="chips-row">
       ${['6:00 am','7:00 am','8:00 am','9:00 am','10:00 am'].map(t =>
         `<button class="chip" onclick="ritualConfirmTime('${t}',this)" style="background:#ffffff;border:1px solid rgba(49,0,100,0.12);color:#13002d;font-weight:500">${t}</button>`
@@ -5519,8 +5590,8 @@ function initPanchangChat() {
           </div>
         </div>
         <div style="padding:16px 18px 8px;display:flex;flex-direction:column;gap:8px">
-          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;line-height:1.1;color:#0c0d10;margin:0">🌅 Shubh Muhurat Today</p>
-          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;line-height:1.3;color:#0c0d10;margin:0">Abhijit Muhurat: 12:04–12:52 PM — auspicious for starting new ventures, rituals, or important meetings.</p>
+          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;line-height:1.1;color:var(--text-high);margin:0">🌅 Shubh Muhurat Today</p>
+          <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;line-height:1.3;color:var(--text-high);margin:0">Abhijit Muhurat: 12:04–12:52 PM — auspicious for starting new ventures, rituals, or important meetings.</p>
         </div>
       </div>
     </div>
@@ -5623,8 +5694,8 @@ function _nextOccurrence(list) {
 }
 function _shubhBlock(title, body) {
   return `<div style="padding:16px 18px 8px;display:flex;flex-direction:column;gap:8px">
-    <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;line-height:1.1;color:#0c0d10;margin:0">${title}</p>
-    <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;line-height:1.3;color:#0c0d10;margin:0">${body}</p>
+    <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;line-height:1.1;color:var(--text-high);margin:0">${title}</p>
+    <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:400;line-height:1.3;color:var(--text-high);margin:0">${body}</p>
   </div>`;
 }
 
