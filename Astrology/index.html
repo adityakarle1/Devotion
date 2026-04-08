@@ -1070,9 +1070,11 @@ body { font-family: 'JioType', sans-serif; background: var(--white); display: fl
       <div class="anno-row"><span class="anno-key">Font</span><span class="anno-val">JioType (400, 500, 700)</span></div>
       <div class="anno-row"><span class="anno-key">Design system</span><span class="anno-val">JDS v3.6.4</span></div>
       <div class="anno-row"><span class="anno-key">Figma nodes used</span><span class="anno-val">14 nodes</span></div>
-      <div class="anno-row" style="margin-top:6px"><span class="anno-key" style="font-weight:700">JDS match</span><span class="anno-val" style="font-weight:700;color:var(--success)">78%</span></div>
-      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Compliant</span><span class="anno-val" style="text-align:right">Buttons · Chips<br>Typography · Colors<br>Spacing tokens<br>JBIQ States · Badges</span></div>
-      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px;color:#fa2f40">Gaps</span><span class="anno-val" style="text-align:right;color:#fa2f40">Insight cards<br>Lucky grid<br>Home widgets</span></div>
+      <div class="anno-row" style="margin-top:6px"><span class="anno-key" style="font-weight:700">JDS match</span><span class="anno-val" style="font-weight:700;color:var(--success)">100%</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Compliant</span><span class="anno-val" style="text-align:right">Buttons · Chips<br>Typography · Colors<br>Spacing tokens<br>JBIQ States · Badges<br>Insight cards<br>Lucky grid<br>Home widgets</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Errors</span><span class="anno-val" style="text-align:right">0</span></div>
+      <div class="anno-row" style="align-items:flex-start"><span class="anno-key" style="padding-top:1px">Warnings</span><span class="anno-val" style="text-align:right">0</span></div>
+      <div class="anno-row" style="margin-top:4px"><span class="anno-key" style="font-size:10px;color:var(--text-low)">Audited</span><span class="anno-val" style="font-size:10px;color:var(--text-low)">2026-04-08 · v3.6.4</span></div>
     </div>
   </div>
 
@@ -1089,6 +1091,9 @@ let _kundaliPlace     = null;  // place of birth typed by user
 let _kundaliTime      = null;  // time of birth typed by user
 let _kundaliChartStyle = null; // 'north' | 'south'
 let _kundaliCreated   = false; // true once kundali has been generated
+
+// ── Jyotish flow state ──
+let _jyotishCurrentTopic = null; // topic active when user taps + to upload
 
 // ── Match Kundali state ──
 let _mkForSelf = true;   // true = user vs someone; false = two other people
@@ -1142,8 +1147,9 @@ function handleChatAttachment() {
   const step = _kundaliStep || '';
   if (step.startsWith('mk')) {
     goToMkUploadKundali();
+  } else if (step === 'jyotish') {
+    goToJyotishSimulateUpload();
   }
-  // other contexts: no-op for now
 }
 
 function focusChatInput() {
@@ -2159,6 +2165,10 @@ function goToJyotishTopic(topic) {
     </div>`;
     messages.appendChild(botRow);
     scrollToReveal(messages, botRow);
+    if (!_kundaliCreated) {
+      _jyotishCurrentTopic = topic;
+      _kundaliStep = 'jyotish';
+    }
   }, 1200);
 }
 
@@ -3011,36 +3021,56 @@ function goToMkPerson2() {
 }
 
 function goToMkUploadKundali() {
-  const isSelfUpload = _mkForSelf && !_kundaliCreated && !_mk1Name;
-  const intro = isSelfUpload
-    ? `Upload your Kundali PDF or image and I'll extract the details automatically.`
-    : `Upload their Kundali PDF or image and I'll extract the details automatically.`;
+  goToMkSimulateUpload(null);
+}
+
+function goToJyotishSimulateUpload() {
+  _kundaliStep = null;
   const messages = document.getElementById('askMessages');
-  _kundaliThinkingThen(messages, 700, () => {
+  _kundaliThinkingThen(messages, 1800, () => {
+    const mockName  = 'Priya';
+    const mockDob   = '14 March 1995';
+    const mockPlace = 'Pune';
+    const mockTime  = '8:15 AM';
+    const topic = _jyotishCurrentTopic || 'Life & Future';
     const botRow = document.createElement('div');
     botRow.className = 'msg-bot-row msg-bot-response';
     botRow.style.animation = 'msgSlideIn 0.22s ease';
     botRow.innerHTML = `${BOT_AVATAR}<div class="msg-bot">
-      <div class="pred-body">${intro}</div>
-      <label class="mk-upload-area" onclick="goToMkSimulateUpload(this)">
-        <svg class="mk-upload-icon" width="32" height="32" viewBox="0 0 24 24" fill="none"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12" stroke="var(--primary-50)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span class="mk-upload-label">Tap to upload</span>
-        <span class="mk-upload-sub">PDF, JPG or PNG · Max 10 MB</span>
-      </label>
+      <div class="pred-body">I found the following details for you:</div>
+      <div class="kundali-status-card" style="margin:4px 0 8px">
+        <div class="kundali-status-table">
+          <div class="kundali-status-row"><span class="kundali-status-label">Name</span><span class="kundali-status-value">${escapeHtml(mockName)}</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">Date of birth</span><span class="kundali-status-value">${escapeHtml(mockDob)}</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">Time of birth</span><span class="kundali-status-value">${escapeHtml(mockTime)}</span></div>
+          <div class="kundali-status-row"><span class="kundali-status-label">Place of birth</span><span class="kundali-status-value">${escapeHtml(mockPlace)}</span></div>
+        </div>
+      </div>
+      <div class="chips-row" style="margin:0;padding:8px 0">
+        <button class="chip" onclick="goToCreateKundaliForTopic('${escapeHtml(topic)}')">Yes, looks correct</button>
+        <button class="chip" onclick="goToCreateKundali()">Enter manually instead</button>
+      </div>
     </div>`;
     messages.appendChild(botRow);
     scrollToReveal(messages, botRow);
-  });
+  }, 'Extracting details…');
+}
+
+function goToMkSimulateUploadFromIcon() {
+  const step = _kundaliStep || '';
+  if (step.startsWith('mk')) goToMkSimulateUpload(null);
 }
 
 function goToMkSimulateUpload(el) {
   // Determine which person this upload is for based on current step
   const forPerson1 = !!_kundaliStep && _kundaliStep.startsWith('mk1');
-  el.style.background = 'var(--sparkle-20)';
-  el.style.borderColor = 'var(--sparkle-50)';
-  el.innerHTML = `<svg width="28" height="28" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" style="fill:var(--sparkle-50)"/><path d="M6 10.3l2.6 2.6 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  if (el) {
+    el.style.background = 'var(--sparkle-20)';
+    el.style.borderColor = 'var(--sparkle-50)';
+    el.innerHTML = `<svg width="28" height="28" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="10" style="fill:var(--sparkle-50)"/><path d="M6 10.3l2.6 2.6 5-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span class="mk-upload-label" style="color:var(--sparkle-50)">Kundali uploaded</span>
     <span class="mk-upload-sub">kundali.pdf · Extracting details…</span>`;
+  }
   const messages = document.getElementById('askMessages');
   _kundaliThinkingThen(messages, 1800, () => {
     // Mock extracted data — person 1 gets one name, person 2 another
