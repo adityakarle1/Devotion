@@ -930,11 +930,13 @@ body { font-family: 'JioType', sans-serif; background: #ffffff; display: flex; m
   50%       { opacity: 0.3; transform: scale(0.7); }
 }
 .live-viewers {
-  position: absolute; top: 10px; right: 10px;
-  background: rgba(0,0,0,0.45); backdrop-filter: blur(4px);
-  border-radius: 999px; padding: 4px 9px;
-  font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.9);
+  position: absolute; bottom: 8px; left: 10px;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+  border-radius: 999px; padding: 4px 10px;
+  font-family: 'JioType', sans-serif;
+  font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.92);
   display: flex; align-items: center; gap: 4px;
+  pointer-events: none; z-index: 2;
 }
 .live-darshan-info {
   background: linear-gradient(160deg, #1a0055 0%, #2d0090 100%);
@@ -1816,6 +1818,7 @@ html.capture-mode .capture-switcher { display: flex; }
               <div class="live-darshan-v2-img-wrap" style="background:linear-gradient(135deg,#ff6b35,#f7ab20);display:flex;align-items:center;justify-content:center;min-height:160px">
                 <div style="font-size:64px;text-align:center">🙏🏼</div>
                 <div class="live-darshan-v2-badge"><span class="live-dot"></span>Live</div>
+                <div class="live-viewers" id="lv-home">18.2K dekh rahe hain</div>
               </div>
               <div class="live-darshan-v2-info">
                 <div class="live-darshan-v2-sub">Shri Saibaba Sansthan · Shirdi</div>
@@ -4774,6 +4777,7 @@ function initDarshanChat() {
                     <polygon points="5 3 19 12 5 21 5 3" fill="#3535f3"/>
                   </svg>
                 </div>
+                ${isCurrentlyLive ? `<div class="live-viewers" id="lv-shirdi">18.2K dekh rahe hain</div>` : ''}
               </div>
             </div>
           </div>
@@ -4952,11 +4956,11 @@ const TEMPLE_AARTIS = {
   ],
 };
 
-function buildTimingRows(aartis, isTemplateLive = true) {
-  const hr = 12; // mocked: testing 12 PM live state
+function buildTimingRows(aartis, isTemplateLive = true, liveHour = null) {
+  const hr = liveHour !== null ? liveHour : 12; // use passed liveHour, else mocked 12 PM
   const BELL_SVG = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 16h-1v-6a8 8 0 00-16 0v6H3a1 1 0 000 2h18a1 1 0 000-2zm-9 6a3 3 0 003-3H9a3 3 0 003 3z" fill="#141414"/></svg>`;
   return aartis.map((a, i) => {
-    const isRecorded   = !isTemplateLive && a.hour <= hr;
+    const isRecorded = isTemplateLive ? a.hour < hr : a.hour <= hr;
     const badge = isRecorded ? `<span class="recorded-badge-inline">Recorded</span>` : '';
     const actionBtn = `<button class="darsh-timing-action" onclick="event.stopPropagation();setReminder(this,'${a.name}','${a.time} ${a.ampm}')" aria-label="Set reminder">${BELL_SVG}</button>`;
     const chevron = `<svg class="darsh-timing-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 17a1.002 1.002 0 01-1.006-1 1 1 0 01.296-.71l3.3-3.29-3.3-3.29a1.004 1.004 0 011.42-1.42l4 4a.997.997 0 01.219 1.095.999.999 0 01-.22.325l-4 4A1 1 0 0110 17z" fill="currentColor"/></svg>`;
@@ -4984,22 +4988,29 @@ function buildShirdiTiming() {
 
 function buildTemplePlayer(type) {
   const TEMPLES = {
-    vaishno:       { name: 'Mata Vaishno Devi',      loc: 'Katra, Jammu & Kashmir',   aarti: 'Aarti · 9:15 AM',          ytId: 'UC7jJmqBT3UgJHRCU0GVsHXQ', grad: 'linear-gradient(135deg,var(--success),#38f9d7)', emoji: '🏔️' },
-    tirupati:      { name: 'Tirupati Balaji',         loc: 'Tirupati, Andhra Pradesh', aarti: 'Thomala Seva · 9:00 AM',   ytId: 'UCY9SoJWzegKUKOPm0lhlyiA', grad: 'linear-gradient(135deg,#f7ab20,#ffd700)', emoji: '🛕' },
-    kashi:         { name: 'Kashi Vishwanath',        loc: 'Varanasi, Uttar Pradesh',  aarti: 'Bhog Aarti · 11:15 AM',   ytId: 'UC0c5dUKN22Tq6oHmyXrpvqA', grad: 'linear-gradient(135deg,#667eea,#764ba2)', emoji: '⛩️' },
-    siddhivinayak: { name: 'Siddhivinayak Ganpati',   loc: 'Prabhadevi, Mumbai',       aarti: 'Madhyan Aarti · 12:00 PM', ytId: 'UCnVBVKDWWnQeHSnEUPZTXcA', grad: 'linear-gradient(135deg,#fc4a1a,#f7b733)', emoji: '🐘' },
-    mahakal:       { name: 'Mahakaleshwar',           loc: 'Ujjain, Madhya Pradesh',   aarti: 'Bhasma Aarti · 4:00 AM',  ytId: 'UCmahakaleshwar',           grad: 'linear-gradient(135deg,#434343,#1c1c1e)', emoji: '🔱' },
-    kedarnath:     { name: 'Kedarnath Dham',           loc: 'Rudraprayag, Uttarakhand', aarti: 'Abhishek · 6:00 AM',       ytId: 'UCkedarnath',               grad: 'linear-gradient(135deg,#4b6cb7,#182848)', emoji: '🏔️' },
+    vaishno:       { name: 'Mata Vaishno Devi',      loc: 'Katra, Jammu & Kashmir',   aarti: 'Aarti · 9:15 AM',          ytId: 'UC7jJmqBT3UgJHRCU0GVsHXQ', grad: 'linear-gradient(135deg,var(--success),#38f9d7)', emoji: '🏔️', viewers: 14800 },
+    tirupati:      { name: 'Tirupati Balaji',         loc: 'Tirupati, Andhra Pradesh', aarti: 'Thomala Seva · 9:00 AM',   ytId: 'UCY9SoJWzegKUKOPm0lhlyiA', grad: 'linear-gradient(135deg,#f7ab20,#ffd700)', emoji: '🛕', viewers: 31500 },
+    kashi:         { name: 'Kashi Vishwanath',        loc: 'Varanasi, Uttar Pradesh',  aarti: 'Bhog Aarti · 11:15 AM',   ytId: 'UC0c5dUKN22Tq6oHmyXrpvqA', grad: 'linear-gradient(135deg,#667eea,#764ba2)', emoji: '⛩️', viewers: 19600 },
+    siddhivinayak: { name: 'Siddhivinayak Ganpati',   loc: 'Prabhadevi, Mumbai',       aarti: 'Madhyan Aarti · 12:00 PM', ytId: 'UCnVBVKDWWnQeHSnEUPZTXcA', grad: 'linear-gradient(135deg,#fc4a1a,#f7b733)', emoji: '🐘', viewers: 9400 },
+    mahakal:       { name: 'Mahakaleshwar',           loc: 'Ujjain, Madhya Pradesh',   aarti: 'Bhasma Aarti · 4:00 AM',  ytId: 'UCmahakaleshwar',           grad: 'linear-gradient(135deg,#434343,#1c1c1e)', emoji: '🔱', viewers: 22100 },
+    kedarnath:     { name: 'Kedarnath Dham',           loc: 'Rudraprayag, Uttarakhand', aarti: 'Abhishek · 6:00 AM',       ytId: 'UCkedarnath',               grad: 'linear-gradient(135deg,#4b6cb7,#182848)', emoji: '🏔️', viewers: 11300 },
     somnath:       { name: 'Somnath Jyotirlinga',     loc: 'Somnath, Gujarat',         aarti: 'Madhyan Aarti · 12:00 PM', ytId: 'UCsomnath',                 grad: 'linear-gradient(135deg,#1a6b8a,#30cfd0)', emoji: '🌊', live: false },
-    jagannath:     { name: 'Jagannath Puri',           loc: 'Puri, Odisha',             aarti: 'Sahana Mela · 6:00 AM',   ytId: 'UCjagannath',               grad: 'linear-gradient(135deg,#f953c6,#b91d73)', emoji: '🎪' },
-    rammandir:     { name: 'Ram Mandir Ayodhya',       loc: 'Ayodhya, Uttar Pradesh',   aarti: 'Sandhya Aarti · 7:00 PM', ytId: 'UCrammandir',               grad: 'linear-gradient(135deg,#f7971e,#ffd200)', emoji: '🏹' },
+    jagannath:     { name: 'Jagannath Puri',           loc: 'Puri, Odisha',             aarti: 'Sahana Mela · 6:00 AM',   ytId: 'UCjagannath',               grad: 'linear-gradient(135deg,#f953c6,#b91d73)', emoji: '🎪', viewers: 8700 },
+    rammandir:     { name: 'Ram Mandir Ayodhya',       loc: 'Ayodhya, Uttar Pradesh',   aarti: 'Sandhya Aarti · 7:00 PM', ytId: 'UCrammandir',               grad: 'linear-gradient(135deg,#f7971e,#ffd200)', emoji: '🏹', viewers: 26400 },
     dagdushet:     { name: 'Dagdushet Halwai Ganpati', loc: 'Pune, Maharashtra',        aarti: 'Madhyan Aarti · 12:00 PM', ytId: 'UCdagdushet',               grad: 'linear-gradient(135deg,#f7ab20,#fc4a1a)', emoji: '🐘', live: false },
-    shirdi:        { name: 'Shirdi Sai Baba',           loc: 'Shirdi, Maharashtra',       aarti: 'Dhoop Aarti · 12:00 PM',   ytId: 'UCshirdi',                  grad: 'linear-gradient(135deg,#f7ab20,#fc4a1a)', emoji: '🙏🏼' },
+    shirdi:        { name: 'Shirdi Sai Baba',           loc: 'Shirdi, Maharashtra',       aarti: 'Dhoop Aarti · 12:00 PM',   ytId: 'UCshirdi',                  grad: 'linear-gradient(135deg,#f7ab20,#fc4a1a)', emoji: '🙏🏼', viewers: 18200 },
     meenakshi:     { name: 'Meenakshi Amman',            loc: 'Madurai, Tamil Nadu',       aarti: 'Kalasandhi · 12:00 PM',    ytId: 'UCmeenakshi',               grad: 'linear-gradient(135deg,#ee0979,#ff6a00)', emoji: '🌺', live: false },
     dwarkadhish:   { name: 'Dwarkadhish Temple',         loc: 'Dwarka, Gujarat',           aarti: 'Rajbhog Aarti · 12:30 PM', ytId: 'UCdwarkadhish',             grad: 'linear-gradient(135deg,#1a6b8a,#f7b733)', emoji: '🐚', live: false },
   };
   const t = TEMPLES[type];
   if (!t) return '';
+
+  // Pick a random aarti from this temple's list as the "currently live" one
+  const aartis = TEMPLE_AARTIS[type] || [];
+  const liveAarti = t.live !== false && aartis.length
+    ? aartis[Math.floor(Math.random() * aartis.length)]
+    : null;
+
   return `
     <p class="darsh-player-temple">${t.emoji} ${t.name}</p>
     <div class="darsh-player-card">
@@ -5010,19 +5021,53 @@ function buildTemplePlayer(type) {
             <div style="font-size:52px;opacity:0.3;position:absolute">${t.emoji}</div>
             ${t.live !== false ? `<div class="darshan-play-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" style="margin-left:3px"><polygon points="5 3 19 12 5 21 5 3" fill="#3535f3"/></svg></div>` : ''}
           </div>
+          ${t.live !== false && t.viewers ? `<div class="live-viewers" id="lv-${type}">${fmtViewers(t.viewers)} dekh rahe hain</div>` : ''}
         </div>
       </div>
       <div class="darsh-player-info">
-        <div class="darsh-player-title">${t.name} 🙏🏼</div>
-        <div class="darsh-player-sub">${t.loc}${t.live !== false ? ` · ${t.aarti}` : ''}</div>
+        <div class="darsh-player-title" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+          ${liveAarti ? liveAarti.name : t.name} 🙏🏼
+          ${liveAarti ? `<span class="live-badge-inline"><span class="live-dot"></span>Live</span>` : ''}
+        </div>
+        <div class="darsh-player-sub">${liveAarti ? `${liveAarti.time} ${liveAarti.ampm} · ${liveAarti.desc.split(' · ')[0]}` : t.loc}</div>
       </div>
     </div>
     <div style="margin-top:20px">
       <p style="font-family:'JioType',sans-serif;font-size:16px;font-weight:700;color:var(--text-high);margin:0 0 4px;line-height:1.3">Aajke aarti timings</p>
-      <div class="darsh-timing-list">${buildTimingRows(TEMPLE_AARTIS[type] || [], t.live !== false)}</div>
+      <div class="darsh-timing-list">${buildTimingRows(TEMPLE_AARTIS[type] || [], t.live !== false, liveAarti ? liveAarti.hour : null)}</div>
     </div>`;
 }
 
+
+// ── Live viewer count helpers ──────────────────────────────────────────────
+function fmtViewers(n) {
+  const v = n + Math.floor((Math.random() - 0.5) * n * 0.08); // ±4% variance
+  return v >= 1000 ? (v / 1000).toFixed(1) + 'K' : v.toString();
+}
+
+function tickViewers() {
+  // Base counts keyed by element id
+  const bases = {
+    'lv-home':        18200,
+    'lv-shirdi':      18200,
+    'lv-vaishno':     14800,
+    'lv-tirupati':    31500,
+    'lv-kashi':       19600,
+    'lv-siddhivinayak': 9400,
+    'lv-mahakal':     22100,
+    'lv-kedarnath':   11300,
+    'lv-jagannath':    8700,
+    'lv-rammandir':   26400,
+  };
+  document.querySelectorAll('.live-viewers').forEach(el => {
+    const base = bases[el.id];
+    if (base) el.textContent = fmtViewers(base) + ' dekh rahe hain';
+  });
+}
+// Tick immediately then every 25 seconds
+tickViewers();
+setInterval(tickViewers, 25000);
+// ──────────────────────────────────────────────────────────────────────────
 
 function loadTempleVideo(wrap, ytId) {
   wrap.style.cursor = 'default';
