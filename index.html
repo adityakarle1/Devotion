@@ -4980,9 +4980,9 @@ function buildTimingRows(aartis, isTemplateLive = true, liveHour = null) {
       : status === 'live'
         ? `<span class="live-badge-inline"><span class="live-dot"></span>Live</span>`
         : '';
-    const tap = isTemplateLive ? 'data-tappable="1"' : '';
+    const tap = 'data-tappable="1"';
     const actionBtn = `<button class="darsh-timing-action" onclick="event.stopPropagation();setReminder(this,'${a.name}','${a.time} ${a.ampm}')" aria-label="Set reminder">${BELL_SVG}</button>`;
-    const chevron = isTemplateLive ? `<svg class="darsh-timing-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 17a1.002 1.002 0 01-1.006-1 1 1 0 01.296-.71l3.3-3.29-3.3-3.29a1.004 1.004 0 011.42-1.42l4 4a.997.997 0 01.219 1.095.999.999 0 01-.22.325l-4 4A1 1 0 0110 17z" fill="currentColor"/></svg>` : '';
+    const chevron = `<svg class="darsh-timing-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M10 17a1.002 1.002 0 01-1.006-1 1 1 0 01.296-.71l3.3-3.29-3.3-3.29a1.004 1.004 0 011.42-1.42l4 4a.997.997 0 01.219 1.095.999.999 0 01-.22.325l-4 4A1 1 0 0110 17z" fill="currentColor"/></svg>`;
     const shortDesc = a.desc.split(' · ')[0];
     return `
       <div class="darsh-timing-card${isSelected ? ' selected' : ''}" style="animation-delay:${i * 0.07}s"
